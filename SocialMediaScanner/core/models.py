@@ -11,3 +11,6 @@ class Company(models.Model):
 class Comment(models.Model):
     company = models.ForeignKey(Company)
     content = models.TextField()
+
+    def __str__(self):
+        return self.content[0]
