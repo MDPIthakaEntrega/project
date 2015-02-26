@@ -13,5 +13,4 @@ urlpatterns = patterns('',
     url(r'^login/', login),
     url(r'^index/', index),
     url(r'^dashboard/', dash),
-
 )

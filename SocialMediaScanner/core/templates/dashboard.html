@@ -36,35 +36,29 @@
 <body>
     <div class="container socialmediaoption">
 
-        <label class="checkbox-inline">
-            <input type="checkbox" checked data-toggle="toggle" data-on="&lt;i class='fa fa-facebook'&gt;&lt;/i&gt; Facebook" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
-        </label>
-        <label class="checkbox-inline">
-            <input type="checkbox" data-toggle="toggle" data-on="&lt;i class='fa fa-twitter'&gt;&lt;/i&gt; Twitter" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
-        </label>
-        <label class="checkbox-inline">
-            <input type="checkbox" data-toggle="toggle" data-on="&lt;i class='fa fa-spoon'&gt;&lt;/i&gt; CityGrid" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
-        </label>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label class="checkbox-inline">
+                <input name="checkFb" type="checkbox" checked data-toggle="toggle" data-on="&lt;i class='fa fa-facebook'&gt;&lt;/i&gt; Facebook" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
+            </label>
+            <label class="checkbox-inline">
+                <input name="checkTw" type="checkbox" data-toggle="toggle" data-on="&lt;i class='fa fa-twitter'&gt;&lt;/i&gt; Twitter" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
+            </label>
+            <label class="checkbox-inline">
+                <input name="checkCg" type="checkbox" data-toggle="toggle" data-on="&lt;i class='fa fa-spoon'&gt;&lt;/i&gt; CityGrid" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
+            </label>
 
-    </div>
-    <div class="container">
-        <div class="col-xs-12 searchbar">
-            <form class="navbar-form" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" name="q">
-                    <div class="input-group-btn">
-                        <button class="btn btn-info" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            <div class="col-xs-12 searchbar">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input name="keyword" type="text" class="form-control" placeholder="Search" name="q">
+                        <div class="input-group-btn">
+                            <button class="btn btn-info" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+        </form>
     </div>
-    <!--<form action="/result/" method="post">-->
-        <!--<input id="keyword" type="text" name="keyword"> <br/>-->
-        <!--<input type="checkbox" name="vehicle" value="Facebook"> Facebook<br>-->
-        <!--<input type="checkbox" name="vehicle" value="Twitter" checked="checked"> Twitter<br>-->
-        <!--<input type="checkbox" name="vehicle" value="CityGrid" checked="checked"> CityGrid <br/>-->
-        <!--<input type="submit" value="OK">-->
-    <!--</form>-->
 </body>
 </html>
