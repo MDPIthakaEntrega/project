@@ -1,13 +1,108 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <meta name="viewpoint" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <title>Social Media Scanner</title>
+    <link href="{{ STATIC_URL }}/css/scanner.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Comments</h1>
-    <ul>
 
-    </ul>
+    <div class="navbar navbar-inverse navbar-fixed-top" >
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LOGO</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                     <li><a href="">Sign Up</a></li>
+                      <li><a href="">Sign In</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+<!--Carousal -->
+
+       <section id="home" class="text-center">
+
+                <div id="carousel-example" class="carousel slide" data-ride="carousel">
+
+                    <div class="carousel-inner">
+                        <div class="item active">
+
+                            <img src="{{ STATIC_URL }}/img/3.jpg" alt="" />
+                            <div class="carousel-caption" >
+                                <h4 class="back-light">xxxxxxxxxxx</h4>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="{{ STATIC_URL }}/img/5.jpg" alt="" />
+                            <div class="carousel-caption ">
+                                <h4 class="back-light">xxxxxxxxxxx</h4>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="{{ STATIC_URL }}/img/6.jpg" alt="" />
+                            <div class="carousel-caption ">
+                                <h4 class="back-light">xxxxxxxxxxx</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example" data-slide-to="1"></li>
+                        <li data-target="#carousel-example" data-slide-to="2"></li>
+                    </ol>
+                </div>
+
+       </section>
+
+
+<!--card-->
+        <div class="container">
+
+	    <div class="row">
+            <div class="col-xs-4 card-div">
+			    <div class="card-div-inner">
+			      <p class="caption"><b>content </b></p>
+			      <a class="btn btn-xs btn-primary" href="" role="button">More</a>
+			    </div>
+		    </div>
+
+		    <div class="col-xs-4 card-div">
+			    <div class="card-div-inner">
+			      <p class="caption"><b>content</b></p>
+                    <a class="btn btn-xs btn-primary" href="" role="button">More</a>
+			    </div>
+		    </div>
+
+		    <div class="col-xs-4 card-div">
+     	      <div class="card-div-inner">
+			    <p class="caption"><b>content</b></p>
+                  <a class="btn btn-xs btn-primary" href="" role="button">More</a>
+			  </div>
+		    </div>
+	    </div>
+
+
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
 </body>
 </html>

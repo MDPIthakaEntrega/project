@@ -1,6 +1,6 @@
 .socialmediaoption{
     text-align:center;
-    margin:0px auto;
+    margin: 0px auto;
     margin-top: 200px;
 }
 .searchbar{
@@ -8,3 +8,58 @@
     margin:0px auto;
     margin-top: 80px;
 }
+.company_name{
+    text-align: center;
+    margin: 0px auto;
+    /*color: aquamarine;*/
+}
+
+
+.card-div{
+	margin: 15px 0px;
+
+}
+
+/*.card-div-inner{*/
+	/*padding: 5px 0px 5px 5px;*/
+	/*background: rgba(52, 186, 108, 0.73);*/
+	/*height: 200px;*/
+	/*border-radius: 10px 10px 10px 10px;*/
+	/*border: 2px dotted #0a6600*/
+/*}*/
+
+/*.caption{*/
+	/*font-size:20px;*/
+	/*font-family: Arial, Helvetica, sans-serif;*/
+	/*text-align: center;*/
+	/*margin-bottom: 15px;*/
+
+/*}*/
+
+/*.left{*/
+    /*display: inline-block;*/
+    /*width: 30%;*/
+    /*border: 1px solid black;*/
+    /*float: left;*/
+/*}*/
+
+/*.right{*/
+	/*border: 1px solid black;*/
+	/*padding: 5px;*/
+	/*margin-left: 10px;*/
+	/*display: inline-block;*/
+	/*width: 65%;*/
+/*}*/
+
+/*.btn{*/
+	/*float: right;*/
+	/*margin:8px 12px 0px 0px;*/
+	/*position: absolute;*/
+	/*bottom: 15px;*/
+	/*right: 15px;*/
+
+/*}*/
+
+
+
+
