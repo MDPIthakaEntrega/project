@@ -6,17 +6,14 @@ from core.models import Comment
 
 
 def login(request):
-    if request.method == "POST":
-        cname = request.POST['username']
-        request.session['name'] = cname
-        print(cname)
-        return HttpResponseRedirect('/index/')
-        print(haha)
+
     return render(request, 'login.html')
 
-
 def index(request):
-    pass
+    return render(request, 'index.html')
+
+def login(request):
+    return render(request, 'login.html')
 
 def dash(request):
     if request.method == "POST":
