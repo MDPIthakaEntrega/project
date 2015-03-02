@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+            <div class="col-lg-12">
+                <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>
+                <form action="/signup_auth/" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="InputName">Enter Name</label>
+                        <div class="input-group">
+                            <span>{{error_user}}</span>
+                            <input type="text" class="form-control" name="username" id="InputName" placeholder="Enter Name" required maxlength="16">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="InputEmail">Enter Email</label>
+                        <div class="input-group">
+                            <span>{{error_email}}</span>
+                            <input type="email" class="form-control" id="InputEmailFirst" name="email" placeholder="Enter Email" required>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="InputEmail">Enter Password</label>
+                        <div class="input-group">
+                            <span>{{error_password}}</span>
+                            <input type="password" class="form-control" id="InputPasswordFirst" name="password1" placeholder="Enter Password" required>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="InputEmail">Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="InputPasswordSecond" name="password2" placeholder="Confirm Password" required>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        </div>
+                    </div>
+
+                    <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
+                </form>
+            </div>
+    </div>
+</div>
+{% endblock %}
