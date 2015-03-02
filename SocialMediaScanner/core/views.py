@@ -24,10 +24,12 @@ def login(request):
 
 def signup(request):
     form_errors = {'username': '', 'email': '', 'password2': ''}
-    if request == 'POST':
+    if request.method == 'POST':
         form = SignupForm(request.POST)
         form_errors = form.errors
+        print "suc catch the post"
         if form.is_valid():
+            print "is validate"
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password2']
@@ -39,6 +41,12 @@ def signup(request):
             user = auth.authenticate(username=username, password=password)
             auth.login(request,user)
             return HttpResponseRedirect('/dashboard/')
+    if form_errors.get('username') is None:
+        form_errors['username'] = ''
+    if form_errors.get('email') is None:
+        form_errors['email'] = ''
+    if form_errors.get('password2') is None:
+        form_errors['password2'] = ''
     return render(request, 'register.html', {'error_user': form_errors.get('username'), 'error_email': form_errors.get('email'), 'error_password': form_errors.get('password2')})
 
 def login_auth_view(request):
