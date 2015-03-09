@@ -1,1 +1,42 @@
-HI
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"><!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin" method="post" action="/login_auth/">
+          {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputCompany" class="sr-only">Company Name</label>
+        <input name = "username" type="text" id="inputCompany" class="form-control" placeholder="Company Name" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input name = "password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+        <div class="control-group error">
+            <span class="label label-danger">{{error}}</span>
+        </div>
+
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

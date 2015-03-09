@@ -9,5 +9,11 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', index),
+    url(r'^login_auth/$', login_auth_view),
+    url(r'^signup_auth/$', signup),
     url(r'^login/', login),
+    url(r'^dashboard/', dash),
+    url(r'^signup/', signup),
+    url(r'^logout/', logout)
 )
