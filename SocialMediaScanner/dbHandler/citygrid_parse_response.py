@@ -1,5 +1,5 @@
 import json
-
+from datetime import datetime
 #input: response returned by the citygrid review API (in json format)
 #output: a list of records containing "important" information
 
@@ -28,6 +28,12 @@ class CityGridParser(object):
             unhelpful_count = review[u'unhelpful_count']
             review_type = review[u'type']
             review_records = {}
+
+            #convert review_date to date_time from unicode
+            print "review_date ", review_date, " type ", type(review_date)
+            date_posted = review_date
+            date_posted = datetime.strptime(date_posted, '%Y-%m-%dT%H:%M:%SZ')
+
             #review_records["site_name"] = site_name
             review_records["review_site_name"] = site_name
             review_records["review_id"] = review_id
@@ -37,7 +43,7 @@ class CityGridParser(object):
             review_records["review_title"] = review_title
             review_records["review_author"] = review_author
             review_records["review_author_url"] = review_author_url
-            review_records["review_date"] = review_date
+            review_records["review_date"] = date_posted
             review_records["review_text"] = review_text
             review_records["review_rating"] = review_rating
             review_records["review_helpful_count"] = helpful_count
