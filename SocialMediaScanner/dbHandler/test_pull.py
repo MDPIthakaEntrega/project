@@ -2,8 +2,8 @@ from datetime import datetime
 
 from cassandra.cluster import Cluster
 
-from citygrid_api_reviews import CityGridReviews
-from citygrid_parse_response import CityGridParser
+from dbHandler.citygrid_api_reviews import CityGridReviews
+from dbHandler.citygrid_parse_response import CityGridParser
 
 
 puller = CityGridReviews()

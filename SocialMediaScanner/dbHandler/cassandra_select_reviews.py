@@ -2,7 +2,8 @@ from cassandra.cluster import Cluster
 
 class CityGridReviewSelector(object):
 
-    def selectReview(self,user_business_name):
+    @staticmethod
+    def selectReview(user_business_name):
         cluster = Cluster(
             contact_points=['127.0.0.1']
         )

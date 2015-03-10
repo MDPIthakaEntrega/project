@@ -2,7 +2,7 @@ __author__ = 'Charlie'
 
 from cassandra.cluster import Cluster
 from datetime import datetime
-from cassandra_insert_reviews import cassandrainsertreviews
+from dbHandler.cassandra_insert_reviews import cassandrainsertreviews
 
 ###TEST
 test_list = []

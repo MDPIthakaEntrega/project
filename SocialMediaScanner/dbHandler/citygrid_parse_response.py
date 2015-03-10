@@ -28,10 +28,11 @@ class CityGridParser(object):
             unhelpful_count = review[u'unhelpful_count']
             review_type = review[u'type']
             review_records = {}
-            review_records["site_name"] = site_name
+            #review_records["site_name"] = site_name
+            review_records["review_site_name"] = site_name
             review_records["review_id"] = review_id
             #reviewRecord["business_name"] = business_name /// we don't use this business_name because even for the same business, name varies on citygrid.
-            review_records["business_name"] = user_business_name
+            review_records["review_business_name"] = user_business_name
             review_records["review_url"] = review_url
             review_records["review_title"] = review_title
             review_records["review_author"] = review_author

@@ -4,9 +4,12 @@ from django.contrib import auth
 from core.models import Comment
 from core.error import ErrorObject
 from FormTemplate import SignupForm
-import requests
+#import requests
 from django.contrib.auth.models import User
 import json
+
+from dbHandler.cassandra_select_reviews import CityGridReviewSelector
+from dbHandler.cassandra_pull_reviews import cassandrareviewspuller
 # Create your views here.
 # my name is ...
 
@@ -86,15 +89,13 @@ def dash(request):
             print checkCg
 
             #result = getlist(key, checkFb, checkTw, checkCg)
-            result = Comment.objects.all()
-
+            #result = Comment.objects.all()
+            company_name = request.user.username
+            cassandrareviewspuller.pullReviews(company_name)
+            result = CityGridReviewSelector.selectReview(company_name)
             sentiment = []
 
-            for r in result:
-                dest =  'https://api.sentigem.com/external/get-sentiment?api-key=' + api_key + '&text=' + r.content
-                print dest
-                pack = requests.get(dest)
-                print pack.json()
+
             return render(request, 'result.html', {'result' : result})
         else:
             return render(request, 'dashboard.html')
