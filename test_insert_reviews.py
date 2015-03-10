@@ -37,7 +37,7 @@ test_insert_reviews.insert_data(test_list, session)
 
 
 #print "Success"
-
+#print "Done"
 
 #this is just a test
 '''
