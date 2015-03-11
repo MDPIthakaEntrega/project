@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewpoint" content="width=device-width,initial-scale=1">
@@ -16,9 +16,10 @@
 <body>
     <ul>
         {% for i in result %}
-            <li class="company_name">{{ i.review_site_name }}</li>
+            <li>{{forloop.counter}}</li>
+            <li class="company_name">{{ i.review_text }}</li>
+            <br>
 
-            </br>
             </br>
         {% endfor %}
     </ul>

@@ -10,6 +10,7 @@ class CityGridParser(object):
         data = dict(json.loads(json.dumps(presponse)))
         results = dict(json.loads(json.dumps(data[u'results'])))
         list_review_records = []
+
         for reviews in results[u'reviews']:
             review = dict(json.loads(json.dumps(reviews)))
             site_name = "CityGrid"

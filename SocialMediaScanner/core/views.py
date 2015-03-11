@@ -90,10 +90,12 @@ def dash(request):
 
             #result = getlist(key, checkFb, checkTw, checkCg)
             #result = Comment.objects.all()
-            company_name = request.user.username
+            #company_name = request.user.username
+            company_name = "Zingerman's"
             cassandrareviewspuller.pullReviews(company_name)
-            print "after insert"
+            "after insert"
             result = CityGridReviewSelector.selectReview(company_name)
+            print "after result", len(result)
             sentiment = []
 
 
