@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, render
 from django.http import *
 from django.contrib import auth
+import operator
 from core.models import Comment
 from core.error import ErrorObject
 from FormTemplate import SignupForm
@@ -77,13 +78,13 @@ def dash(request):
     if request.user.is_authenticated():
         api_key = '34a5b7f2ca689a980fe72844e6482e4eDKF94rOEsBcvIaWnl61PoL80uAYzk2Ri'
         if request.method == "POST":
-            key = request.POST['keyword']
+            kw = request.POST['keyword']
 
             checkFb = ('checkFb') in request.POST
             checkTw = ('checkTw') in request.POST
             checkCg = ('checkCg') in request.POST
 
-            print key
+            print kw
             print checkFb
             print checkTw
             print checkCg
@@ -92,14 +93,34 @@ def dash(request):
             #result = Comment.objects.all()
             #company_name = request.user.username
             company_name = "Zingerman's"
-            cassandrareviewspuller.pullReviews(company_name)
+            #cassandrareviewspuller.pullReviews(company_name)
             "after insert"
-            result = CityGridReviewSelector.selectReview(company_name)
+            result = {}
+            final = []
+            res = CityGridReviewSelector.selectReview(company_name)
+            word_list = kw.split()
+            for r in res:
+                count  = 0
+                for each in word_list:
+                    if each in r.review_text:
+                        count += 1
+                if count != 0:
+                    if count not in result:
+                        result[count] = [r]
+                    else:
+                        result[count].append(r)
+            sorted_result = sorted(result.items(),key=operator.itemgetter(0))
+            sorted_result.reverse()
+            print sorted_result
+            for value in sorted_result:
+                temp = value[1]
+                final += temp
+
             print "after result", len(result)
             sentiment = []
 
 
-            return render(request, 'result.html', {'result' : result})
+            return render(request, 'result.html', {'result' : final})
         else:
             return render(request, 'dashboard.html')
     else:
