@@ -43,7 +43,9 @@ def signup(request):
                 password = password)
             confirm.save()
             user = auth.authenticate(username=username, password=password)
-            auth.login(request,user)
+            auth.login(request, user)
+            company_name = request.user.username
+            cassandrareviewspuller.pullReviews(company_name)
             return HttpResponseRedirect('/dashboard/')
     if form_errors.get('username') is None:
         form_errors['username'] = ''
@@ -62,6 +64,7 @@ def login_auth_view(request):
     if user is not None:
         if user.is_active:
             auth.login(request, user)
+
             return HttpResponseRedirect('/dashboard/')
         else:
             error_type = "Invalid Account"
@@ -91,8 +94,8 @@ def dash(request):
 
             #result = getlist(key, checkFb, checkTw, checkCg)
             #result = Comment.objects.all()
-            #company_name = request.user.username
-            company_name = "Zingerman's"
+            company_name = request.user.username
+            #company_name = "Zingerman's"
             #cassandrareviewspuller.pullReviews(company_name)
             "after insert"
             result = {}

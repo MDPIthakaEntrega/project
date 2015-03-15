@@ -13,7 +13,7 @@ class SignupForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data['username']
-        if not re.search(r'^\w+$', username):
+        if not re.search(r'^[\w\']+$', username):
             raise forms.ValidationError('Only letters, numbers and underline can be included!')
         try:
             User.objects.get(username = username)
