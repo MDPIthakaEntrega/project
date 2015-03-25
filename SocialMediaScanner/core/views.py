@@ -17,6 +17,7 @@ from dbHandler.cassandra_pull_reviews import cassandrareviewspuller
 
 
 def index(request):
+    request.session.set_test_cookie()
     return render(request, 'index.html')
 
 def logout(request):
@@ -87,6 +88,8 @@ def register_auth_view(request):
 
 def dash(request):
     if request.user.is_authenticated():
+
+        '''
         api_key = '34a5b7f2ca689a980fe72844e6482e4eDKF94rOEsBcvIaWnl61PoL80uAYzk2Ri'
         if request.method == "POST":
             kw = request.POST['keyword']
@@ -133,7 +136,11 @@ def dash(request):
 
             return render(request, 'result.html', {'result' : final})
         else:
-            return render(request, 'dashboard.html')
+        '''
+        if request.session.test_cookie_worked():
+            print "The cookie is there!"
+            request.session.delete_test_cookie()
+        return render(request, 'dashboard.html')
     else:
         error = ErrorObject("Oops!", "You have no permission for this page!")
         return render(request, "error.html", {'error': error})

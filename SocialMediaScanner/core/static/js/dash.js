@@ -6,6 +6,33 @@ var allData = [];
 var numberOfData = -1;
 var workable = false;
 
+function initializeNewReviewsState(data) {
+    var reviewLookup = $.cookie('new_review');
+    console.log(reviewLookup[0]);
+    /*for (i = 0; i < data.length; i++) {
+        if(!(data[i].review_id in reviewLookup)) {
+            reviewLookup[data[i].review_id] = 0;
+        }
+    }*/
+}
+/*
+function displayNewReviews(data) {
+    var output = '';
+    var reviewLookUp = $.cookie('new_review');
+    for(i = 0; i < data.length; i++) {
+        if(!(data[i].review_id in reviewLookUp)
+            || (data[i].review_id in reviewLookUp && reviewLookUp[data[i].review_id] == 0)){
+            output += '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">';
+            output += data[i].review_title;
+            output += '</div><div class="panel-body" style="font-size: 10px">';
+            output += allData[i].review_text;
+            output += '</div></div>';
+        }
+    }
+    $('#new_results').html(output);
+}
+*/
+
 $.ajax({
       url: '/static/data.json',
       dataType: 'json',
@@ -13,6 +40,8 @@ $.ajax({
           allData = data;
           numberOfData = allData.length;
           workable = true;
+          initializeNewReviewsState(allData);
+          //displayNewReviews(allData);
       },
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -62,6 +91,6 @@ $(document).ready(function(){
             }
         }
     })
-})
+});
 
 
