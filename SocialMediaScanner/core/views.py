@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, render
 from django.http import *
 from django.contrib import auth
 import operator
-from core.models import Comment
+from core.models import Comment, UserProfile
 from core.error import ErrorObject
 from FormTemplate import SignupForm
 #import requests
@@ -29,6 +29,9 @@ def login(request):
 def signup(request):
     form_errors = {'username': '', 'email': '', 'password2': ''}
     if request.method == 'POST':
+        manager_name = request.POST['mname']
+        habit_code = int(request.POST['habit'])
+        print manager_name, habit_code
         form = SignupForm(request.POST)
         form_errors = form.errors
         print "suc catch the post"
@@ -37,11 +40,16 @@ def signup(request):
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password2']
+            manager_name = form.cleaned_data['mname']
+            habit_code = int(form.cleaned_data['habit'])
             confirm = User.objects.create_user(
-                username = username,
-                email = email,
-                password = password)
+                username=username,
+                email=email,
+                password=password)
             confirm.save()
+            u = User.objects.get(username=username)
+            full_user = UserProfile(user=u, manager_name=manager_name, habit_code=habit_code)
+            full_user.save()
             user = auth.authenticate(username=username, password=password)
             auth.login(request, user)
             company_name = request.user.username
@@ -103,7 +111,7 @@ def dash(request):
             res = CityGridReviewSelector.selectReview(company_name)
             word_list = kw.split()
             for r in res:
-                count  = 0
+                count = 0
                 for each in word_list:
                     if each in r.review_text:
                         count += 1

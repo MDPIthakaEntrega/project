@@ -1,8 +1,6 @@
 {% extends "navbase.html" %}
-
 {% block content %}
     <div class="container socialmediaoption">
-
         <form action="" method="POST">
             {% csrf_token %}
             <label class="checkbox-inline">
@@ -14,17 +12,26 @@
             <label class="checkbox-inline">
                 <input name="checkCg" type="checkbox" data-toggle="toggle" data-on="&lt;i class='fa fa-spoon'&gt;&lt;/i&gt; CityGrid" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
             </label>
-            <div></div>
             <div class="col-xs-12 searchbar">
                 <form class="navbar-form" role="search">
                     <div class="input-group">
-                        <input name="keyword" type="text" class="form-control" placeholder="Search" name="q">
+                        <input name="keyword" type="text" class="form-control" placeholder="Search" name="q" id="filter">
                         <div class="input-group-btn">
                             <button class="btn btn-info" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
                 </form>
             </div>
+
+            <div>
+                <p>The Manager Name is: {{user.userprofile.manager_name}}</p>
+
+            </div>
         </form>
     </div>
+    <div class="col-xs-2"></div>
+    <div id="results" class="col-xs-8"></div>
+
+    <script src="{{ STATIC_URL }}js/filter.js"></script>
 {% endblock %}
+

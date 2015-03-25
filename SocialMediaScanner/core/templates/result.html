@@ -1,18 +1,15 @@
-{% extends "navbase.html" %}
-
-{% block content %}
-<br/>
-<br/>
-<br/>
-<div class="container">
-    <ul>
-        {% for i in result %}
-            <li>{{forloop.counter}}</li>
-            <li class="company_name">{{ i.review_text }}</li>
-            <br>
-
-            </br>
-        {% endfor %}
-    </ul>
+{% extends "dashboard.html" %}
+{% block search_result %}
+<div class="container" id="panel_out">
+    {% for i in result %}
+    <div class="panel panel-default res" style="display: none">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ i.review_title }}</h3>
+      </div>
+      <div class="panel-body" id="txt">
+        {{ i.review_text }}
+      </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

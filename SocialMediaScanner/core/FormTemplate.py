@@ -10,6 +10,8 @@ class SignupForm(forms.Form):
     email = forms.EmailField()
     password1 = forms.CharField(widget = forms.PasswordInput)
     password2 = forms.CharField(widget = forms.PasswordInput)
+    mname = forms.CharField(max_length=100)
+    habit = forms.CharField(max_length=10)
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -37,3 +39,15 @@ class SignupForm(forms.Form):
                 return password2
             else:
                 raise forms.ValidationError('Passwords are not the same.')
+
+    def clean_mname(self):
+        print 1
+        manager = self.cleaned_data['mname']
+        print manager
+        return manager
+
+    def clean_habit(self):
+        print 2
+        habit = self.cleaned_data['habit']
+        print habit
+        return habit
