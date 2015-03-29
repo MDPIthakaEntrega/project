@@ -9,8 +9,8 @@ from FormTemplate import SignupForm
 from django.contrib.auth.models import User
 import json
 
-from dbHandler.cassandra_select_reviews import CityGridReviewSelector
-from dbHandler.cassandra_pull_reviews import cassandrareviewspuller
+#from dbHandler.cassandra_select_reviews import CityGridReviewSelector
+#from dbHandler.cassandra_pull_reviews import cassandrareviewspuller
 # Create your views here.
 # my name is ...
 
@@ -54,7 +54,7 @@ def signup(request):
             user = auth.authenticate(username=username, password=password)
             auth.login(request, user)
             company_name = request.user.username
-            cassandrareviewspuller.pullReviews(company_name)
+            #cassandrareviewspuller.pullReviews(company_name)
             return HttpResponseRedirect('/dashboard/')
     if form_errors.get('username') is None:
         form_errors['username'] = ''
