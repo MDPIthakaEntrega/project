@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "navbase.html" %}
 
 {% block content %}
+<br>
 <div class="container">
     <div class="row">
             <div class="col-lg-9">
@@ -8,23 +9,13 @@
                 <form action="/signup_auth/" method="POST">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="InputName">Enter User Name</label>
+                        <label for="InputName">Enter Name</label>
                         <div class="input-group">
 
                             <input type="text" class="form-control" name="username" id="InputName" placeholder="Enter Name" required maxlength="16">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="InputManager">Enter Real Name</label>
-                        <div class="input-group">
-
-                            <input type="text" class="form-control" id="InputManager" name="mname" placeholder="Not mandatory">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                        </div>
-                    </div>
-
                     <div class="form-group">
                         <label for="InputEmail">Enter Email</label>
                         <div class="input-group">
@@ -35,25 +26,25 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="CompanyName">Enter Company Name</label>
+                        <label for="InputEmail">Enter Manager Name</label>
                         <div class="input-group">
 
-                            <input type="text" class="form-control" id="CompanyName" name="cname" placeholder="Please Enter the company you belows to..." required>
+                            <input type="text" class="form-control" id="InputManager" name="mname" placeholder="Not mandatory">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="CompanyName">Enter Area</label>
+                        <label for="InputEmail">Enter Habit Code</label>
                         <div class="input-group">
 
-                            <input type="text" class="form-control" id="Area" name="area" placeholder="Please Enter the area" required>
+                            <input type="number" class="form-control" id="InputHabit" name="habit" value="0" required>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="InputPasswordFirst">Enter Password</label>
+                        <label for="InputEmail">Enter Password</label>
                         <div class="input-group">
 
                             <input type="password" class="form-control" id="InputPasswordFirst" name="password1" placeholder="Enter Password" required>
@@ -61,7 +52,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="InputPasswordSecond">Confirm Password</label>
+                        <label for="InputEmail">Confirm Password</label>
                         <div class="input-group">
                             <input type="password" class="form-control" id="InputPasswordSecond" name="password2" placeholder="Confirm Password" required>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
