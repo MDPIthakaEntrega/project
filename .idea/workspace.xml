@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b03611a7-6245-499c-9347-893714b12e0f" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/SocialMediaScanner/core/static/css/font-awesome.min.css" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="project.iws" />
@@ -50,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="navbase.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="navbase.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="1110">
-              <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.16930023" vertical-offset="0" max-vertical-offset="1110">
+              <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -90,10 +92,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index_new.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index_new.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/index_new.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5936795" vertical-offset="1237" max-vertical-offset="1680">
+            <state vertical-scroll-proportion="-62.5" vertical-offset="0" max-vertical-offset="1680">
               <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#nav#0;n#div#0;n#!!top" expanded="true" />
@@ -135,8 +137,8 @@
         <option value="$PROJECT_DIR$/SocialMediaScanner/core/views.py" />
         <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/base.html" />
         <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/signinpage.html" />
-        <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html" />
         <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/index_new.html" />
+        <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html" />
       </list>
     </option>
   </component>
@@ -288,7 +290,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="font-awesome" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -385,6 +387,7 @@
       <recent name="C:\Users\Charlie\Documents\MDP-Ithaka\Application\real_project\project\SocialMediaScanner\CassandraHandler" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/SocialMediaScanner/core/static/font-awesome" />
       <recent name="C:\Users\Charlie\Documents\MDP-Ithaka\Application\real_project\project\SocialMediaScanner\dbHandler" />
     </key>
   </component>
@@ -719,7 +722,13 @@
       <option name="project" value="LOCAL" />
       <updated>1427642126936</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="reviews are linked with search">
+      <created>1427642131003</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1427642131003</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1065,14 +1074,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/static/css/font-awesome.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="469">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/static/css/scanner.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
@@ -1147,14 +1148,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="1110">
-          <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.75" vertical-offset="195" max-vertical-offset="720">
@@ -1173,11 +1166,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/index_new.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5936795" vertical-offset="1237" max-vertical-offset="1680">
+        <state vertical-scroll-proportion="-62.5" vertical-offset="0" max-vertical-offset="1680">
           <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#nav#0;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16930023" vertical-offset="0" max-vertical-offset="1110">
+          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
