@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b03611a7-6245-499c-9347-893714b12e0f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/static/css/font-awesome.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/static/css/main.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/static/js/main.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/static/css/metisMenu.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/static/js/metisMenu.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/templates/signinpage.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SocialMediaScanner/db.sqlite3" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SocialMediaScanner/core/templates/base.html" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/project.iml" afterPath="$PROJECT_DIR$/.idea/project.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SocialMediaScanner/core/views.py" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/views.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SocialMediaScanner/core/templates/index_new.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="project.iws" />
@@ -92,12 +81,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="signinpage.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="signinpage.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/signinpage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6433409" vertical-offset="45" max-vertical-offset="630">
-              <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+            <state vertical-scroll-proportion="-12.833333" vertical-offset="187" max-vertical-offset="630">
+              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="59" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index_new.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/index_new.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5936795" vertical-offset="1237" max-vertical-offset="1680">
+              <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#nav#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -136,6 +137,7 @@
         <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/base.html" />
         <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/signinpage.html" />
         <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html" />
+        <option value="$PROJECT_DIR$/SocialMediaScanner/core/templates/index_new.html" />
       </list>
     </option>
   </component>
@@ -387,7 +389,7 @@
       <recent name="C:\Users\Charlie\Documents\MDP-Ithaka\Application\real_project\project\SocialMediaScanner\dbHandler" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.signinpage.html">
+  <component name="RunManager" selected="JavaScript Debug.index_new.html">
     <configuration default="false" name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -403,26 +405,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SocialMediaScanner/manage.py" />
       <option name="PARAMETERS" value="runserver" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="urls" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/SocialMediaScanner/SocialMediaScanner" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="project" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SocialMediaScanner/SocialMediaScanner/urls.py" />
-      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
@@ -471,6 +453,11 @@
       <method />
     </configuration>
     <configuration default="false" name="signinpage.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/project/core/templates/signinpage.html">
+      <RunnerSettings RunnerId="JavascriptDebugRunner" />
+      <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="index_new.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/project/core/templates/index_new.html">
       <RunnerSettings RunnerId="JavascriptDebugRunner" />
       <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
       <method />
@@ -665,18 +652,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.manage" />
-      <item index="1" class="java.lang.String" itemvalue="Python.urls" />
-      <item index="2" class="java.lang.String" itemvalue="Python.views" />
-      <item index="3" class="java.lang.String" itemvalue="Python.cassandra_create_table" />
-      <item index="4" class="java.lang.String" itemvalue="JavaScript Debug.signinpage.html" />
+      <item index="1" class="java.lang.String" itemvalue="Python.views" />
+      <item index="2" class="java.lang.String" itemvalue="Python.cassandra_create_table" />
+      <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.signinpage.html" />
+      <item index="4" class="java.lang.String" itemvalue="JavaScript Debug.index_new.html" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.signinpage.html" />
-        <item index="1" class="java.lang.String" itemvalue="Python.manage" />
-        <item index="2" class="java.lang.String" itemvalue="Python.cassandra_create_table" />
-        <item index="3" class="java.lang.String" itemvalue="Python.views" />
-        <item index="4" class="java.lang.String" itemvalue="Python.urls" />
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index_new.html" />
+        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.signinpage.html" />
+        <item index="2" class="java.lang.String" itemvalue="Python.manage" />
+        <item index="3" class="java.lang.String" itemvalue="Python.cassandra_create_table" />
+        <item index="4" class="java.lang.String" itemvalue="Python.views" />
       </list>
     </recent_temporary>
   </component>
@@ -721,7 +708,13 @@
       <option name="project" value="LOCAL" />
       <updated>1426110572420</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="reviews are linked with search">
+      <created>1427640952160</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1427640952160</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -755,6 +748,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32626426" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329602" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -765,7 +759,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32882273" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -799,14 +792,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SocialMediaScanner/SocialMediaScanner/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1245" max-vertical-offset="1350">
-          <caret line="83" column="22" selection-start-line="83" selection-start-column="22" selection-end-line="83" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="135">
@@ -1149,18 +1134,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="1110">
-          <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="467">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="1110">
+          <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
           <folding />
         </state>
       </provider>
@@ -1175,9 +1160,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/signinpage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6433409" vertical-offset="45" max-vertical-offset="630">
-          <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+        <state vertical-scroll-proportion="-12.833333" vertical-offset="187" max-vertical-offset="630">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="59" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/index_new.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5936795" vertical-offset="1237" max-vertical-offset="1680">
+          <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#nav#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
