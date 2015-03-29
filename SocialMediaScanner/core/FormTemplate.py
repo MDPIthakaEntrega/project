@@ -40,14 +40,19 @@ class SignupForm(forms.Form):
             else:
                 raise forms.ValidationError('Passwords are not the same.')
 
+    def clean_cname(self):
+        print 0
+        company_name = self.cleaned_data['cname']
+        return company_name
+
     def clean_mname(self):
         print 1
-        manager = self.cleaned_data['mname']
-        print manager
-        return manager
+        realname = self.cleaned_data['mname']
+        if realname is None:
+            return ''
+        return realname
 
-    def clean_habit(self):
+    def clean_area(self):
         print 2
-        habit = self.cleaned_data['habit']
-        print habit
-        return habit
+        area = self.cleaned_data['area']
+        return area

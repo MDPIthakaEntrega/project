@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, render
 from django.http import *
 from django.contrib import auth
+from django.core.files import File
 import operator
 from core.models import Comment, UserProfile
 from core.error import ErrorObject
@@ -9,15 +10,16 @@ from FormTemplate import SignupForm
 from django.contrib.auth.models import User
 import json
 
-#from dbHandler.cassandra_select_reviews import CityGridReviewSelector
-#from dbHandler.cassandra_pull_reviews import cassandrareviewspuller
+from dbHandler.cassandra_select_reviews import CityGridReviewSelector
+from dbHandler.cassandra_pull_reviews import cassandrareviewspuller
+from SocialMediaScanner.settings import BASE_DIR
 # Create your views here.
 # my name is ...
 
 
 
 def index(request):
-    request.session.set_test_cookie()
+    #request.session.set_test_cookie()
     return render(request, 'index.html')
 
 def logout(request):
@@ -41,20 +43,32 @@ def signup(request):
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password2']
-            manager_name = form.cleaned_data['mname']
-            habit_code = int(form.cleaned_data['habit'])
+            real_name = form.cleaned_data['mname']
+            area = form.cleaned_data['area']
             confirm = User.objects.create_user(
                 username=username,
                 email=email,
                 password=password)
             confirm.save()
             u = User.objects.get(username=username)
-            full_user = UserProfile(user=u, manager_name=manager_name, habit_code=habit_code)
+            full_user = UserProfile(user=u, real_name=real_name, habit_code=0)
             full_user.save()
+            #when you successfully register, you will generate a file to save some of your information.
+            #this part may need to connect to cassandra later, but right now, it is just another file.
+
+
             user = auth.authenticate(username=username, password=password)
             auth.login(request, user)
-            company_name = request.user.username
-            #cassandrareviewspuller.pullReviews(company_name)
+            company_name = username
+            cassandrareviewspuller.pullReviews(company_name)
+            result = CityGridReviewSelector.selectReview(company_name)
+            py_dict = {}
+            for each in result:
+                py_dict[each.review_id] = 0
+
+            with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookie.json', 'w') as file:
+                file.write(json.dumps(py_dict))
+            file.close()
             return HttpResponseRedirect('/dashboard/')
     if form_errors.get('username') is None:
         form_errors['username'] = ''
@@ -137,9 +151,7 @@ def dash(request):
             return render(request, 'result.html', {'result' : final})
         else:
         '''
-        if request.session.test_cookie_worked():
-            print "The cookie is there!"
-            request.session.delete_test_cookie()
+
         return render(request, 'dashboard.html')
     else:
         error = ErrorObject("Oops!", "You have no permission for this page!")

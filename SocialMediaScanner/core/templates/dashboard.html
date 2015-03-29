@@ -3,7 +3,7 @@
     <div class="container socialmediaoption">
         <form action="" method="POST">
             {% csrf_token %}
-            <label class="checkbox-inline">
+            <!--<label class="checkbox-inline">
                 <input name="checkFb" type="checkbox" checked data-toggle="toggle" data-on="&lt;i class='fa fa-facebook'&gt;&lt;/i&gt; Facebook" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
             </label>
             <label class="checkbox-inline">
@@ -11,8 +11,8 @@
             </label>
             <label class="checkbox-inline">
                 <input name="checkCg" type="checkbox" data-toggle="toggle" data-on="&lt;i class='fa fa-spoon'&gt;&lt;/i&gt; CityGrid" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
-            </label>
-            <div class="col-xs-12 searchbar">
+            </label>-->
+            <div class="col-xs-12">
                 <form class="navbar-form" role="search">
                     <div class="input-group">
                         <input name="keyword" type="text" class="form-control" placeholder="Search" name="q" id="filter">
@@ -33,7 +33,7 @@
     <div class="col-xs-1"></div>
     <div id="results" class="col-xs-8"></div>
 
-    <script src="{{ STATIC_URL }}js/dash.js"></script>
+    <script src="{{ STATIC_URL }}js/dashapp.js"></script>
 
 {% endblock %}
 

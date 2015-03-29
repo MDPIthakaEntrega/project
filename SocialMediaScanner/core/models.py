@@ -53,12 +53,21 @@ class UserProfile(auth_models.AbstractBaseUser):
         return self.is_admin
 
 '''
+class Company(models.Model):
+    company_name = models.CharField(max_length=100, blank=False)
+
+    def __str__(self):
+        return self.company_name
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    manager_name = models.CharField(max_length=100, blank=True)
+    last_logged = models.DateTimeField()
+    real_name = models.CharField(max_length=100, blank=True, null=True)
+    area = models.CharField(max_length=100, blank=True)
     habit_code = models.IntegerField(default=0)
+    competitor_company = models.TextField()
+    my_company = models.ForeignKey(Company)
 
 
 class Comment(models.Model):

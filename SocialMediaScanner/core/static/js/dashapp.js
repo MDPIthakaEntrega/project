@@ -3,52 +3,49 @@
  */
 
 var allData = [];
+var newData = [];
 var numberOfData = -1;
 var workable = false;
 
-function initializeNewReviewsState(data) {
-    var reviewLookup = $.cookie('new_review');
-    console.log(reviewLookup[0]);
-    /*for (i = 0; i < data.length; i++) {
-        if(!(data[i].review_id in reviewLookup)) {
-            reviewLookup[data[i].review_id] = 0;
-        }
-    }*/
-}
-/*
-function displayNewReviews(data) {
-    var output = '';
-    var reviewLookUp = $.cookie('new_review');
-    for(i = 0; i < data.length; i++) {
-        if(!(data[i].review_id in reviewLookUp)
-            || (data[i].review_id in reviewLookUp && reviewLookUp[data[i].review_id] == 0)){
-            output += '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">';
-            output += data[i].review_title;
-            output += '</div><div class="panel-body" style="font-size: 10px">';
-            output += allData[i].review_text;
-            output += '</div></div>';
-        }
-    }
-    $('#new_results').html(output);
-}
-*/
-
-$.ajax({
+function retrieveAllData() {
+    $.ajax({
       url: '/static/data.json',
       dataType: 'json',
       success: function(data) {
           allData = data;
           numberOfData = allData.length;
           workable = true;
-          initializeNewReviewsState(allData);
-          //displayNewReviews(allData);
       },
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }
-});
+    });
+}
+
+function getNewData() {
+    var company_name = $("#usr").text();
+    console.log(company_name);
+    $.ajax({
+      url: '/static/new_review_cookie/' + company_name + '_cookie.json',
+      dataType: 'json',
+      success: function(data) {
+          newData = data;
+      },
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }
+    });
+}
+
+function newDataRender() {
+    for (i = 0; i < newData.length; i++) {
+
+    }
+}
 
 $(document).ready(function(){
+    getNewData();
+    retrieveAllData();
     $("#filter").keyup(function(){
         var filter = $(this).val();
         if(workable) {
