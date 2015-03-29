@@ -53,8 +53,8 @@
       <file leaf-file-name="navbase.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16930023" vertical-offset="0" max-vertical-offset="1110">
-              <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.3047404" vertical-offset="0" max-vertical-offset="1110">
+              <caret line="9" column="80" selection-start-line="9" selection-start-column="80" selection-end-line="9" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -732,7 +732,13 @@
       <option name="project" value="LOCAL" />
       <updated>1427642471425</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="reviews are linked with search">
+      <created>1427643076412</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1427643076412</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1180,8 +1186,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SocialMediaScanner/core/templates/navbase.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16930023" vertical-offset="0" max-vertical-offset="1110">
-          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.3047404" vertical-offset="0" max-vertical-offset="1110">
+          <caret line="9" column="80" selection-start-line="9" selection-start-column="80" selection-end-line="9" selection-end-column="80" />
           <folding />
         </state>
       </provider>
