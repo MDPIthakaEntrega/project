@@ -1,5 +1,6 @@
 __author__ = 'renl'
 from django import forms
+from core.models import Company
 from django.core.exceptions import ObjectDoesNotExist
 import re
 from django.contrib.auth.models import User
@@ -10,8 +11,8 @@ class SignupForm(forms.Form):
     email = forms.EmailField()
     password1 = forms.CharField(widget = forms.PasswordInput)
     password2 = forms.CharField(widget = forms.PasswordInput)
-    mname = forms.CharField(max_length=100)
-    habit = forms.CharField(max_length=10)
+    cname = forms.CharField(max_length=100)
+    area = forms.CharField(max_length=100)
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -44,13 +45,6 @@ class SignupForm(forms.Form):
         print 0
         company_name = self.cleaned_data['cname']
         return company_name
-
-    def clean_mname(self):
-        print 1
-        realname = self.cleaned_data['mname']
-        if realname is None:
-            return ''
-        return realname
 
     def clean_area(self):
         print 2
