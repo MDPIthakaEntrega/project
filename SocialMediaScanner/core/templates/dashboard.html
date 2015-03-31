@@ -24,12 +24,35 @@
             </div>
 
             <div>
-                <p>The Manager Name is: {{user.userprofile.manager_name}}</p>
+                <p>The Manager Name is: {{user.username}}</p>
 
             </div>
         </form>
     </div>
-    <div id="new_results" class="col-xs-3"></div>
+    <div id="new_results" class="col-xs-3">
+        <div id="newreview_heading">
+            <a href="#">New Reviews <span class="badge" id="reviews_num">{{reviews_num}}</span></a>
+            <a class="btn btn-lg btn-success" role="button" id="review_confirm">Confirm Reading</a>
+            {% csrf_token %}
+        </div>
+        <br/><br/>
+        <div id="new_reviews_body">
+            {% for review in new_reviews %}
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title" id="panel-title">{{review.title}}<a class="anchorjs-link" href="#panel-title"><span class="anchorjs-icon"></span></a></h3>
+              </div>
+              <div class="panel-body">
+                  <p>{{review.content |truncatewords:"20" }}</p>
+                  <span style="display: none" class="local_id">{{forloop.counter}}</span>
+                  <input type="checkbox"/>
+
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <div class="col-xs-1"></div>
     <div id="results" class="col-xs-8"></div>
 

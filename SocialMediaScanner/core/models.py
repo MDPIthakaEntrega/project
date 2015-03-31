@@ -16,11 +16,3 @@ class UserProfile(models.Model):
     habit_code = models.IntegerField(default=0)
     competitor_company = models.TextField()
     my_company = models.ForeignKey(Company)
-
-
-class Comment(models.Model):
-    company = models.ForeignKey(UserProfile)
-    content = models.TextField()
-
-    def __str__(self):
-        return self.content[0]
