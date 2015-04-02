@@ -17,12 +17,12 @@ class SignupForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data['username']
         if not re.search(r'^[\w\']+$', username):
-            raise forms.ValidationError('Only letters, numbers and underline can be included!')
+            raise forms.ValidationError('Only letters, numbers, and underline can be included!')
         try:
             User.objects.get(username = username)
         except ObjectDoesNotExist:
             return username
-        raise forms.ValidationError('Username already exist!')
+        raise forms.ValidationError('Username already exists!')
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -30,7 +30,7 @@ class SignupForm(forms.Form):
             User.objects.get(email = email)
         except ObjectDoesNotExist:
             return email
-        raise forms.ValidationError('Email registered.')
+        raise forms.ValidationError('Email already in use.')
 
     def clean_password2(self):
         if 'password1' in self.cleaned_data:

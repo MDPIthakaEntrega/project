@@ -47,7 +47,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                    <li><a href="">Welcome: <span id="usr">{{user.username}}</span></a></li>
+                    <li><a href="/profile/">Welcome: <span id="usr">{{user.username}}</span></a></li>
                     <li><a href="/dashboard/">dashboard</a></li>
                     <li><a href="/logout/">logout</a></li>
                     <span style="display: none">{{user.userprofile.my_company.company_name}}</span>
