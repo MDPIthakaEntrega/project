@@ -3,7 +3,6 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
     <meta name="viewpoint" content="width=device-width,initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -33,33 +32,80 @@
 </head>
 <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top" >
-        <div class="container">
-            <div class="navbar-header">
+<div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header col-lg-2">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <li><a class="navbar-brand" href="/">LOGO</a></li>
 
+                <a class="navbar-brand" href="index.html"><img src="img/logo-small.png" height="43px"></a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    {% if user.is_authenticated %}
-                    <li><a href="">Welcome: <span id="usr">{{user.username}}</span></a></li>
-                    <li><a href="/dashboard/">dashboard</a></li>
-                    <li><a href="/logout/">logout</a></li>
-                    <span style="display: none">{{user.userprofile.my_company.company_name}}</span>
-                    {% else %}
-                    <li><a href="/signup/">Sign Up</a></li>
-                    <li><a href="/login/">Sign In</a></li>
-                    {% endif %}
-                </ul>
+            <!-- /.navbar-header -->
+            <div class="nav-bar-top-search col-md-8 col-xs-9">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+                </div>
             </div>
-        </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-togglefa-user " data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw fa-2x"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-comment-o fa-fw"></i> All Reviews</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> New Reviews</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#"><i class="fa fa-line-chart"></i> Overall Charts</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-pie-chart"></i> Sentimental Charts</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
     </div>
-
     <br/>
     <br/>
     {% block content %}{% endblock %}
