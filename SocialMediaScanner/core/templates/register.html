@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "navbase.html" %}
 
 {% block content %}
+<br>
 <div class="container">
     <div class="row">
             <div class="col-lg-9">
@@ -15,29 +16,28 @@
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label for="InputEmail">Enter Email</label>
                         <div class="input-group">
-
                             <input type="email" class="form-control" id="InputEmailFirst" name="email" placeholder="Enter Email" required>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="InputEmail">Enter Manager Name</label>
+                        <label for="InputEmail">Enter Company Name</label>
                         <div class="input-group">
-
-                            <input type="text" class="form-control" id="InputManager" name="mname" placeholder="Not mandatory">
+                            <input type="text" class="form-control" id="CompanyName" name="cname" placeholder="Please Enter the company you belows to..." required>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="InputEmail">Enter habit code</label>
+                        <label for="Area">Enter Area</label>
                         <div class="input-group">
 
-                            <input type="text" class="form-control" id="InputHabit" name="habit" value="0" required>
+                            <input type="text" class="form-control" id="InputArea" name="area" required>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
                     </div>
@@ -45,7 +45,6 @@
                     <div class="form-group">
                         <label for="InputEmail">Enter Password</label>
                         <div class="input-group">
-
                             <input type="password" class="form-control" id="InputPasswordFirst" name="password1" placeholder="Enter Password" required>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>

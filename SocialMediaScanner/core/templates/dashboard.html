@@ -3,7 +3,7 @@
     <div class="container socialmediaoption">
         <form action="" method="POST">
             {% csrf_token %}
-            <label class="checkbox-inline">
+            <!--<label class="checkbox-inline">
                 <input name="checkFb" type="checkbox" checked data-toggle="toggle" data-on="&lt;i class='fa fa-facebook'&gt;&lt;/i&gt; Facebook" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
             </label>
             <label class="checkbox-inline">
@@ -11,8 +11,8 @@
             </label>
             <label class="checkbox-inline">
                 <input name="checkCg" type="checkbox" data-toggle="toggle" data-on="&lt;i class='fa fa-spoon'&gt;&lt;/i&gt; CityGrid" data-off="Off" data-size="large" data-onstyle="info" data-class="fast" data-style="ios">
-            </label>
-            <div class="col-xs-12 searchbar">
+            </label>-->
+            <div class="col-xs-12">
                 <form class="navbar-form" role="search">
                     <div class="input-group">
                         <input name="keyword" type="text" class="form-control" placeholder="Search" name="q" id="filter">
@@ -24,16 +24,39 @@
             </div>
 
             <div>
-                <p>The Manager Name is: {{user.userprofile.manager_name}}</p>
+                <p>The Manager Name is: {{user.username}}</p>
 
             </div>
         </form>
     </div>
-    <div id="new_results" class="col-xs-3"></div>
+    <div id="new_results" class="col-xs-3">
+        <div id="newreview_heading">
+            <a href="#">New Reviews <span class="badge" id="reviews_num">{{reviews_num}}</span></a>
+            <a class="btn btn-lg btn-success" role="button" id="review_confirm">Confirm Reading</a>
+            {% csrf_token %}
+        </div>
+        <br/><br/>
+        <div id="new_reviews_body">
+            {% for review in new_reviews %}
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title" id="panel-title">{{review.title}}<a class="anchorjs-link" href="#panel-title"><span class="anchorjs-icon"></span></a></h3>
+              </div>
+              <div class="panel-body">
+                  <p>{{review.content |truncatewords:"20" }}</p>
+                  <span style="display: none" class="local_id">{{forloop.counter}}</span>
+                  <input type="checkbox"/>
+
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <div class="col-xs-1"></div>
     <div id="results" class="col-xs-8"></div>
 
-    <script src="{{ STATIC_URL }}js/dash.js"></script>
+    <script src="{{ STATIC_URL }}js/dashapp.js"></script>
 
 {% endblock %}
 
