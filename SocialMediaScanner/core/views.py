@@ -99,9 +99,14 @@ def register_auth_view(request):
 
 def profile(request):
     if request.user.is_authenticated():
-        return render(request, "profile.html", {'error': error_type})
+        return render(request, "profile.html")
+    if request.method == "POST":
+        if form.is_valid:
+
+
     else:
-        return render(request, "index.html")
+        return HttpResponseRedirect('/')
+
 
 
 def dash(request):
@@ -112,9 +117,9 @@ def dash(request):
             stringify_new_reviews = request.POST["new_reviews"]
             list_object = json.loads(stringify_new_reviews)
             store_data = {u'new_reviews': list_object}
-            with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json', 'w') as file:
+            with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json', 'w+') as file:
                 file.write(json.dumps(store_data))
-        #pullAndInitializeNewReviews(company_name, username)
+        pullAndInitializeNewReviews(company_name, username)
         #pullAndInitializeNewReviews(company_name, username)
 
         with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json', 'r') as file:
@@ -122,8 +127,7 @@ def dash(request):
             newReviews = newReviews["new_reviews"]
         return render(request, 'dashboard.html', {'new_reviews': newReviews, 'reviews_num': len(newReviews)})
     else:
-        error = ErrorObject("Oops!", "You have no permission for this page!")
-        return render(request, "error.html", {'error': error})
+        return HttpResponseRedirect('/login/')
 
 
 def result(request):
@@ -155,7 +159,7 @@ def pullAndInitializeNewReviews(company_name, username):
         new_reviews.append(dic)
         finalizedData = {u'new_reviews': new_reviews}
 
-    with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json', 'w') as file:
+    with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json', 'w+') as file:
         file.write(json.dumps(finalizedData, default=date_handler))
         file.close()
 
