@@ -1,44 +1,44 @@
 {% extends "navbase.html" %}
 {% block content %}
-<div id="page-wrapper">
-    <div class="row page_head">
-        <div class="col-lg-12">
-            <h1 class="page-header">New Reviews</h1>
-        </div>
-        <!-- /.col-lg-12 -->
+
+<div class="row page_head">
+    <div class="col-lg-12">
+        <h1 class="page-header">New Reviews</h1>
     </div>
-
-    <!-- /.row -->
-    <div id="new_results">
-        <div id="newreview_heading">
-            <a href="#">New Reviews <span class="badge" id="reviews_num">{{reviews_num}}</span></a>
-            <a class="btn btn-lg btn-success" role="button" id="review_confirm">Mark as Read</a>
-            {% csrf_token %}
-        </div>
-        <br/><br/>
-
-        <div id="new_reviews_body">
-            {% for review in new_reviews %}
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title" id="panel-title">{{review.title}}<a class="anchorjs-link"
-                                                                                href="#panel-title"><span
-                            class="anchorjs-icon"></span></a></h3>
-                </div>
-                <div class="panel-body">
-                    <p>{{review.content |truncatewords:"20" }}</p>
-                    <span style="display: none" class="local_id">{{forloop.counter}}</span>
-                    <input type="checkbox"/>
-
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    <!-- /.row -->
-    <!-- /.panel .chat-panel -->
-    <!-- /.col-lg-4 -->
+    <!-- /.col-lg-12 -->
 </div>
+
+<!-- /.row -->
+<div id="new_results">
+    <div id="newreview_heading">
+        <a href="#">New Reviews <span class="badge" id="reviews_num">{{reviews_num}}</span></a>
+        <a class="btn btn-lg btn-success" role="button" id="review_confirm">Mark as Read</a>
+        {% csrf_token %}
+    </div>
+    <br/><br/>
+
+    <div id="new_reviews_body">
+        {% for review in new_reviews %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="panel-title">{{review.title}}<a class="anchorjs-link"
+                                                                            href="#panel-title"><span
+                        class="anchorjs-icon"></span></a></h3>
+            </div>
+            <div class="panel-body">
+                <p>{{review.content |truncatewords:"20" }}</p>
+                <span style="display: none" class="local_id">{{forloop.counter}}</span>
+                <input type="checkbox"/>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- /.row -->
+<!-- /.panel .chat-panel -->
+<!-- /.col-lg-4 -->
+
 
 <!-- /#wrapper -->
 

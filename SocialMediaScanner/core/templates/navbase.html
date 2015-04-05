@@ -111,7 +111,9 @@
         </nav>
     </div>
     <span id="usr" style="display: none;">{{user.username}}</span>
-    {% block content %}{% endblock %}
+    <div id="page-wrapper">
+        {% block content %}{% endblock %}
+    </div>
 
 </body>
 </html>
