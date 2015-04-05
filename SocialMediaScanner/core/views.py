@@ -97,7 +97,7 @@ def register_auth_view(request):
     pass
 
 
-def profile(request):
+def settings(request):
     if request.user.is_authenticated():
         if request.method == "POST":
             raw_origin_password = request.POST.get('orig_password')
@@ -118,6 +118,7 @@ def profile(request):
 
 
 def dash(request):
+    #abandon
     if request.user.is_authenticated():
         company_name = request.user.userprofile.my_company.company_name
         username = request.user.username
@@ -146,9 +147,32 @@ def date_handler(obj):
     return obj.isoformat() if hasattr(obj, 'isoformat') else obj
 
 
-def newfeature(request):
-    return render(request, 'index_new.html')
+def dashboard(request):
+    if request.user.is_authenticated():
+        return render(request, 'index_new.html')
+    else:
+        return HttpResponseRedirect('/login/')
 
+def newReviews(request):
+    if request.user.is_authenticated():
+        company_name = request.user.userprofile.my_company.company_name
+        username = request.user.username
+        if request.method == "POST":
+            print "cach the post, new review page"
+            stringify_new_reviews = request.POST["new_reviews"]
+            list_object = json.loads(stringify_new_reviews)
+            store_data = {u'new_reviews': list_object}
+            with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json', 'w+') as file:
+                file.write(json.dumps(store_data))
+        #pullAndInitializeNewReviews(company_name, username)
+        #pullAndInitializeNewReviews(company_name, username)
+
+        with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json', 'r') as file:
+            newReviews = json.loads(file.read())
+            newReviews = newReviews["new_reviews"]
+        return render(request, 'new_reviews.html', {'new_reviews': newReviews, 'reviews_num': len(newReviews)})
+    else:
+        return HttpResponseRedirect('/login/')
 
 def pullAndInitializeNewReviews(company_name, username):
     cassandrareviewspuller.pullReviews(company_name)

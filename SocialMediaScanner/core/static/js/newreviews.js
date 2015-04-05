@@ -36,6 +36,8 @@ function retrieveAllData() {
             workable = true;
             console.log(allData.length);
             calculateAnalytics();
+            renderAllReviews();
+            setupSearchListener();
         },
         error: function (xhr, status, err) {
             console.error(xhr, status, err.toString());
@@ -123,64 +125,73 @@ function calculateAnalytics() {
             }
         }
     }
-    console.log("positive: " + positive.toString());
-    console.log("neutral: " + neutral.toString());
-    console.log("negative: " + negative.toString());
+    $("#pos_review_num").html(positive);
+    $("#neu_review_num").html(neutral);
+    $("#neg_review_num").html(negative);
 }
 
 function setupSearchListener() {
    $("#filter").keyup(function () {
         var filter = $(this).val();
         if (workable) {
-            if (filter != '') {
-                var words = filter.split(" ");
-                var totalWords = words.length;
-                var rankMap = {};
-                var output = '';
-                for (i = 0; i < numberOfData; i++) {
-                    var str = allData[i].review_text;
-                    var count = 0;
-                    for (j = 0; j < totalWords; j++) {
-                        if (str.search(words[j]) != -1) {
-                            count++;
-                        }
-                    }
-                    if (count != 0) {
-                        if (!(count in rankMap)) {
-                            rankMap[count] = [];
-                        }
-                        rankMap[count].push(i);
+            var words = filter.split(" ");
+            var totalWords = words.length;
+            var rankMap = {};
+            var output = '';
+            for (i = 0; i < numberOfData; i++) {
+                var str = allData[i].review_text;
+                var count = 0;
+                for (j = 0; j < totalWords; j++) {
+                    if (str.search(words[j]) != -1) {
+                        count++;
                     }
                 }
-                for (m = totalWords; m > 0; m--) {
-                    if (m in rankMap) {
-                        var positionList = rankMap[m];
-                        for (n = 0; n < positionList.length; n++) {
-                            output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
-                            output += allData[positionList[n]].review_title;
-                            output += '</div><div class="panel-body">';
-                            output += allData[positionList[n]].review_text;
-                            output += '</div></div>';
-                        }
+                if (count != 0) {
+                    if (!(count in rankMap)) {
+                        rankMap[count] = [];
+                    }
+                    rankMap[count].push(i);
+                }
+            }
+            for (m = totalWords; m > 0; m--) {
+                if (m in rankMap) {
+                    var positionList = rankMap[m];
+                    for (n = 0; n < positionList.length; n++) {
+                        output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
+                        output += allData[positionList[n]].review_title;
+                        output += '</div><div class="panel-body">';
+                        output += allData[positionList[n]].review_text;
+                        output += '</div></div>';
                     }
                 }
-                $('#results').html(output)
             }
-            else {
-                $('#results').html('');
-            }
+            $('#results').html(output);
         }
     });
 }
 
+function renderAllReviews() {
+    var output = '';
+    for (n = 0; n < allData.length; n++) {
+        output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
+        output += allData[n].review_title;
+        output += '</div><div class="panel-body">';
+        output += allData[n].review_text;
+        output += '</div></div>';
+    }
+    $('#results').html(output);
+}
 
 $(document).ready(function () {
     setupCSRF();
     retrieveAllData();
     confirmReading();
-    setupSearchListener();
 });
 
 
 
+
+/**
+ * Created by renl on 4/5/15.
+ */
 

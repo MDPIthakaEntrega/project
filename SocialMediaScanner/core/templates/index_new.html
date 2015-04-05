@@ -20,7 +20,7 @@
                                     <i class="fa fa-thumbs-o-up fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
+                                    <div class="huge" id="pos_review_num"></div>
                                     <div>Positive Views</div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                     <i class="fa fa-minus fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
+                                    <div class="huge" id="neu_review_num"></div>
                                     <div>Neutral</div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                     <i class="fa fa-thumbs-o-down fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
+                                    <div class="huge" id="neg_review_num"></div>
                                     <div>Negative Views</div>
                                 </div>
                             </div>
@@ -89,36 +89,19 @@
                         <div class="panel-heading">
                             All Reviews
                         </div>
+                        <div id="results"></div>
                     </div>
                 </div>
             </div>
             <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
-                            <div class="pull-right">
-                            </div>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-
-                </div>
-            </div>
-                    <!-- /.panel .chat-panel -->
-                <!-- /.col-lg-4 -->
+            <!-- /.panel .chat-panel -->
+            <!-- /.col-lg-4 -->
         </div>
 
     <!-- /#wrapper -->
 
 
-<script src="{{ STATIC_URL }}js/main.js"></script>
-<script src="{{ STATIC_URL }}js/metisMenu.min.js"></script>
+
+ <script src="{{ STATIC_URL }}js/dashboardapp.js"></script>
 
 {% endblock %}
