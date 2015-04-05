@@ -99,11 +99,19 @@ def register_auth_view(request):
 
 def profile(request):
     if request.user.is_authenticated():
+        if request.method == "POST":
+            raw_origin_password = request.POST.get('orig_password')
+            if not request.user.check_password(raw_origin_password):
+                error_info = "The original password is not correct"
+                return render(request, "profile.html", {'error': error_info})
+            else:
+                new_password = request.POST.get('new_pass2')
+                print new_password
+                request.user.set_password(new_password)
+                request.user.save()
+                success_info = "Password changed successfully"
+                return render(request, "profile.html", {'success': success_info})
         return render(request, "profile.html")
-    if request.method == "POST":
-        if form.is_valid:
-
-
     else:
         return HttpResponseRedirect('/')
 

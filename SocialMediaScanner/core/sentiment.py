@@ -12,9 +12,11 @@ with open(BASE_DIR + 'static/data.json', 'r') as file:
     reviews = json.loads(file.read())
     reviews = reviews["reviews"]
 
+print len(reviews)
+
 analyzed_data = []
 for r in reviews:
-    content = r["content"]
+    content = r["review_text"]
     response = alchemyapi.sentiment('text', content)
     print response
     if response['status'] == 'OK':
@@ -24,8 +26,8 @@ for r in reviews:
             r['sentiment_score'] = 0
         r['sentiment_type'] = response['docSentiment']['type']
     analyzed_data.append(r)
-
-final = {u'new_reviews': analyzed_data}
+print len(analyzed_data)
+final = {u'reviews': analyzed_data}
 with open(BASE_DIR + 'static/data.json', 'w+') as file:
     file.write(json.dumps(final))
     file.close()

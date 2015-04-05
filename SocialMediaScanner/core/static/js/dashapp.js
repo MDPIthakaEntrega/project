@@ -34,6 +34,8 @@ function retrieveAllData() {
             allData = data["reviews"];
             numberOfData = allData.length;
             workable = true;
+            console.log(allData.length);
+            calculateAnalytics();
         },
         error: function (xhr, status, err) {
             console.error(xhr, status, err.toString());
@@ -105,12 +107,29 @@ function modifyServerData(removeList) {
     });
 }
 
+function calculateAnalytics() {
+    var neutral = 0, positive = 0, negative = 0;
+    if(workable) {
+        for(i = 0; i < numberOfData; ++i) {
+            var type = allData[i].sentiment_type;
+            if (type == 'negative') {
+                negative++;
+            }
+            else if (type == 'positive') {
+                positive++;
+            }
+            else if (type == 'neutral') {
+                neutral++;
+            }
+        }
+    }
+    console.log("positive: " + positive.toString());
+    console.log("neutral: " + neutral.toString());
+    console.log("negative: " + negative.toString());
+}
 
-$(document).ready(function () {
-    setupCSRF();
-    retrieveAllData();
-    confirmReading();
-    $("#filter").keyup(function () {
+function setupSearchListener() {
+   $("#filter").keyup(function () {
         var filter = $(this).val();
         if (workable) {
             if (filter != '') {
@@ -151,7 +170,15 @@ $(document).ready(function () {
                 $('#results').html('');
             }
         }
-    })
+    });
+}
+
+
+$(document).ready(function () {
+    setupCSRF();
+    retrieveAllData();
+    confirmReading();
+    setupSearchListener();
 });
 
 
