@@ -49,4 +49,10 @@ public class APICityGrid extends DataGrabberGeneric {
 		
 		return Arrays.asList(response);
 	}
+	
+	@Override
+	public String toString() {
+		
+		return "CityGrid";
+	}
 }

@@ -181,10 +181,10 @@ class Server extends ServerGeneric {
 	@Override
 	void pullAPIsforAllUsers() {
 		// TODO Auto-generated method stub
-		List<CompanyLocationPair> listUsers = getAllUsers();
+		List<CompanyLocationPair> userList = getAllUsers();
 		List<String> companyNameList = new LinkedList<String>();
 		List<String> locationList = new LinkedList<String>();
-		for (CompanyLocationPair pair: listUsers) {
+		for (CompanyLocationPair pair: userList) {
 			
 			companyNameList.add(pair.getCompanyName());
 			locationList.add(pair.getLocation());
@@ -197,6 +197,8 @@ class Server extends ServerGeneric {
 	void pullAPIAndStoreForUsers(List<String> companyNameList,
 			List<String> locationList) {
 		// TODO Auto-generated method stub
+		
+		
 		
 	}
 
