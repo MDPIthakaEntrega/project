@@ -1,4 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
 /SocialMediaScanner/settings.py
 .idea
+.idea/workspace.xml
 /core/amazon_scraper.py
