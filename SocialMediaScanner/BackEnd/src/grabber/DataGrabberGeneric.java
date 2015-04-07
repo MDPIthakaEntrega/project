@@ -11,6 +11,21 @@ import java.util.List;
 
 public abstract class DataGrabberGeneric {
 	
+	public abstract List<String> pullData(String companyName, String location) throws UnsupportedEncodingException;
+	
+	public List<String> pullDataForAll(List<String> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
+		
+		List<String> strList = new LinkedList<String>();
+		for (int i = 0; i < companyNameList.size(); i++) {
+			
+			String companyName = companyNameList.get(i);
+			String location = locationList.get(i);
+			strList.addAll(pullData(companyName, location));
+		}
+		
+		return strList;
+	}
+	
 	String sendGet(String url) throws IOException {
 		
 		//url = "http://api.citygridmedia.com/content/reviews/v2/search/where?where=Ann%20Arbor,%20mi&what=Zingerman%27s&publisher=10000008938&format=json";
@@ -32,20 +47,5 @@ public abstract class DataGrabberGeneric {
 		in.close();
 		
 		return response.toString();
-	}
-	
-	public abstract List<String> pullData(String companyName, String location) throws UnsupportedEncodingException;
-	
-	public List<String> pullDataForAll(List<String> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
-		
-		List<String> strList = new LinkedList<String>();
-		for (int i = 0; i < companyNameList.size(); i++) {
-			
-			String companyName = companyNameList.get(i);
-			String location = locationList.get(i);
-			strList.addAll(pullData(companyName, location));
-		}
-		
-		return strList;
 	}
 }
