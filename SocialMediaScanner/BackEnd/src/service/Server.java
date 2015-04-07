@@ -166,6 +166,17 @@ class Server extends ServerGeneric {
 		listUsers.add(new CompanyLocationPair("Zingerman's", "ann arbor,48105"));
 		return listUsers;
 	}
+	
+	public static List<String> sentimentAnalyze(List<String> reviewList) {
+		
+		List<String> sentimentList = new LinkedList<String>();
+		for (int i = 0; i < reviewList.size(); i++) {
+			
+			sentimentList.add("neutral");
+		}
+		
+		return sentimentList;
+	}
 
 	@Override
 	void pullAPIsforAllUsers() {

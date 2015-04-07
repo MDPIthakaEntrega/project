@@ -17,6 +17,8 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import service.ResponseStruct;
+
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Configuration;
 import com.datastax.driver.core.PreparedStatement;
@@ -55,6 +57,7 @@ public class Citygrid extends API {
 	
 	@Override
 	public void insert(List<ResponseStruct> responses) throws JSONException, ParseException {
+		String response = null;
 		System.out.println(response);
 		JSONArray reviews = new JSONArray(JsonPath.read(new JSONParser().parse(response), path.get("reviews")).toString());
 		//reviews = this.getReviewArray(response);
@@ -82,7 +85,7 @@ public class Citygrid extends API {
 			current_review_id = this.getClass().getSimpleName() + "_" + JsonPath.read(current_review.toString(), path.get("id"));
 			//Do something with SOLR
 			full_review = current_review.toString();
-			this.insertReview(current_review_id, company_name, full_review, insert);
+			//this.insertReview(current_review_id, company_name, full_review, insert);
 		}	
 	}
 	
@@ -140,5 +143,12 @@ public class Citygrid extends API {
 			}
 		}
 		return json_api_format;		
+	}
+
+	@Override
+	public void insert(String response, String company_name)
+			throws JSONException, ParseException {
+		// TODO Auto-generated method stub
+		
 	}
 }
