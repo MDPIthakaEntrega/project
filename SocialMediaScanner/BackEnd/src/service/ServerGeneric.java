@@ -136,15 +136,6 @@ abstract class ServerGeneric {
 	 */
 	abstract void initServer();
 
-	abstract String searchReviews(String companyName, String keyword);
-	
-	/**
-	 * pull data for all users.
-	 * 
-	 * @return
-	 */
-	abstract void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listGrabber);
-	
 	/**
 	 * pull data for users and store into database.
 	 * 
@@ -153,6 +144,15 @@ abstract class ServerGeneric {
 	 */
 	abstract void pullAllAPIAndStoreForUsers(List<String> companyNameList,
 			List<String> locationList);
+	
+	/**
+	 * pull data for all users.
+	 * 
+	 * @return
+	 */
+	abstract void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listGrabber);
+	
+	abstract String searchReviews(String companyName, String keyword);
 	
 	/**
 	 * Start the service.

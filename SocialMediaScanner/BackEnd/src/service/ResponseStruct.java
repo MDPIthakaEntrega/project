@@ -3,16 +3,21 @@ package service;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * an agreed struct for data layer and service layer to exchange information.
+ * 
+ * @author yuke
+ *
+ */
 public class ResponseStruct {
 	
-	public ResponseStruct(String response, String companyName, String APIName) {
-		
-		this.response = response;
-		this.companyName = companyName;
-		this.APIName = APIName;
-		
-	}
-	
+	/**
+	 * helper function;
+	 * @param responseList
+	 * @param companyNameList
+	 * @param APIName
+	 * @return
+	 */
 	public static List<ResponseStruct> getReponseStructListForOneAPI(List<String> responseList, List<String> companyNameList, 
 			String APIName) {
 		
@@ -25,24 +30,60 @@ public class ResponseStruct {
 		return listResponseStruct;
 	}
 	
+	/**
+	 * response returned from social media;
+	 */
 	private String response;
 	
+	/**
+	 * corresponding company name for the response;
+	 */
 	private String companyName;
 	
+	/**
+	 * name of the social media API;
+	 */
 	private String APIName;
-
-	public String getResponse() {
-		return response;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
 	
+	/**
+	 * constructor;
+	 * @param response
+	 * @param companyName
+	 * @param APIName
+	 */
+	public ResponseStruct(String response, String companyName, String APIName) {
+		
+		this.response = response;
+		this.companyName = companyName;
+		this.APIName = APIName;
+		
+	}
+
+	/**
+	 * getter of the api name;
+	 * @return
+	 */
 	public String getAPIName() {
 		
 		return APIName;
 	}
+
+	/**
+	 * getter of the company name;
+	 * @return
+	 */
+	public String getCompanyName() {
+		return companyName;
+	}
+	
+	/**
+	 * getter of the response;
+	 * @return
+	 */
+	public String getResponse() {
+		return response;
+	}
+	
 	
 	@Override
 	public String toString() {

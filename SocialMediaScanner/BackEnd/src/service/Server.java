@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -42,13 +41,25 @@ public class Server extends ServerGeneric {
 		}
 	}
 	
+	/**
+	 * list of class class of all api grabbers.
+	 */
 	private List<Class<? extends DataGrabberGeneric>> listGrabberClass = new LinkedList<Class<? extends DataGrabberGeneric>>();
 	
+	/**
+	 * list of instances of all api grabbers.
+	 */
 	private List<DataGrabberGeneric> listGrabber = new LinkedList<DataGrabberGeneric>();
 
+	/**
+	 * path of resources folder.
+	 */
 	private static final String SOURCE_PATH = Paths.get(".").toAbsolutePath()
 			+ "\\resources";
 	
+	/**
+	 * path of grabbers folder.
+	 */
 	private static final String GRABBER_PATH = Paths.get(".").toAbsolutePath() + "\\src\\grabber";
 
 	/**
@@ -74,6 +85,32 @@ public class Server extends ServerGeneric {
 	}
 
 	/**
+	 * execute sentiment analysis for a list of reviews;
+	 * @param reviewList
+	 * @return
+	 */
+	public static List<String> sentimentAnalyze(List<String> reviewList) {
+		
+		List<String> sentimentList = new LinkedList<String>();
+		for (int i = 0; i < reviewList.size(); i++) {
+			
+			sentimentList.add(sentimentAnalyze(reviewList.get(i)));
+		}
+		
+		return sentimentList;
+	}
+
+	/**
+	 * execute sentiment analysis for one review;
+	 * @param review
+	 * @return
+	 */
+	public static String sentimentAnalyze(String review) {
+		
+		return "neutral";
+	}
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param port
@@ -82,7 +119,18 @@ public class Server extends ServerGeneric {
 		super(port);
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	/**
+	 * get the company name and location of all users.
+	 * @return
+	 */
+	List<CompanyLocationPair> getAllUsers() {
+		
+		List<CompanyLocationPair> listUsers = new LinkedList<CompanyLocationPair>();
+		listUsers.add(new CompanyLocationPair("Zingerman's", "ann arbor,48105"));
+		return listUsers;
+	}
+	
 	/**
 	 * Initialize the server, and tasks include: set up the service, connect to
 	 * database (Cassandra and MySql), activate the social media data grabber.
@@ -170,47 +218,15 @@ public class Server extends ServerGeneric {
 			e.printStackTrace();
 		}
 	}
-	
-	List<CompanyLocationPair> getAllUsers() {
-		
-		List<CompanyLocationPair> listUsers = new LinkedList<CompanyLocationPair>();
-		listUsers.add(new CompanyLocationPair("Zingerman's", "ann arbor,48105"));
-		return listUsers;
-	}
-	
-	public static String sentimentAnalyze(String review) {
-		
-		return "neutral";
-	}
-	
-	public static List<String> sentimentAnalyze(List<String> reviewList) {
-		
-		List<String> sentimentList = new LinkedList<String>();
-		for (int i = 0; i < reviewList.size(); i++) {
-			
-			sentimentList.add(sentimentAnalyze(reviewList.get(i)));
-		}
-		
-		return sentimentList;
-	}
 
-	List<ResponseStruct> pullAPIsForUsers(List<String> companyNameList, List<String> locationList, 
-			List<DataGrabberGeneric> listGrabber) {
+	@Override
+	void pullAllAPIAndStoreForUsers(List<String> companyNameList,
+			List<String> locationList) {
+		// TODO Auto-generated method stub
 		
-		List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
-		for (DataGrabberGeneric grabber: listGrabber) {
-			
-			try {
-				List<String> responseList = grabber.pullDataForAll(companyNameList, locationList);
-				responseStructList.addAll(ResponseStruct.getReponseStructListForOneAPI(responseList, 
-						companyNameList, grabber.toString()));
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		return responseStructList;
+		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
+
+		//store responseStructList to the database;
 	}
 	
 	@Override
@@ -230,14 +246,30 @@ public class Server extends ServerGeneric {
 		//store responseStructList into database;
 	}
 	
-	@Override
-	void pullAllAPIAndStoreForUsers(List<String> companyNameList,
-			List<String> locationList) {
-		// TODO Auto-generated method stub
+	/**
+	 * pull data and store for a list of given users on a list of given apis.
+	 * @param companyNameList
+	 * @param locationList
+	 * @param listGrabber
+	 * @return
+	 */
+	List<ResponseStruct> pullAPIsForUsers(List<String> companyNameList, List<String> locationList, 
+			List<DataGrabberGeneric> listGrabber) {
 		
-		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
-
-		//store responseStructList to the database;
+		List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
+		for (DataGrabberGeneric grabber: listGrabber) {
+			
+			try {
+				List<String> responseList = grabber.pullDataForAll(companyNameList, locationList);
+				responseStructList.addAll(ResponseStruct.getReponseStructListForOneAPI(responseList, 
+						companyNameList, grabber.toString()));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return responseStructList;
 	}
 
 	@Override
