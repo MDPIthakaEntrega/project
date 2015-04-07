@@ -1,7 +1,9 @@
 #from SocialMediaScanner.settings import BASE_DIR
-from alchemyapi import AlchemyAPI
 import json
 import os
+
+from core.externalAPI.alchemyapi import AlchemyAPI
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 alchemyapi = AlchemyAPI()
