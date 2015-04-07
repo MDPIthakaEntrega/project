@@ -1,13 +1,22 @@
 package service;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class ResponseStruct {
 	
-	public ResponseStruct(String response, String companyName, String APIName, String sentimentResult) {
+	public ResponseStruct(String response, String companyName, String APIName) {
 		
 		this.response = response;
 		this.companyName = companyName;
 		this.APIName = APIName;
-		this.sentimentResult = sentimentResult;
+		
+	}
+	
+	public static List<ResponseStruct> getReponseStructListForOneAPI(List<String> responseList, List<String> companyNameList, 
+			String APIName) {
+		
+		List<ResponseStruct> listResponseStruct = new LinkedList<ResponseStruct>();
 		
 	}
 	
@@ -16,8 +25,6 @@ public class ResponseStruct {
 	private String companyName;
 	
 	private String APIName;
-	
-	private String sentimentResult;
 
 	public String getResponse() {
 		return response;
@@ -30,10 +37,5 @@ public class ResponseStruct {
 	public String getAPIName() {
 		
 		return APIName;
-	}
-	
-	public String getSentimentResult() {
-		
-		return sentimentResult;
 	}
 }

@@ -198,7 +198,11 @@ class Server extends ServerGeneric {
 			List<String> locationList) {
 		// TODO Auto-generated method stub
 		
-		
+		List<ResponseStruct> responseList = new LinkedList<ResponseStruct>();
+		for (DataGrabberGeneric grabber: listGrabber) {
+			
+			
+		}
 		
 	}
 
