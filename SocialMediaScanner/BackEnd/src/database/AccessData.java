@@ -186,7 +186,6 @@ public class AccessData implements Data {
 		}
 		return formatted_reviews.toString();
 	}
-}
 
 
 
@@ -194,56 +193,56 @@ public class AccessData implements Data {
 @Override
 public String select(String search, String company_name) throws JSONException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-	Statement statement; ResultSet results = null; JSONArray formatted_reviews = new JSONArray();
-	Set<String> review_ids_per_word; Set<String> review_ids_all = new HashSet<String>();
-	
-	search = search.replaceAll("[^a-zA-Z\\s-.]", "");
-	search = search.replaceAll("[-|'.]", " ");
-	search = search.toLowerCase();
-	String[] each_word = search.split("[ ]+");
-	System.out.println(each_word);
-	//iterate through all words in search
-//	for(String word: each_word) {
-//		statement = QueryBuilder.select().all().from(keyspace_name, inverted_table)
-//			.where(QueryBuilder.eq("review_word", word));
-//		results = current_session.execute(statement);
-//		//select review_ids for word from inverted index
-//		for ( Row row : results ) {
-//			review_ids_per_word = row.getSet("review_id_set", String.class);
-//			//add each review to the list 
-//			for(String review_id: review_ids_per_word) {
-//				review_ids_all.add(review_id);
-//			}
-//		}
-//	}
-	//no search keywords
-	if(search == "") {
-		statement = QueryBuilder.select().all().from(keyspace_name, review_table)
-		        .where(QueryBuilder.eq("company_name", company_name));
-		results = current_session.execute(statement);
-		for(Row row: results) {
-			String api = row.getString("review_id");
-			api = api.substring(0, api.indexOf('_'));
-			//Change back "Citygrid" to 'api'
-			Class<?> api_type = Class.forName("citygrid." + "Citygrid");
-			formatted_reviews.put(((API)(api_type.newInstance())).formatReview(row,attributes));
-		}
-	}
-	else {
-		//get reviews
-		for(String review_id: review_ids_all) {
-			statement = QueryBuilder.select().from(keyspace_name, review_table)
-					.where(QueryBuilder.eq("review_id", review_id))
-					.and(QueryBuilder.eq("company_name", company_name));
+		Statement statement; ResultSet results = null; JSONArray formatted_reviews = new JSONArray();
+		Set<String> review_ids_per_word; Set<String> review_ids_all = new HashSet<String>();
+		
+		search = search.replaceAll("[^a-zA-Z\\s-.]", "");
+		search = search.replaceAll("[-|'.]", " ");
+		search = search.toLowerCase();
+		String[] each_word = search.split("[ ]+");
+		System.out.println(each_word);
+		//iterate through all words in search
+	//	for(String word: each_word) {
+	//		statement = QueryBuilder.select().all().from(keyspace_name, inverted_table)
+	//			.where(QueryBuilder.eq("review_word", word));
+	//		results = current_session.execute(statement);
+	//		//select review_ids for word from inverted index
+	//		for ( Row row : results ) {
+	//			review_ids_per_word = row.getSet("review_id_set", String.class);
+	//			//add each review to the list 
+	//			for(String review_id: review_ids_per_word) {
+	//				review_ids_all.add(review_id);
+	//			}
+	//		}
+	//	}
+		//no search keywords
+		if(search == "") {
+			statement = QueryBuilder.select().all().from(keyspace_name, review_table)
+			        .where(QueryBuilder.eq("company_name", company_name));
 			results = current_session.execute(statement);
 			for(Row row: results) {
 				String api = row.getString("review_id");
 				api = api.substring(0, api.indexOf('_'));
-				Class<?> api_type = Class.forName(api);
-				formatted_reviews.put(((API)(api_type.newInstance())).formatReview(row,attributes));
+				//Change back "Citygrid" to 'api'
+				Class<?> api_type = Class.forName("citygrid." + "Citygrid");
+				formatted_reviews.put(((API)(api_type.newInstance())).formatReview(row, new LinkedList<String>()));
 			}
 		}
+		else {
+			//get reviews
+			for(String review_id: review_ids_all) {
+				statement = QueryBuilder.select().from(keyspace_name, review_table)
+						.where(QueryBuilder.eq("review_id", review_id))
+						.and(QueryBuilder.eq("company_name", company_name));
+				results = current_session.execute(statement);
+				for(Row row: results) {
+					String api = row.getString("review_id");
+					api = api.substring(0, api.indexOf('_'));
+					Class<?> api_type = Class.forName(api);
+					formatted_reviews.put(((API)(api_type.newInstance())).formatReview(row, new LinkedList<String>()));
+				}
+			}
+		}
+		return formatted_reviews.toString();
 	}
-	return formatted_reviews.toString();
-}
 }

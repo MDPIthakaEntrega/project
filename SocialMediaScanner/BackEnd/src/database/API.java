@@ -1,13 +1,12 @@
 package database;
 
 import java.io.IOException;
+import service.ResponseStruct;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
-
-import service.ResponseStruct;
 
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
@@ -34,12 +33,11 @@ public abstract class API {
 	public abstract void init(String folder_location_i) throws IOException;
 
 	public abstract void insert(String response, String company_name) throws JSONException, ParseException;
+ 
 	public abstract JSONObject formatReview(Row current_row, List<String> attributes) throws JSONException;
 
-	public void insert(List<ResponseStruct> responses) throws JSONException,
-			ParseException {
+	public void insert(List<ResponseStruct> responses) throws JSONException, ParseException {
 		// TODO Auto-generated method stub
-		
 	} 
 
 	
