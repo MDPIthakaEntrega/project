@@ -1,0 +1,5 @@
+reviews					$.results.reviews				
+content					$.review_text
+title					$.review_title
+id						$.review_id
+rating					$.review_rating
