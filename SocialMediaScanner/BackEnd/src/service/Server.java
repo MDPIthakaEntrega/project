@@ -19,7 +19,7 @@ import java.util.Scanner;
  * @author Yuke
  * 
  */
-class Server extends ServerGeneric {
+public class Server extends ServerGeneric {
 	
 	private class CompanyLocationPair {
 		
@@ -155,19 +155,20 @@ class Server extends ServerGeneric {
 			e.printStackTrace();
 		}
 
-		if (ifPull == true) {
-
-			try {
-				PrintWriter pw = new PrintWriter(confFile);
-				pw.println("CityGrid YES");
-				pw.flush();
-				pw.close();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		pullAPIsAndStoreForAllUsers(listNewGrabber);
+		
+		try {
+			PrintWriter pw = new PrintWriter(confFile);
+			for (String APIName: listAPIs) {
+				
+				pw.println(APIName + " YES");
 			}
+			pw.flush();
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
 	}
 	
 	List<CompanyLocationPair> getAllUsers() {
