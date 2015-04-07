@@ -71,7 +71,7 @@ public class Server extends ServerGeneric {
 	 * @throws IOException
 	 */
 	public static void main(String argv[]) throws IOException {
-
+		
 		int portNum = -1;
 		try {
 			portNum = Integer.parseInt(argv[0]);
@@ -141,7 +141,6 @@ public class Server extends ServerGeneric {
 		// TODO Auto-generated method stub
 		
 		//Get all grabbers;
-		System.out.println(GRABBER_PATH);
 		File grabberFolder = new File(GRABBER_PATH);
 		List<String> typeNameList = new LinkedList<String>();
 		String packagePath = "grabber.";
@@ -225,7 +224,7 @@ public class Server extends ServerGeneric {
 		// TODO Auto-generated method stub
 		
 		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
-
+		
 		//store responseStructList to the database;
 	}
 	

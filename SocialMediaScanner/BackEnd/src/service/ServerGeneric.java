@@ -54,12 +54,12 @@ abstract class ServerGeneric {
 			
 			pullAllAPIAndStoreForUsers(companyNameList, locationList);
 
-			String output = "Successfully pulled data for ";
+			/*String output = "Successfully pulled data for ";
 			for (int i = 0; i < companyNameList.size(); i++) {
 				
 				output += companyNameList.get(i) + " ,";
 			}
-			responseBody.write(output.getBytes());
+			responseBody.write(output.getBytes());*/
 			responseBody.close();
 		}
 	}
