@@ -17,7 +17,12 @@ public class ResponseStruct {
 			String APIName) {
 		
 		List<ResponseStruct> listResponseStruct = new LinkedList<ResponseStruct>();
+		for (int i = 0; i < responseList.size(); i++) {
+			
+			listResponseStruct.add(new ResponseStruct(responseList.get(i), companyNameList.get(i), APIName));
+		}
 		
+		return listResponseStruct;
 	}
 	
 	private String response;
@@ -37,5 +42,15 @@ public class ResponseStruct {
 	public String getAPIName() {
 		
 		return APIName;
+	}
+	
+	@Override
+	public String toString() {
+		
+		String str = "API Name: " + APIName + "\n";
+		str += "Company Name: " + companyName + "\n";
+		str += "Reponse: " + response + "\n";
+		
+		return str;
 	}
 }

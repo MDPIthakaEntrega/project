@@ -1,5 +1,7 @@
 package service;
 
+import grabber.DataGrabberGeneric;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -50,7 +52,7 @@ abstract class ServerGeneric {
 				}
 			}
 			
-			pullAPIAndStoreForUsers(companyNameList, locationList);
+			pullAllAPIAndStoreForUsers(companyNameList, locationList);
 
 			String output = "Successfully pulled data for ";
 			for (int i = 0; i < companyNameList.size(); i++) {
@@ -141,7 +143,7 @@ abstract class ServerGeneric {
 	 * 
 	 * @return
 	 */
-	abstract void pullAPIsforAllUsers();
+	abstract void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listGrabber);
 	
 	/**
 	 * pull data for users and store into database.
@@ -149,7 +151,7 @@ abstract class ServerGeneric {
 	 * @param companyNameList
 	 * @param locationList
 	 */
-	abstract void pullAPIAndStoreForUsers(List<String> companyNameList,
+	abstract void pullAllAPIAndStoreForUsers(List<String> companyNameList,
 			List<String> locationList);
 	
 	/**

@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -125,17 +127,25 @@ class Server extends ServerGeneric {
 		
 		// Connect to Cassandra;
 		
-		File confFile = new java.io.File(SOURCE_PATH + "\\init.conf");
-		boolean ifPull = false;
+		File confFile = new java.io.File(SOURCE_PATH + "\\ServiceInit.conf");
+		List<String> listAPIs = new LinkedList<String>();
+		List<DataGrabberGeneric> listNewGrabber = new LinkedList<DataGrabberGeneric>();
 		try {
 			Scanner scanner = new Scanner(confFile);
 			while (scanner.hasNext()) {
 
 				String lineStr = scanner.nextLine();
+				listAPIs.add(lineStr.split(" ")[0]);
 				if (lineStr.split(" ")[1].equalsIgnoreCase("NO")) {
 
 					// pull data for all users.
-					ifPull = true;
+					for (DataGrabberGeneric grabber: listGrabber) {
+						
+						if (grabber.toString().equalsIgnoreCase(listAPIs.get(listAPIs.size() - 1))) {
+							
+							listNewGrabber.add(grabber);
+						}
+					}
 				}
 			}
 			scanner.close();
@@ -167,19 +177,43 @@ class Server extends ServerGeneric {
 		return listUsers;
 	}
 	
+	public static String sentimentAnalyze(String review) {
+		
+		return "neutral";
+	}
+	
 	public static List<String> sentimentAnalyze(List<String> reviewList) {
 		
 		List<String> sentimentList = new LinkedList<String>();
 		for (int i = 0; i < reviewList.size(); i++) {
 			
-			sentimentList.add("neutral");
+			sentimentList.add(sentimentAnalyze(reviewList.get(i)));
 		}
 		
 		return sentimentList;
 	}
 
+	List<ResponseStruct> pullAPIsForUsers(List<String> companyNameList, List<String> locationList, 
+			List<DataGrabberGeneric> listGrabber) {
+		
+		List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
+		for (DataGrabberGeneric grabber: listGrabber) {
+			
+			try {
+				List<String> responseList = grabber.pullDataForAll(companyNameList, locationList);
+				responseStructList.addAll(ResponseStruct.getReponseStructListForOneAPI(responseList, 
+						companyNameList, grabber.toString()));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return responseStructList;
+	}
+	
 	@Override
-	void pullAPIsforAllUsers() {
+	void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listPartGrabbers) {
 		// TODO Auto-generated method stub
 		List<CompanyLocationPair> userList = getAllUsers();
 		List<String> companyNameList = new LinkedList<String>();
@@ -190,20 +224,19 @@ class Server extends ServerGeneric {
 			locationList.add(pair.getLocation());
 		}
 		
-		pullAPIAndStoreForUsers(companyNameList, locationList);
+		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listPartGrabbers);
+		
+		//store responseStructList into database;
 	}
-
+	
 	@Override
-	void pullAPIAndStoreForUsers(List<String> companyNameList,
+	void pullAllAPIAndStoreForUsers(List<String> companyNameList,
 			List<String> locationList) {
 		// TODO Auto-generated method stub
 		
-		List<ResponseStruct> responseList = new LinkedList<ResponseStruct>();
-		for (DataGrabberGeneric grabber: listGrabber) {
-			
-			
-		}
-		
+		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
+
+		//store responseStructList to the database;
 	}
 
 	@Override
