@@ -163,8 +163,6 @@ public class Server extends ServerGeneric {
 			e1.printStackTrace();
 		}
 		
-		
-		
 		//Get all grabbers;
 		File grabberFolder = new File(GRABBER_PATH);
 		List<String> typeNameList = new LinkedList<String>();
