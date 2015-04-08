@@ -52,14 +52,17 @@ abstract class ServerGeneric {
 				}
 			}
 			
+			//System.out.println(companyNameList);
+			//System.out.println(locationList);
+			
 			pullAllAPIAndStoreForUsers(companyNameList, locationList);
 
-			/*String output = "Successfully pulled data for ";
+			String output = "Successfully pulled data for ";
 			for (int i = 0; i < companyNameList.size(); i++) {
 				
 				output += companyNameList.get(i) + " ,";
 			}
-			responseBody.write(output.getBytes());*/
+			responseBody.write(output.getBytes());
 			responseBody.close();
 		}
 	}
@@ -75,7 +78,7 @@ abstract class ServerGeneric {
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
 			// TODO Auto-generated method stub
-
+						
 			Headers responseHeaders = exchange.getResponseHeaders();
 			responseHeaders.set("Content-Type", "text/plain");
 			exchange.sendResponseHeaders(200, 0);
@@ -88,10 +91,11 @@ abstract class ServerGeneric {
 			String query = uri.getQuery();
 			String elements[] = query.split("&");
 			for (String element : elements) {
-
+				
 				String name = element.split("=")[0];
 				String val = URLDecoder.decode(element.split("=")[1],
 						"UTF-8");
+				
 				if (name.equalsIgnoreCase("company name")) {
 					
 					companyName = val;
@@ -104,11 +108,13 @@ abstract class ServerGeneric {
 					
 					System.err.println("URI format invalid!");
 				}
-				
-				String jsonResponse = searchReviews(companyName, keyword);
-
-				responseBody.write(jsonResponse.getBytes());
 			}
+			
+			
+			//System.out.println(companyName + "   " + keyword);
+			String jsonResponse = searchReviews(companyName, keyword);
+			System.out.println(jsonResponse);
+			responseBody.write(jsonResponse.getBytes());
 			responseBody.close();
 
 		}

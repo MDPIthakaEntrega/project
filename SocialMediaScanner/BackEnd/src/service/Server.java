@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -309,10 +310,14 @@ public class Server extends ServerGeneric {
 	@Override
 	String searchReviews(String companyName, String keyword) {
 		// TODO Auto-generated method stub
+		
+		keyword = "";
+		String[] attributes = {};
+		
 		String result = null;
 		try {
 			
-			result = dbAccessor.select(companyName, keyword);
+			result = dbAccessor.select(keyword.toLowerCase(), companyName.toLowerCase(), Arrays.asList(attributes));
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | JSONException e) {
 			// TODO Auto-generated catch block

@@ -11,11 +11,11 @@ import java.util.List;
  * @author yuke
  *
  */
-public class APICityGrid extends DataGrabberGeneric {
+public class APICitygrid extends DataGrabberGeneric {
 	
 	public static void main(String[] args) throws IOException {
 		
-		DataGrabberGeneric d = new APICityGrid();
+		DataGrabberGeneric d = new APICitygrid();
 		//System.out.println(d.pullData("Zingerman's", "Ann Arbor,48105"));
 		String str = d.pullData("Zingerman's", "Ann Arbor,48105").get(0);
 		//System.out.println(URLDecoder.decode(str, "UTF-8"));
@@ -53,6 +53,6 @@ public class APICityGrid extends DataGrabberGeneric {
 	@Override
 	public String toString() {
 		
-		return "CityGrid";
+		return "Citygrid";
 	}
 }

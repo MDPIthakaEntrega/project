@@ -109,7 +109,9 @@ public class AccessData implements Data {
 		inverted_table = inverted_table_i;
 		CreateReviewKeyspace init_session = new CreateReviewKeyspace(host,
 				keyspace_name, review_table, inverted_table);
+		init_session.init();
 		current_session = init_session.connect();
+		//current_session.execute("USE" + keyspace_name);
 		API.initializeDatabase(host_i, keyspace_name_i, review_table_i,
 				inverted_table_i);
 	}
@@ -155,7 +157,7 @@ public class AccessData implements Data {
 			Class<?> api = Class.forName(this.getClass().getPackage().getName()
 					+ "." + api_name);
 			try {
-				System.out.println("response: " + response);
+				//System.out.println("response: " + response);
 				((API) api.newInstance()).insert(response);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -179,7 +181,7 @@ public class AccessData implements Data {
 		search = search.replaceAll("[-|'.]", " ");
 		search = search.toLowerCase();
 		String[] each_word = search.split("[ ]+");
-		System.out.println(each_word);
+		//System.out.println(each_word);
 		// iterate through all words in search
 		// for(String word: each_word) {
 		// statement = QueryBuilder.select().all().from(keyspace_name,
@@ -196,36 +198,53 @@ public class AccessData implements Data {
 		// }
 		// }
 		// no search keywords
-		if (search == "") {
+		//if (search == "") {
+		statement = null;
+		try{
+			
 			statement = QueryBuilder.select().all()
 					.from(keyspace_name, review_table)
 					.where(QueryBuilder.eq("company_name", company_name));
 			results = current_session.execute(statement);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(statement);
+			
+
+	
 			for (Row row : results) {
+				System.out.println("INside for loop");
 				String api = row.getString("review_id");
+				
+				
 				api = api.substring(0, api.indexOf('_'));
 				// Change back "Citygrid" to 'api'
-				Class<?> api_type = Class.forName("citygrid." + "Citygrid");
+				System.out.println("test");
+				System.out.println(api);
+				Class<?> api_type = Class.forName(this.getClass().getPackage().getName() + "." + api);
+				
 				formatted_reviews.put(((API) (api_type.newInstance()))
 						.formatReview(row, attributes));
 			}
-		} else {
-			// get reviews
-			for (String review_id : review_ids_all) {
-				statement = QueryBuilder.select()
-						.from(keyspace_name, review_table)
-						.where(QueryBuilder.eq("review_id", review_id))
-						.and(QueryBuilder.eq("company_name", company_name));
-				results = current_session.execute(statement);
-				for (Row row : results) {
-					String api = row.getString("review_id");
-					api = api.substring(0, api.indexOf('_'));
-					Class<?> api_type = Class.forName(api);
-					formatted_reviews.put(((API) (api_type.newInstance()))
-							.formatReview(row, attributes));
-				}
-			}
-		}
+//		} else {
+//			// get reviews
+//			for (String review_id : review_ids_all) {
+//				statement = QueryBuilder.select()
+//						.from(keyspace_name, review_table)
+//						.where(QueryBuilder.eq("review_id", review_id))
+//						.and(QueryBuilder.eq("company_name", company_name));
+//				results = current_session.execute(statement);
+//				for (Row row : results) {
+//					String api = row.getString("review_id");
+//					api = api.substring(0, api.indexOf('_'));
+//					Class<?> api_type = Class.forName(api);
+//					formatted_reviews.put(((API) (api_type.newInstance()))
+//							.formatReview(row, attributes));
+//				}
+//			}
+//		}
 		return formatted_reviews.toString();
 	}
 

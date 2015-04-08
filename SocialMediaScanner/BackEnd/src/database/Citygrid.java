@@ -2,11 +2,11 @@ package database;
 
 
 import java.io.BufferedReader;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,9 @@ import org.json.simple.parser.ParseException;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Row;
+
 import service.Server;
+
 import com.jayway.jsonpath.JsonPath;
 
 import service.ResponseStruct;
@@ -42,25 +44,40 @@ public class Citygrid extends API {
 			String[] key_val = line.split("\\s+");
 			path.put(key_val[0], key_val[1]);
 		}
+		//update path to show where source and sentiment were placed in JSON-formatted review
+		path.put("source", "$.source");
+		path.put("sentiment", "$.sentiment");
 		read.close();
 	}
 	
 	@Override
 	public void insert(ResponseStruct responses) throws JSONException, ParseException {
-				
+		
 		JSONArray reviews = new JSONArray(JsonPath.read(new JSONParser().
 				parse(responses.getResponse()), path.get("reviews")).toString());
+		System.out.println(reviews.toString());
+		System.out.println(reviews.length());
+		
 		JSONObject current_review;
 		String current_review_text, full_review;
 		String current_review_id;
 		
 		// Insert one record into the users table
-        PreparedStatement insert = current_session.prepare("INSERT INTO " +  review_table + 
+		PreparedStatement insert = null;
+		try{
+        insert = current_session.prepare("INSERT INTO " +  review_table + 
         		" (review_id, company_name, json)" + "VALUES (?,?,?) IF NOT EXISTS;");
+		}
+		catch(Exception e) {
+			
+			e.printStackTrace();
+		}
 
+        System.out.println("arrived here");
+        
         //insert reviews 1 by 1
         for(int i = 0; i < reviews.length(); ++i) {	
-			
+			System.out.println("inside for loop");
         	current_review = reviews.getJSONObject(i);
 			//current_review = this.convert_rating(current_review);
 			current_review_text = JsonPath.read(current_review.toString(), path.get("content"));
@@ -68,12 +85,11 @@ public class Citygrid extends API {
 			current_review.put("source", this.getClass().getSimpleName());
 			current_review.put("sentiment", Server.sentimentAnalyze(current_review_text));
 			
-			//update path to show where source and sentiment were placed in JSON-formatted review
-			path.put("source", "$.source");
-			path.put("sentiment", "$.sentiment");
+
 			
 			//insert review_text into column in database or do something with SOLR
 			full_review = current_review.toString();
+			
 			this.insertReview(current_review_id, responses.getCompanyName(), full_review, insert);
 		}	
 	}
@@ -94,15 +110,20 @@ public class Citygrid extends API {
 			PreparedStatement statement) {
 		
         BoundStatement boundStatement = new BoundStatement(statement);
+        
+        System.out.println(boundStatement.toString());
         current_session.execute(boundStatement.bind(review_id, company_name, full_review));
 		
 	}
 	
 	@Override
 	public JSONObject formatReview(Row current_row, List<String> attributes) throws JSONException {
-		System.out.println("inside format review");
-		String api = current_row.getString("review_id");
-		api = api.substring(0, api.indexOf('_'));
+		
+		//System.out.println("hellow list");
+		attributes = new LinkedList<String>();
+		//System.out.println("inside format review");
+		//String api = current_row.getString("review_id");
+		//api = api.substring(0, api.indexOf('_'));
 		JSONObject json_api_format = new JSONObject();
 		String json_as_string = current_row.getString("json");
 		if(attributes.size() == 0) {
@@ -117,9 +138,13 @@ public class Citygrid extends API {
 			try{
 				if(attribute.equals("rating")) {
 					// Perform rating conversion
+					System.out.println(attribute + path.get(attribute));
+					System.out.println(json_as_string);
 					json_api_format.put(attribute, (int)JsonPath.read(json_as_string, path.get(attribute))/rating_conversion);
+					System.out.println("after");
 				}
 				else {
+					System.out.println(attribute);
 					json_api_format.put(attribute, JsonPath.read(json_as_string, path.get(attribute)));
 				}
 			}
@@ -127,6 +152,8 @@ public class Citygrid extends API {
 				json_api_format.put(attribute, "");
 			}
 		}
+		
+		//System.out.println("returning from format");
 		return json_api_format;		
 	}
 

@@ -77,7 +77,7 @@ public class CreateReviewKeyspace {
 	
 	public void createReviewTable() {
 		current_session.execute( 
-				" CREATE TABLE IF NOT EXISTS " + review_table + " (" +
+				" CREATE TABLE IF NOT EXISTS " + keyspace_name + "." + review_table + " (" +
 						   "review_id varchar," +
 						   "company_name varchar, " +
 						   "json varchar, " +
@@ -87,14 +87,14 @@ public class CreateReviewKeyspace {
 	
 	public void createIndex() {
 		
-		current_session.execute("CREATE INDEX IF NOT EXISTS " + inverted_table + 
-				" ON review_table2 (company_name);" );
+		current_session.execute("CREATE INDEX IF NOT EXISTS " + "company" + 
+				" ON " + keyspace_name + "." +  review_table + " (company_name);" );
 
 	}
 	
 	public void createInvertedTable() {
 		current_session.execute(
-				"CREATE TABLE IF NOT EXISTS " + inverted_table + " (" +
+				"CREATE TABLE IF NOT EXISTS " + keyspace_name + "." + inverted_table + " (" +
 						"review_word varchar, " +
 						"review_id_set set<varchar>, " +
 						"PRIMARY KEY(review_word));"
