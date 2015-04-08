@@ -86,6 +86,7 @@ def new_reviews_logic(request):
             store_data = {u'new_reviews': list_object}
             write_new_reviews_to(path, store_data)
         newReviews = read_new_reivews(path)
+        #newReivews = pull_new_reviews(username, company)
         return render(request, 'new_reviews.html', {'new_reviews': newReviews, 'reviews_num': len(newReviews)})
     else:
         return HttpResponseRedirect('/login/')

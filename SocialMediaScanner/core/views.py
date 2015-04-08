@@ -44,8 +44,11 @@ def dashboard_view(request):
     else:
         return HttpResponseRedirect('/login/')
 
+
 def new_reviews_view(request):
     return new_reviews_logic(request)
+
+
 
 
 
