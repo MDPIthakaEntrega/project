@@ -69,12 +69,12 @@ public class Server extends ServerGeneric {
 	 * path of resources folder.
 	 */
 	private static final String SOURCE_PATH = Paths.get(".").toAbsolutePath()
-			+ "\\resources";
+			+ "\\resources\\";
 	
 	/**
 	 * path of grabbers folder.
 	 */
-	private static final String GRABBER_PATH = Paths.get(".").toAbsolutePath() + "\\src\\grabber";
+	private static final String GRABBER_PATH = Paths.get(".").toAbsolutePath() + "\\src\\grabber\\";
 
 	/**
 	 * Entrance to set up the service.
@@ -197,7 +197,7 @@ public class Server extends ServerGeneric {
 			}
 		}
 		
-		File confFile = new java.io.File(SOURCE_PATH + "\\ServiceInit.conf");
+		File confFile = new java.io.File(SOURCE_PATH + "ServiceInit.conf");
 		List<String> listAPIs = new LinkedList<String>();
 		List<DataGrabberGeneric> listNewGrabber = new LinkedList<DataGrabberGeneric>();
 		try {
