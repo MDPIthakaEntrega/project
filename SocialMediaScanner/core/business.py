@@ -40,6 +40,8 @@ def signup_logic(request):
             link_profile_to_sys_user(username, area, company_name)
             signup_login_user(request, username, password)
             pullAndInitializeNewReviews(company_name, username)
+            #if busi_init_new_reviews == -1
+            #print error
             return HttpResponseRedirect('/dashboard/')
     return signup_get_helper(request, form_errors)
 
