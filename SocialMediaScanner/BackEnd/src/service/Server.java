@@ -12,6 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.json.JSONException;
+
+import database.AccessData;
+
 /**
  * The actual server that provides service.
  * 
@@ -41,7 +45,15 @@ public class Server extends ServerGeneric {
 		}
 	}
 	
+	private final String dbAddr = "127.0.0.1";
 	
+	private final String keyspaceName = "review_keyspace";
+	
+	private final String tableName = "review_table";
+	
+	private final String invertTableName = "invert_table";
+	
+	private AccessData accessor = new AccessData();
 	
 	/**
 	 * list of class class of all api grabbers.
@@ -141,6 +153,17 @@ public class Server extends ServerGeneric {
 	@Override
 	public void initServer() {
 		// TODO Auto-generated method stub
+		// Connect to Cassandra;
+		accessor.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
+		try {
+			accessor.init(SOURCE_PATH);
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 		
 		//Get all grabbers;
 		File grabberFolder = new File(GRABBER_PATH);
@@ -173,8 +196,6 @@ public class Server extends ServerGeneric {
 				e.printStackTrace();
 			}
 		}
-		
-		// Connect to Cassandra;
 		
 		File confFile = new java.io.File(SOURCE_PATH + "\\ServiceInit.conf");
 		List<String> listAPIs = new LinkedList<String>();
@@ -228,6 +249,13 @@ public class Server extends ServerGeneric {
 		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
 		
 		//store responseStructList to the database;
+		try {
+			accessor.insertData(responseStructList);
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException | JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -245,6 +273,13 @@ public class Server extends ServerGeneric {
 		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listPartGrabbers);
 		
 		//store responseStructList into database;
+		try {
+			accessor.insertData(responseStructList);
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException | JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -276,7 +311,17 @@ public class Server extends ServerGeneric {
 	@Override
 	String searchReviews(String companyName, String keyword) {
 		// TODO Auto-generated method stub
-		return null;
+		String result = null;
+		try {
+			
+			result = accessor.select(companyName, keyword);
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 }
