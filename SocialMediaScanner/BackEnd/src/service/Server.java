@@ -53,7 +53,7 @@ public class Server extends ServerGeneric {
 	
 	private final String invertTableName = "invert_table";
 	
-	private AccessData accessor = new AccessData();
+	private AccessData dbAccessor = new AccessData();
 	
 	/**
 	 * list of class class of all api grabbers.
@@ -154,9 +154,9 @@ public class Server extends ServerGeneric {
 	public void initServer() {
 		// TODO Auto-generated method stub
 		// Connect to Cassandra;
-		accessor.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
+		dbAccessor.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
 		try {
-			accessor.init(SOURCE_PATH);
+			dbAccessor.init(SOURCE_PATH);
 		} catch (InstantiationException | IllegalAccessException
 				| ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -250,7 +250,7 @@ public class Server extends ServerGeneric {
 		
 		//store responseStructList to the database;
 		try {
-			accessor.insertData(responseStructList);
+			dbAccessor.insertData(responseStructList);
 		} catch (InstantiationException | IllegalAccessException
 				| ClassNotFoundException | JSONException e) {
 			// TODO Auto-generated catch block
@@ -274,7 +274,7 @@ public class Server extends ServerGeneric {
 		
 		//store responseStructList into database;
 		try {
-			accessor.insertData(responseStructList);
+			dbAccessor.insertData(responseStructList);
 		} catch (InstantiationException | IllegalAccessException
 				| ClassNotFoundException | JSONException e) {
 			// TODO Auto-generated catch block
@@ -314,7 +314,7 @@ public class Server extends ServerGeneric {
 		String result = null;
 		try {
 			
-			result = accessor.select(companyName, keyword);
+			result = dbAccessor.select(companyName, keyword);
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | JSONException e) {
 			// TODO Auto-generated catch block
