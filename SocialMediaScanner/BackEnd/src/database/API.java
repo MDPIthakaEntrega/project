@@ -36,7 +36,7 @@ public abstract class API {
  
 	public abstract JSONObject formatReview(Row current_row, List<String> attributes) throws JSONException;
 
-	public void insert(List<ResponseStruct> responses) throws JSONException, ParseException {
+	public void insert(ResponseStruct responses) throws JSONException, ParseException {
 		// TODO Auto-generated method stub
 	} 
 

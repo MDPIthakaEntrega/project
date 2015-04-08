@@ -1,17 +1,8 @@
 package database;
-import java.util.Set;
 
-import org.json.JSONObject;
-
-import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.policies.DefaultRetryPolicy;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
 
 
 public class CreateReviewKeyspace {
@@ -109,11 +100,4 @@ public class CreateReviewKeyspace {
 						"PRIMARY KEY(review_word));"
 				);	
 	}
-	
-//	public void test(Session current_session) {
-//		String insert = "CREATE TABLE IF NOT EXISTS " + "inverted_table" + " (" +
-//				"review_word varchar, " +
-//				"review_id_set set<varchar>, " +
-//				"PRIMARY KEY(review_word));";
-//	}
 }
