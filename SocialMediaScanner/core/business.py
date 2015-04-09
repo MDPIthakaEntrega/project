@@ -10,18 +10,21 @@ This file is intended for all the business logic
 
 """
 
+
 def log_out_user_logic(request):
     log_out_user(request)
     return HttpResponseRedirect('/')
 
+
 def log_in_user(request):
     if user_is_authenticated(request):
-         return HttpResponseRedirect('/dashboard/')
+        return HttpResponseRedirect('/dashboard/')
     return render(request, 'login.html')
+
 
 def check_status_redirect(request, render_page, redirect_path='/dashboard'):
     if user_is_authenticated(request):
-         return HttpResponseRedirect(redirect_path)
+        return HttpResponseRedirect(redirect_path)
     else:
         return render(request, render_page)
 
@@ -36,8 +39,7 @@ def signup_logic(request):
         print "suc catch the post"
         if form.is_valid():
             username, email, password, company_name, area = get_form_data(form)
-            create_sys_user(username, email, password)
-            link_profile_to_sys_user(username, area, company_name)
+            setup_user_profile(username, email, password, area, company_name)
             signup_login_user(request, username, password)
             pullAndInitializeNewReviews(company_name, username)
             #if busi_init_new_reviews == -1

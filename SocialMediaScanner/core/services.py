@@ -5,6 +5,7 @@ from core.models import UserProfile, Company
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now
 from SocialMediaScanner.settings import CASSANDRA_URL
+from django.db import transaction
 import httplib
 import json
 
@@ -42,6 +43,10 @@ def link_profile_to_sys_user(username, area, company_name):
         = UserProfile(user=u,  habit_code=0, area=area, my_company=c, last_logged=now())
     full_user.save()
 
+@transaction.atomic
+def setup_user_profile(username, email, password, area, company_name):
+    create_sys_user(username, email, password)
+    link_profile_to_sys_user(username, area, company_name)
 
 def authen_user(username, password):
     return auth.authenticate(username=username, password=password)
