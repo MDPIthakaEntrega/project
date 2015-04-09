@@ -28,8 +28,8 @@ import service.ResponseStruct;
 
 public class Citygrid extends API {
 
-	static private Map<String, String> path = new HashMap<String, String>();
-	static private double rating_conversion = 10.0;
+	private Map<String, String> pathMapping = new HashMap<String, String>();
+	private final double RATING_CONVERSION = 10.0;
 	
 	Citygrid() { }
 
@@ -42,11 +42,11 @@ public class Citygrid extends API {
 		String line = new String();
 		while((line = read.readLine()) !=  null) {
 			String[] key_val = line.split("\\s+");
-			path.put(key_val[0], key_val[1]);
+			pathMapping.put(key_val[0], key_val[1]);
 		}
 		//update path to show where source and sentiment were placed in JSON-formatted review
-		path.put("source", "$.source");
-		path.put("sentiment", "$.sentiment");
+		pathMapping.put("source", "$.source");
+		pathMapping.put("sentiment", "$.sentiment");
 		read.close();
 	}
 	
@@ -54,7 +54,7 @@ public class Citygrid extends API {
 	public void insert(ResponseStruct responses) throws JSONException, ParseException {
 		
 		JSONArray reviews = new JSONArray(JsonPath.read(new JSONParser().
-				parse(responses.getResponse()), path.get("reviews")).toString());
+				parse(responses.getResponse()), pathMapping.get("reviews")).toString());
 		System.out.println(reviews.toString());
 		System.out.println(reviews.length());
 		
@@ -72,20 +72,15 @@ public class Citygrid extends API {
 			
 			e.printStackTrace();
 		}
-
-        System.out.println("arrived here");
         
         //insert reviews 1 by 1
         for(int i = 0; i < reviews.length(); ++i) {	
-			System.out.println("inside for loop");
         	current_review = reviews.getJSONObject(i);
 			//current_review = this.convert_rating(current_review);
-			current_review_text = JsonPath.read(current_review.toString(), path.get("content"));
-			current_review_id = this.getClass().getSimpleName() + "_" + JsonPath.read(current_review.toString(), path.get("id"));
+			current_review_text = JsonPath.read(current_review.toString(), pathMapping.get("content"));
+			current_review_id = this.getClass().getSimpleName() + "_" + JsonPath.read(current_review.toString(), pathMapping.get("id"));
 			current_review.put("source", this.getClass().getSimpleName());
 			current_review.put("sentiment", Server.sentimentAnalyze(current_review_text));
-			
-
 			
 			//insert review_text into column in database or do something with SOLR
 			full_review = current_review.toString();
@@ -96,11 +91,11 @@ public class Citygrid extends API {
 	
 	private JSONObject convert_rating(JSONObject before) throws NumberFormatException, JSONException, ParseException {
 		//assumes rating is a double in the JSONobject
-		if(path.get("rating") != null) {
+		if(pathMapping.get("rating") != null) {
 			double convert = 0;
 			Object test = new JSONParser().parse(before.toString());
-			convert = ((Long)JsonPath.read(test, path.get("rating"))).doubleValue();
-			convert /= rating_conversion;
+			convert = ((Long)JsonPath.read(test, pathMapping.get("rating"))).doubleValue();
+			convert /= RATING_CONVERSION;
 			before.put("rating", convert);
 		}
 		return before;
@@ -119,11 +114,7 @@ public class Citygrid extends API {
 	@Override
 	public JSONObject formatReview(Row current_row, List<String> attributes) throws JSONException {
 		
-		//System.out.println("hellow list");
 		attributes = new LinkedList<String>();
-		//System.out.println("inside format review");
-		//String api = current_row.getString("review_id");
-		//api = api.substring(0, api.indexOf('_'));
 		JSONObject json_api_format = new JSONObject();
 		String json_as_string = current_row.getString("json");
 		if(attributes.size() == 0) {
@@ -136,16 +127,23 @@ public class Citygrid extends API {
 		
 		for(String attribute: attributes) {
 			try{
-				if(attribute.equals("rating")) {
-					// Perform rating conversion
-					System.out.println(attribute + path.get(attribute));
-					System.out.println(json_as_string);
-					json_api_format.put(attribute, (int)JsonPath.read(json_as_string, path.get(attribute))/rating_conversion);
-					System.out.println("after");
+				
+				//System.out.println("attribute: " + attribute + "|" + path.get(attribute) + " json path result: " + JsonPath.read(json_as_string, path.get(attribute)));
+				Object val = JsonPath.read(json_as_string, pathMapping.get(attribute));
+				if (val.equals(null)) {
+					
+					json_api_format.put(attribute, JSONObject.NULL);
 				}
 				else {
-					System.out.println(attribute);
-					json_api_format.put(attribute, JsonPath.read(json_as_string, path.get(attribute)));
+					
+					if (attribute.equalsIgnoreCase("rating")) {
+						
+						json_api_format.put(attribute, ((int)val) / RATING_CONVERSION);
+					}
+					else {
+						
+						json_api_format.put(attribute, (String)val);
+					}
 				}
 			}
 			catch (com.jayway.jsonpath.InvalidPathException e) {
@@ -153,7 +151,6 @@ public class Citygrid extends API {
 			}
 		}
 		
-		//System.out.println("returning from format");
 		return json_api_format;		
 	}
 

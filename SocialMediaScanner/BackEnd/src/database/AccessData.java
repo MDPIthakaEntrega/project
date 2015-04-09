@@ -211,18 +211,13 @@ public class AccessData implements Data {
 			e.printStackTrace();
 		}
 		System.out.println(statement);
-			
-
-	
+		
 			for (Row row : results) {
-				System.out.println("INside for loop");
 				String api = row.getString("review_id");
-				
+				System.out.println(api);
 				
 				api = api.substring(0, api.indexOf('_'));
 				// Change back "Citygrid" to 'api'
-				System.out.println("test");
-				System.out.println(api);
 				Class<?> api_type = Class.forName(this.getClass().getPackage().getName() + "." + api);
 				
 				formatted_reviews.put(((API) (api_type.newInstance()))
