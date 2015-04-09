@@ -39,8 +39,7 @@ def signup_logic(request):
         print "suc catch the post"
         if form.is_valid():
             username, email, password, company_name, area = get_form_data(form)
-            create_sys_user(username, email, password)
-            link_profile_to_sys_user(username, area, company_name)
+            setup_user_profile(username, email, password, area, company_name)
             signup_login_user(request, username, password)
             pullAndInitializeNewReviews(company_name, username)
             #if busi_init_new_reviews == -1
