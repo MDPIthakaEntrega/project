@@ -4,9 +4,12 @@
 
 var allData = [];
 var newData = [];
+var pageData = [];
 var numberOfData = -1;
 var workable = false;
 var modifiable = false;
+var reviewPerpage = 10;
+var totalPagesNum = 0;
 
 function setupCSRF() {
     var csrftoken = $.cookie('csrftoken');
@@ -28,13 +31,28 @@ function setupCSRF() {
 
 function retrieveAllData() {
     $.ajax({
+        type: 'GET',
         url: '/static/data.json',
+        xhrFields: {
+            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+            // This can be used to set the 'withCredentials' property.
+            // Set the value to 'true' if you'd like to pass cookies to the server.
+            // If this is enabled, your server must respond with the header
+            // 'Access-Control-Allow-Credentials: true'.
+            withCredentials: false
+          },
+        //url: 'http://35.2.138.121:3456/search?company%20name=zingerman%27s&keyword=',
         dataType: 'json',
         success: function (data) {
-            allData = data["reviews"];
+            console.log(data);
+            allData = data['reviews'];
+            pageData = allData;
+            totalPagesNum = Math.ceil(pageData.length / reviewPerpage);
+            console.log("pageData length");
+            console.log();
             numberOfData = allData.length;
             workable = true;
-            console.log(allData.length);
+            Pagination(totalPagesNum);
             calculateAnalytics();
             renderAllReviews();
             setupSearchListener();
@@ -172,11 +190,23 @@ function setupSearchListener() {
 
 function renderAllReviews() {
     var output = '';
-    for (n = 0; n < allData.length; n++) {
+    for (n = 0; n < Math.min(allData.length, reviewPerpage); n++) {
         output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
         output += allData[n].review_title;
         output += '</div><div class="panel-body">';
         output += allData[n].review_text;
+        output += '</div></div>';
+    }
+    $('#results').html(output);
+}
+
+function renderReviews(inputData) {
+   var output = '';
+    for (n = 0; n < inputData.length; n++) {
+        output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
+        output += inputData[n].review_title;
+        output += '</div><div class="panel-body">';
+        output += inputData[n].review_text;
         output += '</div></div>';
     }
     $('#results').html(output);
@@ -188,7 +218,22 @@ $(document).ready(function () {
     confirmReading();
 });
 
+function slice(page) {
+    var slicedData = pageData.slice(page * reviewPerpage, (page+1) * reviewPerpage);
+    return slicedData;
+}
 
+function Pagination(total) {
+    $('#pagination-demo').twbsPagination({
+        data: pageData,
+        totalPages: total,
+        visiblePages: 5,
+        onPageClick: function (event, page) {
+            var temp = slice(page);
+            renderReviews(temp);
+        }
+    });
+}
 
 
 /**
