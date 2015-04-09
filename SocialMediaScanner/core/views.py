@@ -19,7 +19,7 @@ def index(request):
 
 
 def logout(request):
-    return log_out_user(request)
+    return log_out_user_logic(request)
 
 
 def login_view(request):
