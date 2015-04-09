@@ -219,7 +219,7 @@ $(document).ready(function () {
 });
 
 function slice(page) {
-    var slicedData = pageData.slice(page * reviewPerpage, (page+1) * reviewPerpage);
+    var slicedData = pageData.slice((page-1) * reviewPerpage, (page) * reviewPerpage);
     return slicedData;
 }
 
