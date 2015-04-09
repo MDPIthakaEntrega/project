@@ -48,6 +48,9 @@ def dashboard_view(request):
 def new_reviews_view(request):
     return new_reviews_logic(request)
 
+def charts_view(request):
+    return charts_logic(request)
+
 
 
 

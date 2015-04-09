@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     url(r'^settings/', settings_view),
     url(r'^dashboard/$', dashboard_view),
     url(r'^dashboard/new_reviews$', new_reviews_view),
+    url(r'^dashboard/charts$', charts_view),
 )

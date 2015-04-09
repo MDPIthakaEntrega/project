@@ -95,5 +95,9 @@ def new_reviews_logic(request):
     else:
         return HttpResponseRedirect('/login/')
 
-
+def charts_logic(request):
+    if user_is_authenticated(request):
+        return render(request, 'charts.html')
+    else:
+        return HttpResponseRedirect('/')
 
