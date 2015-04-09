@@ -80,7 +80,7 @@ abstract class ServerGeneric {
 			// TODO Auto-generated method stub
 						
 			Headers responseHeaders = exchange.getResponseHeaders();
-			responseHeaders.set("Content-Type", "text/plain");
+			responseHeaders.set("Content-Type", "application/json");
 			exchange.sendResponseHeaders(200, 0);
 
 			OutputStream responseBody = exchange.getResponseBody();
