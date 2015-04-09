@@ -1,13 +1,16 @@
 package database;
 
 import java.io.IOException;
+
 import service.ResponseStruct;
+
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 
@@ -18,6 +21,7 @@ public abstract class API {
 	static protected String keyspace_name;
 	static protected String review_table;
 	static protected String inverted_table;
+	static protected PreparedStatement preparedStmt; 
 
 	static public void initializeDatabase(String host_i, String keyspace_name_i, String
 			review_table_i, String inverted_table_i) {
@@ -28,6 +32,10 @@ public abstract class API {
 		CreateReviewKeyspace init_session = new CreateReviewKeyspace(host, keyspace_name,
 				review_table, inverted_table);
 		current_session = init_session.connect();
+		
+		preparedStmt = current_session.prepare("INSERT INTO " +  review_table + 
+	    		" (review_id, company_name, json)" + "VALUES (?,?,?) IF NOT EXISTS;");
+		
 	}
 	
 	public abstract void init(String folder_location_i) throws IOException;

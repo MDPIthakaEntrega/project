@@ -67,6 +67,11 @@ public class ResponseStruct {
 		
 		return APIName;
 	}
+	
+	public void setAPIName(String APIName) {
+		
+		this.APIName = APIName;
+	} 
 
 	/**
 	 * getter of the company name;

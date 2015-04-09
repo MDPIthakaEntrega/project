@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -142,7 +141,7 @@ public class Server extends ServerGeneric {
 	List<CompanyLocationPair> getAllUsers() {
 		
 		List<CompanyLocationPair> listUsers = new LinkedList<CompanyLocationPair>();
-		listUsers.add(new CompanyLocationPair("Zingerman's", "ann arbor,48105"));
+		listUsers.add(new CompanyLocationPair("Zingerman's", "ann arbor,mi"));
 		return listUsers;
 	}
 	
@@ -223,8 +222,11 @@ public class Server extends ServerGeneric {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		pullAPIsAndStoreForAllUsers(listNewGrabber);
+		
+		if (listNewGrabber.size() > 0) {
+		
+			pullAPIsAndStoreForAllUsers(listNewGrabber);
+		}
 		
 		try {
 			PrintWriter pw = new PrintWriter(confFile);
@@ -291,27 +293,29 @@ public class Server extends ServerGeneric {
 	List<ResponseStruct> pullAPIsForUsers(List<String> companyNameList, List<String> locationList, 
 			List<DataGrabberGeneric> listGrabber) {
 		
-		List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
+		List<ResponseStruct> responseStructAllList = new LinkedList<ResponseStruct>();
 		for (DataGrabberGeneric grabber: listGrabber) {
 			
 			try {
-				List<String> responseList = grabber.pullDataForAll(companyNameList, locationList);
-				responseStructList.addAll(ResponseStruct.getReponseStructListForOneAPI(responseList, 
-						companyNameList, grabber.toString()));
-			} catch (UnsupportedEncodingException e) {
+				List<ResponseStruct> responseStructList = grabber.pullDataForAll(companyNameList, locationList);
+				for (ResponseStruct responseStruct: responseStructList) {
+					
+					responseStruct.setAPIName(grabber.toString());
+				}
+				responseStructAllList.addAll(responseStructList);
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		return responseStructList;
+		return responseStructAllList;
 	}
 
 	@Override
 	String searchReviews(String companyName, String keyword) {
 		// TODO Auto-generated method stub
 		
-		keyword = "";
 		String[] attributes = {};
 		
 		String result = null;

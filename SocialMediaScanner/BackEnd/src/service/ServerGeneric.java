@@ -92,6 +92,11 @@ abstract class ServerGeneric {
 			String elements[] = query.split("&");
 			for (String element : elements) {
 				
+				if (element.split("=").length == 1) {
+					
+					continue;
+				}
+				
 				String name = element.split("=")[0];
 				String val = URLDecoder.decode(element.split("=")[1],
 						"UTF-8");
@@ -110,10 +115,14 @@ abstract class ServerGeneric {
 				}
 			}
 			
+			if (keyword == null) {
+				
+				keyword = "";
+			}
+			
 			
 			//System.out.println(companyName + "   " + keyword);
 			String jsonResponse = searchReviews(companyName, keyword);
-			System.out.println(jsonResponse);
 			responseBody.write(jsonResponse.getBytes());
 			responseBody.close();
 

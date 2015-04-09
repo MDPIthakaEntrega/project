@@ -9,21 +9,23 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+import service.ResponseStruct;
+
 public abstract class DataGrabberGeneric {
 	
-	public abstract List<String> pullData(String companyName, String location) throws UnsupportedEncodingException;
+	public abstract List<ResponseStruct> pullData(String companyName, String location) throws UnsupportedEncodingException;
 	
-	public List<String> pullDataForAll(List<String> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
+	public List<ResponseStruct> pullDataForAll(List<String> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
 		
-		List<String> strList = new LinkedList<String>();
+		List<ResponseStruct> responseList = new LinkedList<ResponseStruct>();
 		for (int i = 0; i < companyNameList.size(); i++) {
 			
 			String companyName = companyNameList.get(i);
 			String location = locationList.get(i);
-			strList.addAll(pullData(companyName, location));
+			responseList.addAll(pullData(companyName, location));
 		}
 		
-		return strList;
+		return responseList;
 	}
 	
 	String sendGet(String url) throws IOException {
