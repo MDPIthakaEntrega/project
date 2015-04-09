@@ -4,6 +4,8 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewpoint" content="width=device-width,initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/logoonly.png" type="image/vnd.microsoft.icon" />
 
 
 
@@ -26,17 +28,26 @@
         .fast .toggle-group { transition: left 0.1s; -webkit-transition: left 0.3s; }
     </style>
 
-        <!-- Custom Fonts -->
+        <!-- fontswsome icons -->
     <link href="{{ STATIC_URL }}font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!--google fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <title>Dashboard</title>
+
+
+
+    <!--custom css file-->
     <link href="{{ STATIC_URL }}css/main.css" rel="stylesheet">
+
+
+
+    <!--Javascript-->
     <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
     <script src="{{ STATIC_URL }}js/main.js"></script>
     <script src="{{ STATIC_URL }}js/metisMenu.min.js"></script>
 
-    <title>Social Media Scanner</title>
 </head>
 <body>
 
@@ -52,12 +63,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                    <a class="navbar-brand" href="index.html"><p id="logo_name">Baobab</p></a>
+                    <a class="navbar-brand" href="index.html"><img src="img/font.png" class="logo_front"></a>
             </div>
             <!-- /.navbar-header -->
-            <div class="nav-bar-top-search col-md-7 col-xs-8">
+            <div class="nav-bar-top-search col-md-8 col-xs-7">
                 <div class="input-group custom-search-form">
-                    <input type="text" class="form-control" placeholder="Search..." id="filter">
+                    <input type="text" class="form-control" placeholder="Search___" id="filter">
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button">
                         <i class="fa fa-search"></i>
