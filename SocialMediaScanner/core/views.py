@@ -40,7 +40,7 @@ def settings_view(request):
 
 def dashboard_view(request):
     if user_is_authenticated(request):
-        return render(request, 'index_new.html')
+        return render(request, 'new_dashboard.html')
     else:
         return HttpResponseRedirect('/login/')
 

@@ -4,9 +4,11 @@
 
 var allData = [];
 var newData = [];
+var pageData = [];
 var numberOfData = -1;
 var workable = false;
 var modifiable = false;
+var reviewPerpage = 10;
 
 function setupCSRF() {
     var csrftoken = $.cookie('csrftoken');
@@ -28,10 +30,22 @@ function setupCSRF() {
 
 function retrieveAllData() {
     $.ajax({
+        type: 'GET',
         url: '/static/data.json',
+        xhrFields: {
+            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+            // This can be used to set the 'withCredentials' property.
+            // Set the value to 'true' if you'd like to pass cookies to the server.
+            // If this is enabled, your server must respond with the header
+            // 'Access-Control-Allow-Credentials: true'.
+            withCredentials: false
+          },
+        //url: 'http://35.2.138.121:3456/search?company%20name=zingerman%27s&keyword=',
         dataType: 'json',
         success: function (data) {
-            allData = data["reviews"];
+            console.log(data);
+            allData = data['reviews'];
+            pageData = allData;
             numberOfData = allData.length;
             workable = true;
             console.log(allData.length);
@@ -172,7 +186,7 @@ function setupSearchListener() {
 
 function renderAllReviews() {
     var output = '';
-    for (n = 0; n < allData.length; n++) {
+    for (n = 0; n < Math.min(allData.length, reviewPerpage); n++) {
         output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
         output += allData[n].review_title;
         output += '</div><div class="panel-body">';
@@ -186,8 +200,15 @@ $(document).ready(function () {
     setupCSRF();
     retrieveAllData();
     confirmReading();
+    $('#pagination-demo').twbsPagination({
+        data: pageData,
+        totalPages: Math.ceil(pageData/reviewPerpage),
+        visiblePages: 5,
+        onPageClick: function (event, page) {
+            $('#results').text('Page ' + page);
+        }
+    });
 });
-
 
 
 
