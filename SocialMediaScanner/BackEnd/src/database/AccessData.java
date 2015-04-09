@@ -204,7 +204,9 @@ public class AccessData implements Data {
 				formatted_reviews.put(jsonObj);
 			}
 		}
-		return formatted_reviews.toString();
+		JSONObject all_reviews = new JSONObject();
+		all_reviews.put("reviews", formatted_reviews);
+		return all_reviews.toString();
 	}
 
 	/**
