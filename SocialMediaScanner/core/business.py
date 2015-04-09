@@ -10,18 +10,21 @@ This file is intended for all the business logic
 
 """
 
+
 def log_out_user_logic(request):
     log_out_user(request)
     return HttpResponseRedirect('/')
 
+
 def log_in_user(request):
     if user_is_authenticated(request):
-         return HttpResponseRedirect('/dashboard/')
+        return HttpResponseRedirect('/dashboard/')
     return render(request, 'login.html')
+
 
 def check_status_redirect(request, render_page, redirect_path='/dashboard'):
     if user_is_authenticated(request):
-         return HttpResponseRedirect(redirect_path)
+        return HttpResponseRedirect(redirect_path)
     else:
         return render(request, render_page)
 
