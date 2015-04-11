@@ -38,7 +38,7 @@ public abstract class API {
 		
 	}
 	
-	public abstract void init(String folder_location_i) throws IOException;
+	public abstract void init(String folder_location_i, List<String> attributes) throws IOException;
 
 	public abstract void insert(String response, String company_name) throws JSONException, ParseException;
  
@@ -46,7 +46,11 @@ public abstract class API {
 
 	public void insert(ResponseStruct responses) throws JSONException, ParseException {
 		// TODO Auto-generated method stub
-	} 
+	}
+
+	public void test() {
+		System.out.println(this.getClass().getSimpleName());
+	}
 
 	
 }

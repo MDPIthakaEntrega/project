@@ -8,7 +8,9 @@
 
 package database;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -33,6 +35,7 @@ public class AccessData implements Data {
 
 	private Map<String, Class<?>> sources = new HashMap<String, Class<?>>();
 	private String folder_location = new String();
+	private List<String> business_attributes = new LinkedList<String>();
 	static protected Session current_session;
 	static protected String host;
 	static protected String keyspace_name;
@@ -41,9 +44,9 @@ public class AccessData implements Data {
 
 	public static void main(String[] args) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException, JSONException {
-		/*
-		 * AccessData test = new AccessData();
-		 * test.initializeDatabase("127.0.0.1", "review_keyspace",
+		
+		  //AccessData test = new AccessData();
+		 /* test.initializeDatabase("127.0.0.1", "review_keyspace",
 		 * "review_table2", "inverted_table"); test.init(
 		 * "C:/Users/Charlie/Documents/MDP-Ithaka/Service-Java/project/SocialMediaScanner/BackEnd/resources/"
 		 * );
@@ -68,6 +71,8 @@ public class AccessData implements Data {
 		 * System.out.println(test.select("", "Zingerman's"));
 		 * System.out.println("Success"); return;
 		 */
+			API test_ = new Citygrid();
+			test_.test();
 	}
 
 	/*
@@ -81,17 +86,34 @@ public class AccessData implements Data {
 
 		for (File file : listofFiles) {
 			String basename = FilenameUtils.getBaseName(file.getName());
-
-			if (basename.equals("business") || basename.equals("Googleplaces")
-					|| basename.equals("ServiceInit")
-					|| basename.equals("Twitter")) {
-			} else {
+			if (basename.startsWith("API")) {
+				basename = basename.substring(3);
 				sources.put(
 						basename,
 						Class.forName(this.getClass().getPackage().getName()
 								+ "." + basename));
+			}	
+			else if(basename.equals("business")) {
+				try {
+					this.initializeBusiness();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
+	}
+	
+	private void initializeBusiness() throws IOException {
+		String config_file = folder_location + "business.txt";;
+		File attributes = new File(config_file);
+		BufferedReader read = new BufferedReader(new FileReader(attributes));
+		String line = new String();
+		while ((line = read.readLine()) != null) {
+			line = line.replaceAll("\\s", "");
+			business_attributes.add(line);
+			//System.out.println("line length: " + line.length());
+		}
+		read.close();
 	}
 
 	/*
@@ -135,7 +157,7 @@ public class AccessData implements Data {
 		}
 		for (String key : sources.keySet()) {
 			try {
-				((API) sources.get(key).newInstance()).init(folder_location);
+				((API) sources.get(key).newInstance()).init(folder_location, business_attributes);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -172,6 +194,17 @@ public class AccessData implements Data {
 		Statement statement;
 		ResultSet results = null;
 		JSONArray formatted_reviews = new JSONArray();
+		
+		if(attributes.size() == 0) {
+			for(String attribute: business_attributes) {
+				try {
+					attributes.add(attribute);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
 		search = search.replaceAll("[^a-zA-Z\\s-.]", "");
 		search = search.replaceAll("[-|'.]", " ");
@@ -196,7 +229,6 @@ public class AccessData implements Data {
 			Class<?> api_type = Class.forName(this.getClass().getPackage()
 					.getName()
 					+ "." + api);
-
 			JSONObject jsonObj = ((API) (api_type.newInstance())).formatReview(
 					row, attributes);
 			if (containsAll(jsonObj.getString("content"), each_word)) {
@@ -263,8 +295,6 @@ public class AccessData implements Data {
 			InstantiationException, IllegalAccessException {
 
 		JSONArray formatted_reviews = new JSONArray();
-		// Set<String> review_ids_per_word;
-		// Set<String> review_ids_all = new HashSet<String>();
 
 		search = search.replaceAll("[^a-zA-Z\\s-.]", "");
 		search = search.replaceAll("[-|'.]", " ");
@@ -276,7 +306,6 @@ public class AccessData implements Data {
 
 				String api = row.getString("review_id");
 				api = api.substring(0, api.indexOf('_'));
-				// Change back "Citygrid" to 'api'
 				Class<?> api_type = Class.forName(this.getClass().getPackage()
 						.getName()
 						+ "." + api);

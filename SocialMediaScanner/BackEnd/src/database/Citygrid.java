@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +29,9 @@ public class Citygrid extends API {
 	Citygrid() {
 	}
 
-	public void init(String folder_location_i) throws IOException {
+	public void init(String folder_location_i, List<String> attributes) throws IOException {
 		String config_file = folder_location_i;
-		config_file += (this.getClass().getSimpleName() + ".txt");
+		config_file += ("API" + this.getClass().getSimpleName() + ".txt");
 		File mapping = new File(config_file);
 		BufferedReader read = new BufferedReader(new FileReader(mapping));
 		String line = new String();
@@ -40,14 +39,16 @@ public class Citygrid extends API {
 			String[] key_val = line.split("\\s+");
 			path.put(key_val[0], key_val[1]);
 		}
-		// update path to show where source and sentiment were placed in
-		// JSON-formatted review
-		path.put("source", "$.source");
-		path.put("sentiment", "$.sentiment");
-
-		// init prepared statement.
-
+		this.addMissingAttributes(attributes);
 		read.close();
+	}
+	
+	private void addMissingAttributes(List<String> attributes) {
+		for(String attribute: attributes) {
+			if(path.get(attribute) == null) {
+				path.put(attribute, "$." + attribute);
+			}
+		}
 	}
 
 	@Override
@@ -65,7 +66,6 @@ public class Citygrid extends API {
 		// insert reviews 1 by 1
 		for (int i = 0; i < reviews.length(); ++i) {
 			current_review = reviews.getJSONObject(i);
-			// current_review = this.convert_rating(current_review);
 			current_review_text = JsonPath.read(current_review.toString(),
 					path.get("content"));
 			current_review_id = this.getClass().getSimpleName() + "_"
@@ -95,24 +95,11 @@ public class Citygrid extends API {
 	@Override
 	public JSONObject formatReview(Row current_row, List<String> attributes)
 			throws JSONException {
-
-		attributes = new LinkedList<String>();
 		JSONObject json_api_format = new JSONObject();
 		String json_as_string = current_row.getString("json");
-		if (attributes.size() == 0) {
-			attributes.add("source");
-			attributes.add("title");
-			attributes.add("content");
-			attributes.add("sentiment");
-			attributes.add("rating");
-		}
-
 		for (String attribute : attributes) {
 			try {
 
-				// System.out.println("attribute: " + attribute + "|" +
-				// path.get(attribute) + " json path result: " +
-				// JsonPath.read(json_as_string, path.get(attribute)));
 				Object val = JsonPath.read(json_as_string, path.get(attribute));
 				if (val == null) {
 
@@ -139,6 +126,5 @@ public class Citygrid extends API {
 	public void insert(String response, String company_name)
 			throws JSONException, ParseException {
 		// TODO Auto-generated method stub
-
 	}
 }
