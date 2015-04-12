@@ -80,6 +80,7 @@ abstract class ServerGeneric {
 			// TODO Auto-generated method stub
 						
 			Headers responseHeaders = exchange.getResponseHeaders();
+			responseHeaders.set("Access-Control-Allow-Origin", "*");
 			responseHeaders.set("Content-Type", "application/json");
 			exchange.sendResponseHeaders(200, 0);
 
