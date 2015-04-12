@@ -30,7 +30,8 @@ abstract class ServerGeneric {
 		public void handle(HttpExchange exchange) throws IOException {
 			// TODO Auto-generated method stub
 			Headers responseHeaders = exchange.getResponseHeaders();
-			responseHeaders.set("Content-Type", "text/plain");
+			responseHeaders.set("Access-Control-Allow-Origin", "*");
+			responseHeaders.set("Content-Type", "application/json");
 			exchange.sendResponseHeaders(200, 0);
 			OutputStream responseBody = exchange.getResponseBody();
 			URI uri = exchange.getRequestURI();
