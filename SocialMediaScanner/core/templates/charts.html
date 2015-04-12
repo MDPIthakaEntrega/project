@@ -1,10 +1,9 @@
 {% extends "navbase.html" %}
-<head>
-    <script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="http://www.pureexample.com/js/flot/jquery.flot.min.js"></script>
-</head>
 
 {% block content %}
+
+<div id="flot-piechart" style="width:500px;height:500px"></div>
+
 <div id="flot-linechart" style="width:300px;height:150px"></div>
 
 <script src="{{ STATIC_URL }}js/charts.js"></script>

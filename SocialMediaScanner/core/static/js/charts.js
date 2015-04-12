@@ -1,23 +1,37 @@
 var allData = [];
-var pageData = [];
 var numberOfData = -1;
 var workable = false;
-var reviewPerpage = 10;
-var totalPagesNum = 0;
 
 var data = [
     [1, 130], [2, 40], [3, 80], [4, 160], [5, 159], [6, 370],
     [7, 330], [8, 350], [9, 370], [10, 400], [11, 330], [12, 350]
 ];
 
-var dataset = [
+var pie_data = [
+    { label: "Positive",  data: 51, color: "#4572A7"},
+    { label: "Negative",  data: 13, color: "#AA4643"},
+    { label: "Neutral",  data: 2, color: "#80699B"}
+];
+
+var pie_options = {
+    series: {
+        pie: {
+            show: true
+        }
+    },
+    legend: {
+        show: false
+    }
+};
+
+var line_data = [
     {
         label: "line1",
         data: data
     }
 ];
 
-var options = {
+var line_options = {
     series: {
         lines: { show: true },
         points: {
@@ -27,6 +41,27 @@ var options = {
     }
 };
 
+function calculateAnalytics() {
+    var neutral = 0, positive = 0, negative = 0;
+    if(workable) {
+        for(i = 0; i < numberOfData; ++i) {
+            var type = allData[i].sentiment_type;
+            if (type == 'negative') {
+                negative++;
+            }
+            else if (type == 'positive') {
+                positive++;
+            }
+            else if (type == 'neutral') {
+                neutral++;
+            }
+        }
+    }
+    pie_data[0].data = positive;
+    pie_data[1].data = negative;
+    pie_data[2].data = neutral;
+
+}
 
 function retrieveAllData() {
     $.ajax({
@@ -45,16 +80,10 @@ function retrieveAllData() {
         success: function (data) {
             console.log(data);
             allData = data['reviews'];
-            pageData = allData;
-            totalPagesNum = Math.ceil(pageData.length / reviewPerpage);
             console.log("pageData length");
-            console.log();
             numberOfData = allData.length;
-            workable = true;
-            Pagination(totalPagesNum);
             calculateAnalytics();
-            renderAllReviews();
-            setupSearchListener();
+            workable = true;
         },
         error: function (xhr, status, err) {
             console.error(xhr, status, err.toString());
@@ -63,5 +92,8 @@ function retrieveAllData() {
 }
 
 $(document).ready(function () {
-            $.plot($("#flot-linechart"), dataset, options);
-        });
+    retrieveAllData();
+    $.plot($("#flot-linechart"), line_data, line_options);
+    $.plot($("#flot-piechart"), pie_data, pie_options);
+
+});
