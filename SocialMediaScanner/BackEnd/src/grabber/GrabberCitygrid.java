@@ -18,7 +18,7 @@ import service.ResponseStruct;
  * @author yuke
  * 
  */
-public class APICitygrid extends DataGrabberGeneric {
+public class GrabberCitygrid extends DataGrabberGeneric {
 
 	private final int MAX_RRP = 50;
 

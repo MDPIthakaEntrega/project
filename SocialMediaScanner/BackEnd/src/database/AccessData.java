@@ -76,6 +76,8 @@ public class AccessData implements Data {
 	 */
 	private void initializeSources() throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
+		
+		System.out.println(folder_location);
 		File api_folder = new File(folder_location);
 		File[] listofFiles = api_folder.listFiles();
 
