@@ -27,8 +27,7 @@ class EntityTest {
 
         // Extract a ranked list of named entities from a text string.
         doc = alchemyObj.TextGetRankedNamedEntities(
-            "Hello there, my name is Bob Jones.  I live in the United States of America.  " +
-            "Where do you live, Fred?");
+            "Zingerman's is great!");
         System.out.println(getStringFromDocument(doc));
 
         // Load a HTML document to analyze.

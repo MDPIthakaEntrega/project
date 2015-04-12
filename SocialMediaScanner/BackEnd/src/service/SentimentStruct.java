@@ -15,22 +15,24 @@ public class SentimentStruct {
 		sentiment_feeling = sentiment_feeling_i;
 		sentiment_score = sentiment_score_i;
 	}
-	
-	
-	String getFeeling() {
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getSentiment_feeling() {
 		return sentiment_feeling;
-	
 	}
-	
-	double getScore() {
+
+	public void setSentiment_feeling(String sentiment_feeling) {
+		this.sentiment_feeling = sentiment_feeling;
+	}
+
+	public double getSentiment_score() {
 		return sentiment_score;
 	}
-	
-	void setFeeling(String sentiment_feeling_i) {
-		sentiment_feeling = sentiment_feeling_i;
-	}
-	
-	void setScore(double sentiment_score_i) {
-		sentiment_score = sentiment_score_i;
+
+	public void setSentiment_score(double sentiment_score) {
+		this.sentiment_score = sentiment_score;
 	}
 }

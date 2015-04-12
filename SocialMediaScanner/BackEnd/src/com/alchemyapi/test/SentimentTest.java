@@ -1,27 +1,35 @@
 package com.alchemyapi.test;
 
-import com.alchemyapi.api.AlchemyAPI;
-import com.alchemyapi.api.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringWriter;
 
-import org.xml.sax.SAXException;
-import org.w3c.dom.Document;
-import java.io.*;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import com.alchemyapi.api.AlchemyAPI;
 
 class SentimentTest {
-    public static void main(String s) throws IOException, SAXException,
+    public static void main(String[] args) throws IOException, SAXException,
             ParserConfigurationException, XPathExpressionException {
         // Create an AlchemyAPI object.
-        AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile("api_key.txt");
+        AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile("testdir/api_key.txt");
 
+        String str = "Zingerman's is great!";
         // Extract sentiment for a text string.
-         Document result = alchemyObj.TextGetTextSentiment(s);
+         Document result = alchemyObj.TextGetTextSentiment(str);
+         System.out.println(getStringFromDocument(result));
 }
 
     // utility function
