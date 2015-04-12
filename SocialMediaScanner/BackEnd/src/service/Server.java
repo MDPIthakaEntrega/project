@@ -2,16 +2,34 @@ package service;
 
 import grabber.DataGrabberGeneric;
 
+import com.alchemyapi.api.*;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathExpressionException;
+
 import org.json.JSONException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import database.AccessData;
 
@@ -22,6 +40,8 @@ import database.AccessData;
  * 
  */
 public class Server extends ServerGeneric {
+	
+	private static final String API_KEY_PATH = "testdir/api_key.txt";
 	
 	private class CompanyLocationPair {
 		
@@ -102,7 +122,7 @@ public class Server extends ServerGeneric {
 	 * @param reviewList
 	 * @return
 	 */
-	public static List<String> sentimentAnalyze(List<String> reviewList) {
+	/*public static List<String> sentimentAnalyze(List<String> reviewList) {
 		
 		List<String> sentimentList = new LinkedList<String>();
 		for (int i = 0; i < reviewList.size(); i++) {
@@ -111,16 +131,50 @@ public class Server extends ServerGeneric {
 		}
 		
 		return sentimentList;
-	}
+	}*/
 
 	/**
 	 * execute sentiment analysis for one review;
 	 * @param review
 	 * @return
 	 */
-	public static String sentimentAnalyze(String review) {
+	public static SentimentStruct sentimentAnalyze(String review) {
 		
-		return "neutral";
+		try {
+			AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile(API_KEY_PATH);
+			Document result = alchemyObj.TextGetTextSentiment(review);
+			return parseSentimentStruct(result);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private static SentimentStruct parseSentimentStruct(Document xmlDoc) {
+		
+		Element rootElement = xmlDoc.getDocumentElement();
+		String typeStr = null;
+		double score = 0;
+		NodeList typeList = rootElement.getElementsByTagName("type");
+		typeStr = typeList.item(0).getTextContent();
+		if (!typeStr.equalsIgnoreCase("neutral") && !typeStr.equalsIgnoreCase("mixed")) {
+			
+			score = Double.parseDouble(rootElement.getElementsByTagName("score").item(0).getTextContent());
+		}
+		SentimentStruct sentiStruct = new SentimentStruct(typeStr, score);
+		
+		return sentiStruct;
 	}
 	
 	/**
@@ -329,5 +383,45 @@ public class Server extends ServerGeneric {
 		
 		return result;
 	}
+	
+    private static String getFileContents(String filename)
+            throws IOException, FileNotFoundException
+        {
+            File file = new File(filename);
+            StringBuilder contents = new StringBuilder();
+
+            BufferedReader input = new BufferedReader(new FileReader(file));
+
+            try {
+                String line = null;
+
+                while ((line = input.readLine()) != null) {
+                    contents.append(line);
+                    contents.append(System.getProperty("line.separator"));
+                }
+            } finally {
+                input.close();
+            }
+
+            return contents.toString();
+        }
+
+        // utility method
+        private static String getStringFromDocument(Document doc) {
+            try {
+                DOMSource domSource = new DOMSource(doc);
+                StringWriter writer = new StringWriter();
+                StreamResult result = new StreamResult(writer);
+
+                TransformerFactory tf = TransformerFactory.newInstance();
+                Transformer transformer = tf.newTransformer();
+                transformer.transform(domSource, result);
+
+                return writer.toString();
+            } catch (TransformerException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        }
 
 }
