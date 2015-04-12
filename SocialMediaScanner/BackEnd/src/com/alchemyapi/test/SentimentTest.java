@@ -21,7 +21,7 @@ class SentimentTest {
         AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile("api_key.txt");
 
         // Extract sentiment for a text string.
-        doc = alchemyObj.TextGetTextSentiment(s);
+         Document result = alchemyObj.TextGetTextSentiment(s);
 }
 
     // utility function
