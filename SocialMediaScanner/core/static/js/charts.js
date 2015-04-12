@@ -1,6 +1,10 @@
 var allData = [];
 var numberOfData = -1;
 var workable = false;
+var calculated = false;
+var positive = 0
+var negative = 0
+var neutral = 0
 
 var data = [
     [1, 130], [2, 40], [3, 80], [4, 160], [5, 159], [6, 370],
@@ -8,9 +12,9 @@ var data = [
 ];
 
 var pie_data = [
-    { label: "Positive",  data: 51, color: "#4572A7"},
-    { label: "Negative",  data: 13, color: "#AA4643"},
-    { label: "Neutral",  data: 2, color: "#80699B"}
+    { label: "Positive",  data: 1, color: "#4572A7"},
+    { label: "Negative",  data: 1, color: "#AA4643"},
+    { label: "Neutral",  data: 1, color: "#80699B"}
 ];
 
 var pie_options = {
@@ -42,7 +46,7 @@ var line_options = {
 };
 
 function calculateAnalytics() {
-    var neutral = 0, positive = 0, negative = 0;
+    neutral = 0, positive = 0, negative = 0;
     if(workable) {
         for(i = 0; i < numberOfData; ++i) {
             var type = allData[i].sentiment_type;
@@ -68,22 +72,16 @@ function retrieveAllData() {
         type: 'GET',
         url: '/static/data.json',
         xhrFields: {
-            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-            // This can be used to set the 'withCredentials' property.
-            // Set the value to 'true' if you'd like to pass cookies to the server.
-            // If this is enabled, your server must respond with the header
-            // 'Access-Control-Allow-Credentials: true'.
             withCredentials: false
           },
-        //url: 'http://35.2.138.121:3456/search?company%20name=zingerman%27s&keyword=',
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             allData = data['reviews'];
-            console.log("pageData length");
             numberOfData = allData.length;
-            calculateAnalytics();
             workable = true;
+            calculateAnalytics();
+
+            $.plot($("#flot-piechart"), pie_data, pie_options);
         },
         error: function (xhr, status, err) {
             console.error(xhr, status, err.toString());
@@ -93,7 +91,5 @@ function retrieveAllData() {
 
 $(document).ready(function () {
     retrieveAllData();
-    $.plot($("#flot-linechart"), line_data, line_options);
-    $.plot($("#flot-piechart"), pie_data, pie_options);
 
 });
