@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import service.ResponseStruct;
+import service.SentimentStruct;
 import service.Server;
 
 import java.util.HashMap;
@@ -89,7 +90,7 @@ public class API {
 		JSONObject current_review;
 		String current_review_text, full_review;
 		String current_review_id;
-		
+		SentimentStruct current_review_sentiment;
 		// insert reviews 1 by 1
 		for (int i = 0; i < reviews.length(); ++i) {
 			current_review = reviews.getJSONObject(i);
@@ -99,8 +100,10 @@ public class API {
 					+ JsonPath.read(current_review.toString(), 
 							path_map.get(this.getClass().getSimpleName()).get("id"));
 			current_review.put("source", this.getClass().getSimpleName());
-			current_review.put("sentiment",
-					Server.sentimentAnalyze(current_review_text));
+			
+			current_review_sentiment = Server.sentimentAnalyze(current_review_text);
+			current_review.put("sentiment_score", current_review_sentiment.getScore());
+			current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
 		
 			// insert review_text into column in database or do something with
 			// SOLR
