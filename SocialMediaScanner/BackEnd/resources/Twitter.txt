@@ -1,3 +1,0 @@
-reviews					$.statuses				
-text					$.text
-id						$.id_str

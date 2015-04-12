@@ -30,8 +30,8 @@ public class CreateReviewKeyspace {
 	}
 	
 	public void init() {
-		this.connect();
 		this.createKeyspace();
+		this.connect();
 		this.createReviewTable();
 		this.createInvertedTable();
 		this.createIndex();

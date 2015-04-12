@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -316,12 +315,12 @@ public class Server extends ServerGeneric {
 	String searchReviews(String companyName, String keyword) {
 		// TODO Auto-generated method stub....
 		
-		String[] attributes = {};
+		List<String> attributes = new LinkedList<String>();
 		
 		String result = null;
 		try {
 			
-			result = dbAccessor.select(keyword.toLowerCase(), companyName.toLowerCase(), Arrays.asList(attributes));
+			result = dbAccessor.select(keyword.toLowerCase(), companyName.toLowerCase(), attributes);
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | JSONException e) {
 			// TODO Auto-generated catch block
