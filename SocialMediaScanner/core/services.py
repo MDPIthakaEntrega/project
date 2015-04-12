@@ -48,6 +48,7 @@ def setup_user_profile(username, email, password, area, company_name):
     create_sys_user(username, email, password)
     link_profile_to_sys_user(username, area, company_name)
 
+
 def authen_user(username, password):
     return auth.authenticate(username=username, password=password)
 

@@ -41,7 +41,7 @@ def signup_logic(request):
             username, email, password, company_name, area = get_form_data(form)
             setup_user_profile(username, email, password, area, company_name)
             signup_login_user(request, username, password)
-            pullAndInitializeNewReviews(company_name, username)
+            #pullAndInitializeNewReviews(company_name, username)
             #if busi_init_new_reviews == -1
             #print error
             return HttpResponseRedirect('/dashboard/')
