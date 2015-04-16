@@ -186,7 +186,7 @@ abstract class ServerGeneric {
 		server.createContext("/pull", new QueryHandlerPull());
 		server.setExecutor(Executors.newCachedThreadPool());
 		server.start();
-		System.out.println("Server is listening on port " + port);
+		//System.out.println("Server is listening on port " + port);
 	}
 
 }

@@ -105,6 +105,9 @@ public class Server extends ServerGeneric {
 	 */
 	public static void main(String argv[]) throws IOException {
 		
+		
+		
+		
 		int portNum = -1;
 		try {
 			portNum = Integer.parseInt(argv[0]);
@@ -140,10 +143,14 @@ public class Server extends ServerGeneric {
 	 */
 	public static SentimentStruct sentimentAnalyze(String review) {
 		
+		//System.out.println(review);
+		
 		try {
 			AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile(API_KEY_PATH);
 			Document result = alchemyObj.TextGetTextSentiment(review);
-			return parseSentimentStruct(result);
+			SentimentStruct s = parseSentimentStruct(result);
+			//System.out.println(s);
+			return s;
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -163,11 +170,14 @@ public class Server extends ServerGeneric {
 	
 	private static SentimentStruct parseSentimentStruct(Document xmlDoc) {
 		
+		//System.out.println(xmlDoc.toString());
+		//System.out.println(getStringFromDocument(xmlDoc));
 		Element rootElement = xmlDoc.getDocumentElement();
 		String typeStr = null;
 		double score = 0;
 		NodeList typeList = rootElement.getElementsByTagName("type");
 		typeStr = typeList.item(0).getTextContent();
+		//System.out.println(typeStr);
 		if (!typeStr.equalsIgnoreCase("neutral") && !typeStr.equalsIgnoreCase("mixed")) {
 			
 			score = Double.parseDouble(rootElement.getElementsByTagName("score").item(0).getTextContent());
@@ -222,7 +232,8 @@ public class Server extends ServerGeneric {
 		String packagePath = "grabber.";
 		for (File file: grabberFolder.listFiles()) {
 			
-			if (file.getName().startsWith("API")) {
+			//System.out.println(file.getName());
+			if (file.getName().startsWith("Grabber")) {
 				
 				typeNameList.add(packagePath + file.getName().split("\\.")[0]);
 			}

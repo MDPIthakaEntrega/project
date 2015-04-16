@@ -1,6 +1,7 @@
 source                 
 title       
 content 
-sentiment 
+sentiment_feeling
+sentiment_score 
 rating
 date

@@ -62,4 +62,13 @@ public class SentimentStruct {
 	public void setScore(double sentiment_score_i) {
 		sentiment_score = sentiment_score_i;
 	}
+
+
+	@Override
+	public String toString() {
+		return "SentimentStruct [sentiment_feeling=" + sentiment_feeling
+				+ ", sentiment_score=" + sentiment_score + "]";
+	}
+	
+	
 }
