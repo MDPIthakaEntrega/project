@@ -48,7 +48,7 @@ function retrieveAllData() {
             withCredentials: false
         },
         crossDomain: true,
-        url: 'http://localhost:3456/search?company%20name=zingerman%27s&keyword=',
+        url: 'http://35.2.184.98:3456/search?company%20name=zingerman%27s&keyword=',
         dataType: 'json',
         success: function (data) {
             allData = data['reviews'];
@@ -143,7 +143,7 @@ function calculateAnalytics() {
     var neutral = 0, positive = 0, negative = 0;
     if(workable) {
         for(i = 0; i < numberOfData; ++i) {
-            var type = allData[i].sentiment;
+            var type = allData[i].sentiment_feeling;
             if (type == 'negative') {
                 negative++;
             }
@@ -169,7 +169,6 @@ function setupSearchListener() {
             var words = filter.split(" ");
             var totalWords = words.length;
             var rankMap = {};
-            var output = '';
             for (i = 0; i < numberOfData; i++) {
                 var str = allData[i].content;
                 var count = 0;
@@ -190,11 +189,13 @@ function setupSearchListener() {
                 if (m in rankMap) {
                     var positionList = rankMap[m];
                     for (n = 0; n < positionList.length; n++) {
-                        pageData.append(allData[positionList[n]]);
+                        pageData.push(allData[positionList[n]]);
                     }
                 }
             }
-            $('#results').html(output);
+            renderReviews(pageData);
+            totalPagesNum = Math.ceil(pageData.length / reviewPerpage);
+            Pagination(totalPagesNum);
         }
     });
 }
@@ -247,7 +248,7 @@ function Pagination(total) {
     $('#pagination-demo').twbsPagination({
         data: pageData,
         totalPages: total,
-        visiblePages: 5,
+        visiblePages: Math.min(5, total),
         onPageClick: function (event, page) {
             var temp = slice(page);
             renderReviews(temp);
