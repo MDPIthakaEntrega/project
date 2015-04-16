@@ -1,0 +1,157 @@
+package database;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import service.ResponseStruct;
+import service.SentimentStruct;
+import service.Server;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
+import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Session;
+import com.jayway.jsonpath.JsonPath;
+
+public class API {
+	
+	static protected Session current_session;
+	static protected String host;
+	static protected String keyspace_name;
+	static protected String review_table;
+	static protected String inverted_table;
+	static protected PreparedStatement preparedStmt; 
+	
+	static private Map<String, Map<String, String>> path_map = new HashMap<String, Map<String, String>>();
+	static private Map<String, Double> conversion_map = new HashMap<String, Double>();
+
+	static public void initializeDatabase(String host_i, String keyspace_name_i, String
+			review_table_i, String inverted_table_i) {
+		host = host_i;
+		keyspace_name = keyspace_name_i;
+		review_table = review_table_i;
+		inverted_table = inverted_table_i;
+		CreateReviewKeyspace init_session = new CreateReviewKeyspace(host, keyspace_name,
+				review_table, inverted_table);
+		current_session = init_session.connect();
+		
+		preparedStmt = current_session.prepare("INSERT INTO " +  review_table + 
+	    		" (review_id, company_name, json)" + "VALUES (?,?,?) IF NOT EXISTS;");
+		
+	}
+	
+	public void init(String folder_location_i, List<String> attributes) throws IOException {
+		path_map.put(this.getClass().getSimpleName(), new HashMap<String, String>());
+		
+		String config_file = folder_location_i;
+		config_file += ("API" + this.getClass().getSimpleName() + ".txt");
+		File mapping = new File(config_file);
+		BufferedReader read = new BufferedReader(new FileReader(mapping));
+		String line = new String();
+		while ((line = read.readLine()) != null) {
+			String[] key_val = line.split("\\s+");
+			path_map.get(this.getClass().getSimpleName()).put(key_val[0], key_val[1]);
+		}
+		this.addMissingAttributes(attributes);
+		read.close();
+		
+		conversion_map.put(this.getClass().getSimpleName(), 10.0);
+	}
+	
+	private void addMissingAttributes(List<String> attributes) {
+		for(String attribute: attributes) {
+			if(path_map.get(this.getClass().getSimpleName()).get(attribute) == null) {
+				path_map.get(this.getClass().getSimpleName()).put(attribute, "$." + attribute);
+			}
+		}
+	}
+
+	public void insert(String response, String company_name) throws JSONException, ParseException {}
+ 
+	public void insert(ResponseStruct responses) throws JSONException,
+	ParseException {
+		
+		JSONArray reviews = new JSONArray(JsonPath.read(
+				new JSONParser().parse(responses.getResponse()),
+				path_map.get(this.getClass().getSimpleName()).get("reviews")).toString());
+		
+		JSONObject current_review;
+		String current_review_text, full_review;
+		String current_review_id;
+		SentimentStruct current_review_sentiment;
+		// insert reviews 1 by 1
+		for (int i = 0; i < reviews.length(); ++i) {
+			current_review = reviews.getJSONObject(i);
+			current_review_text = JsonPath.read(current_review.toString(),
+					path_map.get(this.getClass().getSimpleName()).get("content"));
+			current_review_id = this.getClass().getSimpleName() + "_"
+					+ JsonPath.read(current_review.toString(), 
+							path_map.get(this.getClass().getSimpleName()).get("id"));
+			current_review.put("source", this.getClass().getSimpleName());
+			
+			current_review_sentiment = Server.sentimentAnalyze(current_review_text);
+			current_review.put("sentiment_score", current_review_sentiment.getScore());
+			current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
+		
+			// insert review_text into column in database or do something with
+			// SOLR
+			full_review = current_review.toString();
+		
+			this.insertReview(current_review_id, responses.getCompanyName(),
+					full_review);
+		}
+	}
+	
+	private void insertReview(String review_id, String company_name,
+			String full_review) {
+		//System.out.println(review_id + " " + company_name + " " + full_review);
+		BoundStatement boundStatement = new BoundStatement(preparedStmt);
+		current_session.execute(boundStatement.bind(review_id, company_name,
+				full_review));
+
+	}
+	
+	
+	
+	public JSONObject formatReview(Row current_row, List<String> attributes)
+			throws JSONException {
+		JSONObject json_api_format = new JSONObject();
+		String json_as_string = current_row.getString("json");
+		for (String attribute : attributes) {
+			try {
+
+				Object val = JsonPath.read(json_as_string, path_map.get(this.getClass().getSimpleName()).get(attribute));
+				if (val == null) {
+
+					json_api_format.put(attribute, JSONObject.NULL);
+				} else {
+
+					if (attribute.equals("rating")) {
+						// Perform rating conversion
+						json_api_format.put(attribute, (int) val
+								/ conversion_map.get(this.getClass().getSimpleName()));
+					} else {
+						json_api_format.put(attribute, val);
+					}
+				}
+			} catch (com.jayway.jsonpath.InvalidPathException e) {
+				json_api_format.put(attribute, "");
+			}
+		}
+
+		return json_api_format;
+	}
+
+}
