@@ -68,6 +68,7 @@ def get_username_from_session(requset):
 def write_new_reviews_to(path, data):
     with open(path, 'w+') as file:
         file.write(json.dumps(data))
+    file.close()
 
 
 def read_new_reivews(path):

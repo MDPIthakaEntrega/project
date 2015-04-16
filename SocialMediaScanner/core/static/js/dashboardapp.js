@@ -38,7 +38,7 @@ function retrieveAllData() {
     $.ajax({
         port: 3456,
         type: 'GET',
-        //url: '/static/data.json',
+        url: '/static/data.json',
         xhrFields: {
             // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
             // This can be used to set the 'withCredentials' property.
@@ -48,7 +48,7 @@ function retrieveAllData() {
             withCredentials: false
         },
         crossDomain: true,
-        url: 'http://35.2.184.98:3456/search?company%20name=zingerman%27s&keyword=',
+        //url: 'http://35.2.69.42:3456/search?company%20name=zingerman%27s&keyword=',
         dataType: 'json',
         success: function (data) {
             allData = data['reviews'];
@@ -100,6 +100,7 @@ function confirmReading() {
 * */
 function modifyServerData(removeList) {
     var username = $("#usr").text();
+    console.log(username);
     $.ajax({
         url: '/static/new_review_cookie/' + username + '_cookies.json',
         dataType: 'json',
@@ -143,7 +144,8 @@ function calculateAnalytics() {
     var neutral = 0, positive = 0, negative = 0;
     if(workable) {
         for(i = 0; i < numberOfData; ++i) {
-            var type = allData[i].sentiment_feeling;
+            //var type = allData[i].sentiment_feeling;
+            var type = allData[i].sentiment_type;
             if (type == 'negative') {
                 negative++;
             }
@@ -170,7 +172,7 @@ function setupSearchListener() {
             var totalWords = words.length;
             var rankMap = {};
             for (i = 0; i < numberOfData; i++) {
-                var str = allData[i].content;
+                var str = allData[i].review_text;
                 var count = 0;
                 for (j = 0; j < totalWords; j++) {
                     if (str.search(words[j]) != -1) {
@@ -208,9 +210,11 @@ function renderAllReviews() {
     var output = '';
     for (n = 0; n < Math.min(allData.length, reviewPerpage); n++) {
         output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
-        output += allData[n].title;
+        //output += allData[n].title;
+        output += allData[n].review_title;
         output += '</div><div class="panel-body">';
-        output += allData[n].content;
+        //output += allData[n].content;
+        output += allData[n].review_text;
         output += '</div></div>';
     }
     $('#results').html(output);
@@ -221,9 +225,11 @@ function renderReviews(inputData) {
    var output = '';
     for (n = 0; n < inputData.length; n++) {
         output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
-        output += inputData[n].title;
+        //output += inputData[n].title;
+        output += inputData[n].review_title;
         output += '</div><div class="panel-body">';
-        output += inputData[n].content;
+        //output += inputData[n].content;
+        output += inputData[n].review_text;
         output += '</div></div>';
     }
     $('#results').html(output);

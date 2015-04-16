@@ -86,8 +86,10 @@ def new_reviews_logic(request):
         path = BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json'
         if request.method == "POST":
             stringify_new_reviews = request.POST["new_reviews"]
+            print stringify_new_reviews
             list_object = json.loads(stringify_new_reviews)
             store_data = {u'new_reviews': list_object}
+            print store_data
             write_new_reviews_to(path, store_data)
         newReviews = read_new_reivews(path)
         #newReivews = pull_new_reviews(username, company)
