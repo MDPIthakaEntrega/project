@@ -1,5 +1,5 @@
-source                 
-title       
+source               
+title
 content 
 sentiment_feeling
 sentiment_score 

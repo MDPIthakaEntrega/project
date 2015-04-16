@@ -7,10 +7,12 @@ var newData = [];
 var pageData = [];
 var numberOfData = -1;
 var workable = false;
-var modifiable = false;
 var reviewPerpage = 10;
 var totalPagesNum = 0;
 
+/*
+* set up the CSRF to allow ajax call
+* */
 function setupCSRF() {
     var csrftoken = $.cookie('csrftoken');
 
@@ -28,7 +30,10 @@ function setupCSRF() {
     });
 }
 
-
+/*
+* get all data from the data base
+* store in a global variable allData, which is a list of objects
+* */
 function retrieveAllData() {
     $.ajax({
         port: 3456,
@@ -65,9 +70,10 @@ function retrieveAllData() {
     });
 }
 
-//this function will add a listener to the confirm button
-//all the checked new reviews will disappear, while the data on the server will change later
-//the data on the server will change by the function "modifyServerData()"
+/*this function will add a listener to the confirm button
+* all the checked new reviews will disappear, while the data on the server will change later
+* the data on the server will change by the function "modifyServerData()"
+* */
 function confirmReading() {
     $("#review_confirm").click(function () {
         var listToRemove = [];
@@ -89,8 +95,9 @@ function confirmReading() {
 }
 
 
-//this function will post the list of new reviews that are required to be remove
-//the list is one based instead of zero based, be careful
+/*this function will post the list of new reviews that are required to be remove
+* the list is one based instead of zero based, be careful
+* */
 function modifyServerData(removeList) {
     var username = $("#usr").text();
     $.ajax({
@@ -129,6 +136,9 @@ function modifyServerData(removeList) {
     });
 }
 
+/*
+* this function is intended to calculate the general sentiments fro all the reviews
+* */
 function calculateAnalytics() {
     var neutral = 0, positive = 0, negative = 0;
     if(workable) {
@@ -150,6 +160,8 @@ function calculateAnalytics() {
     $("#neg_review_num").html(negative);
 }
 
+/*this function setup a keyup listener to do a real time search
+* */
 function setupSearchListener() {
    $("#filter").keyup(function () {
         var filter = $(this).val();
@@ -179,11 +191,6 @@ function setupSearchListener() {
                     var positionList = rankMap[m];
                     for (n = 0; n < positionList.length; n++) {
                         pageData.append(allData[positionList[n]]);
-                        /*output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
-                        output += allData[positionList[n]].title;
-                        output += '</div><div class="panel-body">';
-                        output += allData[positionList[n]].content;
-                        output += '</div></div>';*/
                     }
                 }
             }
@@ -192,6 +199,10 @@ function setupSearchListener() {
     });
 }
 
+/*this function is to render all reviews
+* it is used before the keyup function is triggered, because if you type nothing into
+* the search bar, nothing will show up. With this function, we will have a initial state.
+* */
 function renderAllReviews() {
     var output = '';
     for (n = 0; n < Math.min(allData.length, reviewPerpage); n++) {
@@ -204,6 +215,7 @@ function renderAllReviews() {
     $('#results').html(output);
 }
 
+/*this function is a helper function to render all reviews*/
 function renderReviews(inputData) {
    var output = '';
     for (n = 0; n < inputData.length; n++) {
@@ -224,11 +236,13 @@ $(document).ready(function () {
 
 });
 
+/*this is a helper function to do the pagination*/
 function slice(page) {
     var slicedData = pageData.slice((page-1) * reviewPerpage, (page) * reviewPerpage);
     return slicedData;
 }
 
+/*this function is to do pagination*/
 function Pagination(total) {
     $('#pagination-demo').twbsPagination({
         data: pageData,
