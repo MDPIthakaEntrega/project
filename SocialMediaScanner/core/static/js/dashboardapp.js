@@ -43,7 +43,7 @@ function retrieveAllData() {
             withCredentials: false
         },
         crossDomain: true,
-        url: 'http://35.2.156.78:3456/search?company%20name=zingerman%27s&keyword=',
+        url: 'http://localhost:3456/search?company%20name=zingerman%27s&keyword=',
         dataType: 'json',
         success: function (data) {
             allData = data['reviews'];
@@ -173,7 +173,7 @@ function setupSearchListener() {
                     rankMap[count].push(i);
                 }
             }
-            pageData = []
+            pageData = [];
             for (m = totalWords; m > 0; m--) {
                 if (m in rankMap) {
                     var positionList = rankMap[m];
@@ -217,9 +217,11 @@ function renderReviews(inputData) {
 }
 
 $(document).ready(function () {
+
     setupCSRF();
     retrieveAllData();
     confirmReading();
+
 });
 
 function slice(page) {

@@ -2,9 +2,9 @@ var allData = [];
 var numberOfData = -1;
 var workable = false;
 var calculated = false;
-var positive = 0
-var negative = 0
-var neutral = 0
+var positive = 0;
+var negative = 0;
+var neutral = 0;
 
 var data = [
     [1, 130], [2, 40], [3, 80], [4, 160], [5, 159], [6, 370],
