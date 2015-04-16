@@ -1,6 +1,7 @@
 var allData = [];
 var numberOfData = -1;
 var workable = false;
+
 var positive = 0;
 var negative = 0;
 var neutral = 0;
