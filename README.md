@@ -66,4 +66,4 @@ function retrieveAllData() {
   1. Pull data for user: [http://localhost:3456/pull?company name=zingerman%27s&location=ann arbor,mi](http://localhost:3456/pull?company name=zingerman%27s&location=ann arbor,mi)
   2. Search reviews for user with given keyword (empty keyword indicates get all reviews): [http://localhost:3456/search?name=Zingerman%27s&key=expensive](http://localhost:3456/search?name=Zingerman%27s&key=expensive)
 
-*When adding new social media APIs, add one line for each API to the 'BackEnd/resources/ServiceInit.conf' with the following format: [API Name] + " NO", and then when the server starts, it will automatically grabber data from those APIs for all existing users.
+* When adding new social media APIs, add one line for each API to the 'BackEnd/resources/ServiceInit.conf' with the following format: [API Name] + " NO", and then when the server starts, it will automatically grabber data from those APIs for all existing users.
