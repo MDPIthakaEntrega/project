@@ -92,4 +92,7 @@ Important files (SocialMediaScanner/BackEnd/resources/):
 * Each line specifies an attribute in business.txt, and the path to that attribute in the response (JSON) from Citygrid
 To add a new API source (e.g. to get reviews from Yelp), you must create a file named _API<APINAME>.txt_ (e.g. APICitygrid.txt for Citygrid).
 and place in the **SocialMediaScanner/BackEnd/resources/** folder. 
-Format for file: <attribute> <path-to-attribute>
+Format for file: 
+```java
+<attribute> <path-to-attribute>
+```
