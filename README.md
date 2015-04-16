@@ -24,7 +24,7 @@ WSGI_APPLICATION = 'SocialMediaScanner.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'socialmediascanner',
+        'NAME': 'DATABASENAME',
         'USER': 'USERNAME',
         'PASSWORD': 'YOURPASSWORD',
         'HOST': 'YOURHOST',   # Or an IP Address that your DB is hosted on
@@ -40,6 +40,26 @@ DATABASES = {
 LANGUAGE_CODE = 'en-us'
 ...
 
+```
+* Setup the API with your backend. Go to SocialMediaScanner/core/static/js/dashboradapp.js:
+```javascript
+function retrieveAllData() {
+    $.ajax({
+        port: //set to backend port number,
+        type: 'GET',
+        xhrFields: {
+            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+            // This can be used to set the 'withCredentials' property.
+            // Set the value to 'true' if you'd like to pass cookies to the server.
+            // If this is enabled, your server must respond with the header
+            // 'Access-Control-Allow-Credentials: true'.
+            withCredentials: false
+        },
+        crossDomain: true,
+        url: //set to the backend RESTful API url,
+        //...
+    });
+}
 ```
 
 *When adding new social media APIs, add one line for each API to the 'BackEnd/resources/ServiceInit.conf' with the following format: [API Name] + " NO", and then when the server starts, it will automatically grabber data from those APIs for all existing users.
