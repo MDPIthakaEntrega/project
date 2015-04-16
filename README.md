@@ -82,15 +82,15 @@ function retrieveAllData() {
 * When adding new social media APIs, add one line for each API to the 'BackEnd/resources/ServiceInit.conf' with the following format: [API Name] + " NO", and then when the server starts, it will automatically grabber data from those APIs for all existing users.
 Data Layer currently stores reviews about a company or product, which it gets from API's (Currently CityGrid).
 Important files (SocialMediaScanner/BackEnd/resources/):
----1). business.txt
-------*business.txt specifies the attributes that are desired for each review (for analysis)
-------*_Source_ and _Sentiment_ will be determined automatically
-------*Any other attributes in this list are potentially provided by the reviews
----------*Example: content is often 'review_text'
-------*If the API response (JSON format) contains these attributes 
----2). APICitygrid.txt
-------*Each line specifies an attribute in business.txt, and the path to that attribute in the response (JSON) from Citygrid
+1). business.txt
+*  business.txt specifies the attributes that are desired for each review (for analysis)
+* _Source_ and _Sentiment_ will be determined automatically
+* Any other attributes in this list are potentially provided by the reviews
+* Example: content is often 'review_text'
+* If the API response (JSON format) contains these attributes 
+2). APICitygrid.txt
+* Each line specifies an attribute in business.txt, and the path to that attribute in the response (JSON) from Citygrid
 To add a new API source (e.g. to get reviews from Yelp), you must create a file named _API<APINAME>.txt_ (e.g. APICitygrid.txt for Citygrid).
 and place in the **SocialMediaScanner/BackEnd/resources/** folder. 
 Format for file:
---<attribute> 				<path-to-attribute>
+<attribute> 				<path-to-attribute>
