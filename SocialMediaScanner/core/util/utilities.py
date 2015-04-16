@@ -4,6 +4,7 @@ __author__ = 'renl'
 from SocialMediaScanner.settings import BASE_DIR
 from dbHandler.cassandra_pull_reviews import cassandrareviewspuller
 from dbHandler.cassandra_select_reviews import CityGridReviewSelector
+from core.services import init_new_reviews
 import json
 
 
@@ -31,6 +32,15 @@ def pullAndInitializeNewReviews(company_name, username):
     with open(BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json', 'w+') as file:
         file.write(json.dumps(finalizedData, default=date_handler))
         file.close()
+
+
+def busi_init_new_reviews(username, company_name):
+    response = init_new_reviews(username=username, company=company_name)
+    if response.status == 200:
+        return 0
+    else:
+        return -1
+
 
 
 def get_form_data(form):

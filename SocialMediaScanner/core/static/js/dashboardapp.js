@@ -4,9 +4,12 @@
 
 var allData = [];
 var newData = [];
+var pageData = [];
 var numberOfData = -1;
 var workable = false;
 var modifiable = false;
+var reviewPerpage = 10;
+var totalPagesNum = 0;
 
 function setupCSRF() {
     var csrftoken = $.cookie('csrftoken');
@@ -28,13 +31,30 @@ function setupCSRF() {
 
 function retrieveAllData() {
     $.ajax({
-        url: '/static/data.json',
+        port: 3456,
+        type: 'GET',
+        //url: '/static/data.json',
+        xhrFields: {
+            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+            // This can be used to set the 'withCredentials' property.
+            // Set the value to 'true' if you'd like to pass cookies to the server.
+            // If this is enabled, your server must respond with the header
+            // 'Access-Control-Allow-Credentials: true'.
+            withCredentials: false
+        },
+        crossDomain: true,
+        url: 'http://localhost:3456/search?company%20name=zingerman%27s&keyword=',
         dataType: 'json',
         success: function (data) {
-            allData = data["reviews"];
+            allData = data['reviews'];
+            console.log(allData.length);
+            pageData = allData;
+            totalPagesNum = Math.ceil(pageData.length / reviewPerpage);
+            console.log("pageData length");
+            console.log();
             numberOfData = allData.length;
             workable = true;
-            console.log(allData.length);
+            Pagination(totalPagesNum);
             calculateAnalytics();
             renderAllReviews();
             setupSearchListener();
@@ -113,7 +133,7 @@ function calculateAnalytics() {
     var neutral = 0, positive = 0, negative = 0;
     if(workable) {
         for(i = 0; i < numberOfData; ++i) {
-            var type = allData[i].sentiment_type;
+            var type = allData[i].sentiment;
             if (type == 'negative') {
                 negative++;
             }
@@ -139,7 +159,7 @@ function setupSearchListener() {
             var rankMap = {};
             var output = '';
             for (i = 0; i < numberOfData; i++) {
-                var str = allData[i].review_text;
+                var str = allData[i].content;
                 var count = 0;
                 for (j = 0; j < totalWords; j++) {
                     if (str.search(words[j]) != -1) {
@@ -153,15 +173,17 @@ function setupSearchListener() {
                     rankMap[count].push(i);
                 }
             }
+            pageData = [];
             for (m = totalWords; m > 0; m--) {
                 if (m in rankMap) {
                     var positionList = rankMap[m];
                     for (n = 0; n < positionList.length; n++) {
-                        output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
-                        output += allData[positionList[n]].review_title;
+                        pageData.append(allData[positionList[n]]);
+                        /*output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
+                        output += allData[positionList[n]].title;
                         output += '</div><div class="panel-body">';
-                        output += allData[positionList[n]].review_text;
-                        output += '</div></div>';
+                        output += allData[positionList[n]].content;
+                        output += '</div></div>';*/
                     }
                 }
             }
@@ -172,23 +194,52 @@ function setupSearchListener() {
 
 function renderAllReviews() {
     var output = '';
-    for (n = 0; n < allData.length; n++) {
+    for (n = 0; n < Math.min(allData.length, reviewPerpage); n++) {
         output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
-        output += allData[n].review_title;
+        output += allData[n].title;
         output += '</div><div class="panel-body">';
-        output += allData[n].review_text;
+        output += allData[n].content;
+        output += '</div></div>';
+    }
+    $('#results').html(output);
+}
+
+function renderReviews(inputData) {
+   var output = '';
+    for (n = 0; n < inputData.length; n++) {
+        output += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">';
+        output += inputData[n].title;
+        output += '</div><div class="panel-body">';
+        output += inputData[n].content;
         output += '</div></div>';
     }
     $('#results').html(output);
 }
 
 $(document).ready(function () {
+
     setupCSRF();
     retrieveAllData();
     confirmReading();
+
 });
 
+function slice(page) {
+    var slicedData = pageData.slice((page-1) * reviewPerpage, (page) * reviewPerpage);
+    return slicedData;
+}
 
+function Pagination(total) {
+    $('#pagination-demo').twbsPagination({
+        data: pageData,
+        totalPages: total,
+        visiblePages: 5,
+        onPageClick: function (event, page) {
+            var temp = slice(page);
+            renderReviews(temp);
+        }
+    });
+}
 
 
 /**

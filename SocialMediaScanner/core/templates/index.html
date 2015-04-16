@@ -1,71 +1,254 @@
-{% extends "navbase.html" %}
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
 
-{% block content %}
+<head>
 
-<!--Carousal -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/logoonly.png" type="image/vnd.microsoft.icon" />
 
-       <section id="home" class="text-center">
 
-                <div id="carousel-example" class="carousel slide" data-ride="carousel">
+    <title>Baobab Version 1</title>
 
-                    <div class="carousel-inner">
-                        <div class="item active">
 
-                            <img src="{{ STATIC_URL }}img/3.jpg" alt="" />
-                            <div class="carousel-caption" >
-                                <h4 class="back-light">xxxxxxxxxxx</h4>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ STATIC_URL }}img/5.jpg" alt="" />
-                            <div class="carousel-caption ">
-                                <h4 class="back-light">xxxxxxxxxxx</h4>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ STATIC_URL }}img/6.jpg" alt="" />
-                            <div class="carousel-caption ">
-                                <h4 class="back-light">xxxxxxxxxxx</h4>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example" data-slide-to="1"></li>
-                        <li data-target="#carousel-example" data-slide-to="2"></li>
-                    </ol>
+    <!-- Custom CSS -->
+    <link href="{{ STATIC_URL }}css/homepage.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{{ STATIC_URL }}font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-default navbar-static-top navigationbar" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                    <a class="navbar-brand" href="index_abandon.html"><img src="{{ STATIC_URL }}img/font.png" class="logo_front"></a>
+            </div>
+            <!-- /.navbar-header -->
+            <div class="nav-bar-top-search col-md-8 col-xs-7">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Search___" id="filter">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
                 </div>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="/settings/"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
 
-       </section>
+        </nav>
+
+    {% else %}
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand topnav" href="#"><img src="{{ STATIC_URL }}img/font.png" class="logo_front"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#about">Home</a>
+                    </li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="/login/">Sign in</a>
+                    </li>
+                    <li>
+                        <a href="/signup/">Sign up</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    {% endif %}
 
 
-<!--card-->
+    <!-- Header -->
+    <a name="about"></a>
+    <div class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <img src="{{ STATIC_URL }}img/logo_white.png" class="logo_front1">
+                        <h3>A Useful Social Media Scanner Tool</h3>
+                        <hr class="intro-divider">           
+
+                        <ul class="list-inline icons">
+                            <li>
+                                <span class="fa-stack fa-4x">
+<!--                                     <i class="fa fa-circle fa-stack-2x "></i>
+ -->                                    <i class="fa fa-search fa-fw fa-inverse"></i> 
+                                </span>
+                            </li>
+
+                            <li>
+                                <span class="fa-stack fa-4x">
+<!--                                     <i class="fa fa-circle fa-stack-2x "></i>
+ -->                                    <i class="fa fa-line-chart fa-fw fa-inverse"></i> 
+                            </li>
+                            <li>
+                                <span class="fa-stack fa-4x">
+<!--                                     <i class="fa fa-circle fa-stack-2x"></i>
+ -->                                    <i class="fa fa-desktop fa-fw fa-inverse"></i> 
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+
+
+
+
+    <!-- Page Content -->
+
+	<a  name="services"></a>
+    <div class="content-section-a">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Search Function</h2>
+                    <p class="lead">Our product has search function which allows users to search by keywords through different social media website.</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="img/ipad.png" alt="">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-a -->
+
+    <div class="content-section-b">
+
         <div class="container">
 
-	    <div class="row">
-            <div class="col-xs-4 card-div">
-			    <div class="card-div-inner">
-			      <p class="caption"><b>content </b></p>
-			      <a class="btn btn-xs btn-primary" href="" role="button">More</a>
-			    </div>
-		    </div>
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Analyze Function</h2>
+                    <p class="lead">This function is coming soon! Our product provide users with analytical function. Users can obtain information about the reviews activity in a specific time range through graphs in our app.</p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="{{ STATIC_URL }}img/dog.png" alt="">
+                </div>
+            </div>
 
-		    <div class="col-xs-4 card-div">
-			    <div class="card-div-inner">
-			      <p class="caption"><b>content</b></p>
-                    <a class="btn btn-xs btn-primary" href="" role="button">More</a>
-			    </div>
-		    </div>
-
-		    <div class="col-xs-4 card-div">
-     	      <div class="card-div-inner">
-			    <p class="caption"><b>content</b></p>
-                  <a class="btn btn-xs btn-primary" href="" role="button">More</a>
-			  </div>
-		    </div>
-	    </div>
         </div>
-<script>
-</script>
-{% endblock %}
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-b -->
+
+    <div class="content-section-a">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Management Function</h2>
+                    <p class="lead">This function is coming soon! Users can use the our product to manage their social media account in our product. They can add their social media account to our product and they can review, reply and post comments.</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="{{ STATIC_URL }}img/phones.png" alt="">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-a -->
+
+	<a  name="contact"></a>
+    <!-- /.banner -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#services">Services</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; 2015. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
