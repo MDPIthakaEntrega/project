@@ -1,6 +1,6 @@
-source                 
+source  
+sentiment               
 title       
-content 
-sentiment 
+content  
 rating
 date
