@@ -1,0 +1,6 @@
+reviews					$.statuses				
+content					$.text
+id						$.id_str              
+title         			$.source
+rating					$.favorite_count
+date					$.created_at

@@ -1,0 +1,6 @@
+source                 
+title       
+content 
+sentiment 
+rating
+date
