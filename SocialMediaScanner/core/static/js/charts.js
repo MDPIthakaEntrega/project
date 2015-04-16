@@ -1,12 +1,9 @@
 var allData = [];
 var numberOfData = -1;
 var workable = false;
-
 var positive = 0;
 var negative = 0;
 var neutral = 0;
-
-
 var pie_data = [
     { label: "Positive",  data: 1, color: "#4572A7"},
     { label: "Negative",  data: 1, color: "#AA4643"},
@@ -24,7 +21,6 @@ var pie_options = {
     }
 };
 
-//time_data = [[1325347200000, 60], [1328025600000, 100], [1330531200000, 15], [1333209600000, 50]];
 var time_data = [];
 
 var time_options = {
