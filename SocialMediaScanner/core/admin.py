@@ -1,5 +1,8 @@
 from django.contrib import admin
-from core.models import *
-# Register your models here.
-admin.site.register(Comment)
+from core.models import UserProfile, Company
+
+
+admin.site.register(UserProfile)
 admin.site.register(Company)
+
+
