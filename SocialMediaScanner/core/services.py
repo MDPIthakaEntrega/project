@@ -72,7 +72,7 @@ def write_new_reviews_to(path, data):
 
 
 def read_new_reivews(path):
-    with open(path, 'r') as file:
+    with open(path, 'r+') as file:
         new_reviews = json.loads(file.read())
         return new_reviews["new_reviews"]
 

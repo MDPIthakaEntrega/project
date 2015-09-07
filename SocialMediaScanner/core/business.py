@@ -92,7 +92,6 @@ def new_reviews_logic(request):
             print store_data
             write_new_reviews_to(path, store_data)
         newReviews = read_new_reivews(path)
-        #newReivews = pull_new_reviews(username, company)
         return render(request, 'new_reviews.html', {'new_reviews': newReviews, 'reviews_num': len(newReviews)})
     else:
         return HttpResponseRedirect('/login/')
