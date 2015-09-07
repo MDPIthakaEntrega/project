@@ -3,3 +3,5 @@
 .idea/workspace.xml
 /core/amazon_scraper.py
 *.pyc
+.idea
+/core/amazon_scraper.py
