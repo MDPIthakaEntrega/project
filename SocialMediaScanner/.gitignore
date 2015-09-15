@@ -5,3 +5,4 @@
 .idea
 .idea/workspace.xmlgit
 /core/amazon_scraper.py
+/core/static/node_modules/

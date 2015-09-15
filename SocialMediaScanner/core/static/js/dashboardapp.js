@@ -52,11 +52,8 @@ function retrieveAllData() {
         dataType: 'json',
         success: function (data) {
             allData = data['reviews'];
-            console.log(allData.length);
             pageData = allData;
             totalPagesNum = Math.ceil(pageData.length / reviewPerpage);
-            console.log("pageData length");
-            console.log();
             numberOfData = allData.length;
             workable = true;
             Pagination(totalPagesNum);
@@ -197,7 +194,8 @@ function setupSearchListener() {
             }
             renderReviews(pageData);
             totalPagesNum = Math.ceil(pageData.length / reviewPerpage);
-            Pagination(totalPagesNum);
+            console.log(totalPagesNum);
+            Pagination(pageData.length);
         }
     });
 }
@@ -236,7 +234,6 @@ function renderReviews(inputData) {
 }
 
 $(document).ready(function () {
-
     setupCSRF();
     retrieveAllData();
     confirmReading();
