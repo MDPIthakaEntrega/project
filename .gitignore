@@ -2,3 +2,5 @@
 db.sqlite3
 SocialMediaScanner/settings.py
 .idea
+*.DS_Store
+*.classpath
