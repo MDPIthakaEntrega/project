@@ -1,11 +1,11 @@
 {
   "name": "static",
   "version": "1.0.0",
-  "description": "",
+  "description": "package management for JavaScirpt in Baobab",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": ""
+    "build": "browserify -t reactify -t es6-destructuring src/dashboard-login.js -o build/dashboard-login.js"
   },
   "author": "Ithaka-Entrega-MDP",
   "license": "ISC",
@@ -13,6 +13,12 @@
     "browserify": "^10.2.0",
     "es6-destructuring": "^0.4.0",
     "jquery": "^2.1.4",
-    "bootstrap": "^3.3.5"
+    "bootstrap": "^3.3.5",
+    "react": "^0.13.3",
+    "browserify": "^10.2.0",
+    "react-bootstrap": "^0.25.2",
+    "reactify": "^1.1.1",
+    "react-tools": "^0.13.3",
+    "react-search-bar": "^1.0.9"
   }
 }
