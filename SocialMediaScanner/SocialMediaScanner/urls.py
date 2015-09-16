@@ -14,4 +14,5 @@ urlpatterns = patterns('',
     url(r'^settings/', settings_view),
     url(r'^dashboard/$', dashboard_view),
     url(r'^dashboard/charts$', charts_view),
+    url(r'^test', test_react)
 )

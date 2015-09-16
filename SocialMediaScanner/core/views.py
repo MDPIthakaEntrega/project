@@ -40,5 +40,9 @@ def charts_view(request):
     return charts_logic(request)
 
 
+def test_react(request):
+    return render(request, 'dashboard-login.html')
+
+
 
 
