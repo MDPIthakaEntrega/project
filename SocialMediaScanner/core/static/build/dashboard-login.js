@@ -35826,28 +35826,73 @@ var SearchInput = require('react-bootstrap').Input;
 var SearchBar = require('react-search-bar');
 
 var SearchBar = React.createClass({displayName: "SearchBar",
-    handleChange: function() {
+    handleChange: function () {
         console.log("search: " + this.refs.searchInput.getInputDOMNode().value);
         this.props.onUserInput(this.refs.searchInput.getInputDOMNode().value);
     },
-    render: function() {
+    render: function () {
         return (
             React.createElement("div", {className: "navbar-form navbar-right"}, 
                 React.createElement("div", {className: "form-group"}, 
-                React.createElement(SearchInput, {
-                    type: "text", 
-                    placeholder: "Search...", 
-                    ref: "searchInput", 
-                    groupClassName: "group-class", 
-                    wrapperClassName: "wrapper-class", 
-                    labelClassName: "label-class"}
-                )
+                    React.createElement(SearchInput, {
+                        type: "text", 
+                        placeholder: "Search...", 
+                        ref: "searchInput", 
+                        groupClassName: "group-class", 
+                        wrapperClassName: "wrapper-class", 
+                        labelClassName: "label-class"}
+                    )
                 )
             )
         );
     }
 });
 
+var SideBar = React.createClass({displayName: "SideBar",
+    sectionClickHandler: function(sectionName) {
+        this.props.sectionClickHandler(sectionName);
+    },
+
+    render: function () {
+        return (
+            React.createElement("div", {className: "navbar-default sidebar", role: "navigation"}, 
+                React.createElement("div", {className: "sidebar-nav navbar-collapse"}, 
+                    React.createElement("ul", {className: "nav", id: "side-menu"}, 
+                        React.createElement("li", null, 
+                            React.createElement("a", {href: "#", onClick: this.sectionClickHandler.bind(this, 'section1')}, 
+                                React.createElement("i", {className: "fa fa-comment-o fa-fw"}), 
+                                "All Reviews")
+                        ), 
+                        React.createElement("li", null, 
+                            React.createElement("a", {href: "#", onClick: this.sectionClickHandler.bind(this, 'section2')}, 
+                                React.createElement("i", {className: "fa fa-edit fa-fw"}), 
+                                "New Reviews")
+                        ), 
+                        React.createElement("li", null, 
+                            React.createElement("a", {href: "#"}, 
+                                React.createElement("i", {className: "fa fa-bar-chart-o fa-fw"}), 
+                                "Charts", 
+                                React.createElement("span", {className: "fa arrow"})
+                            ), 
+                            React.createElement("ul", {className: "nav nav-second-level"}, 
+                                React.createElement("li", null, 
+                                    React.createElement("a", {href: "#"}, 
+                                        React.createElement("i", {className: "fa fa-line-chart"}), 
+                                        "Overall Charts")
+                                ), 
+                                React.createElement("li", null, 
+                                    React.createElement("a", {href: "#"}, 
+                                        React.createElement("i", {className: "fa fa-pie-chart"}), 
+                                        "Sentimental Charts")
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+});
 
 var DashboardApp = React.createClass({displayName: "DashboardApp",
     getInitialState: function () {
@@ -35863,23 +35908,34 @@ var DashboardApp = React.createClass({displayName: "DashboardApp",
         console.log("handleChange called");
     },
 
+    changeSection: function (sectionName) {
+        this.setState({
+            searchKeyWord: this.state.searchKeyWord,
+            sectionName: sectionName
+        });
+        console.log(sectionName);
+    },
+
     render: function () {
         return (
-            React.createElement(Navbar, {brand: "Baobab"}, 
-                React.createElement(Nav, {left: true, eventKey: 0}, " ", /* This is the eventKey referenced */
-                    React.createElement(SearchBar, {
-                        type: "text", 
-                        value: this.state.value, 
-                        placeholder: "Search...", 
-                        ref: "search-input", 
-                        groupClassName: "group-class", 
-                        labelClassName: "label-class", 
-                        onChange: this.handleChange})
+            React.createElement("div", null, 
+                React.createElement(Navbar, {brand: "Baobab"}, 
+                    React.createElement(Nav, {left: true, eventKey: 0}, " ", /* This is the eventKey referenced */
+                        React.createElement(SearchBar, {
+                            type: "text", 
+                            value: this.state.value, 
+                            placeholder: "Search...", 
+                            ref: "search-input", 
+                            groupClassName: "group-class", 
+                            labelClassName: "label-class", 
+                            onChange: this.handleChange})
+                    ), 
+                    React.createElement(Nav, {right: true, eventKey: 1}, 
+                        React.createElement(NavItem, {eventKey: 2, href: "#"}, "Settings"), 
+                        React.createElement(NavItem, {eventKey: 3, href: "#"}, "Sign Out")
+                    )
                 ), 
-                React.createElement(Nav, {right: true, eventKey: 1}, 
-                    React.createElement(NavItem, {eventKey: 2, href: "#"}, "Settings"), 
-                    React.createElement(NavItem, {eventKey: 3, href: "#"}, "Sign Out")
-                )
+                React.createElement(SideBar, {sectionClickHandler: this.changeSection})
             )
         );
     }
