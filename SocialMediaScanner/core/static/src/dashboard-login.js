@@ -27,7 +27,7 @@ var DashboardApp = React.createClass({
          * searchKeyWord: the keyword that we want to filter from the review
          */
         return {
-            sectionName: 'review_feeds'
+            sectionName: 'dashboard'
         };
     },
 
@@ -35,7 +35,6 @@ var DashboardApp = React.createClass({
         this.setState({
             sectionName: sectionName
         });
-        console.log(sectionName);
     },
 
     render: function () {

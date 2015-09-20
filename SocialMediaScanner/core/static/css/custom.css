@@ -225,10 +225,13 @@ color:#fff;
 
 .active-menu {
     background-color: #0A0A0A;
-
 }
 
 .active-menu i {
+    color: #1eb98f;
+}
+
+.active-menu p {
     color: #1eb98f;
 }
 
