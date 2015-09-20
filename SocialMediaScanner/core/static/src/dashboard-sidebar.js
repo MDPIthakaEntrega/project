@@ -5,42 +5,47 @@
 var React = require('React');
 
 var SideBar = React.createClass({
-    sectionClickHandler: function(sectionName) {
+    sectionClickHandler: function (sectionName) {
         this.props.sectionClickHandler(sectionName);
     },
 
     render: function () {
+        var dotSign = (
+            <li className="dot">
+                <img src="/static/img/dot.png" alt="dot" />
+            </li>
+        );
         return (
-            <div className="navbar-default sidebar" role="navigation">
-                <div className="sidebar-nav navbar-collapse">
-                    <ul className="nav" id="side-menu">
-                        <li>
-                            <a href="#" onClick={this.sectionClickHandler.bind(this, 'review_feeds')}>
-                                <i className="fa fa-comment-o fa-fw"></i>
-                                Review Feeds</a>
+            <nav className="navbar-default navbar-side" role="navigation">
+                <div className="sidebar-collapse">
+                    <ul className="nav" id="main-menu">
+                        <li className="circleli">
+                            <div className="circle"></div>
+                            <div className="circleinfo">
+                                <p className="welcome">Welcome</p>
+                                <p className="Mr">Mr.Obama</p>
+                                <p className="status">Status: Online</p>
+                            </div>
                         </li>
+                        {dotSign}
                         <li>
-                            <a href="#">
-                                <i className="fa fa-bar-chart-o fa-fw"></i>
-                                Charts
-                                <span className="fa arrow"></span>
-                            </a>
-                            <ul className="nav nav-second-level">
-                                <li>
-                                    <a href="#">
-                                        <i className="fa fa-line-chart"></i>
-                                        Overall Charts</a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i className="fa fa-pie-chart"></i>
-                                        Sentimental Charts</a>
-                                </li>
-                            </ul>
+                            <a className="active-menu"  href="index.html"><div className="hoverdiv"></div><i className="fa fa-tachometer fa-3x"></i><p className="SidebarIconName">Dashboard</p></a>
+                        </li>
+                        {dotSign}
+                        <li>
+                            <a  href="#"><div className="hoverdiv"></div><i className="fa fa-pie-chart fa-3x"></i> <p className="SidebarIconName"> Charts</p></a>
+                        </li>
+                        {dotSign}
+                        <li>
+                            <a  href="#"><div className="hoverdiv"></div><i className="fa fa-cog fa-3x"></i> <p className="SidebarIconName">Setting</p></a>
+                        </li>
+                        {dotSign}
+                        <li>
+                            <a  href="#"><div className="hoverdiv"></div><i className="fa fa-sign-out fa-3x"></i> <p className="SidebarIconName">Setting</p></a>
                         </li>
                     </ul>
                 </div>
-            </div>
+            </nav>
         );
     }
 });

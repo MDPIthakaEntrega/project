@@ -7,6 +7,7 @@ var Navbar = require('react-bootstrap').Navbar;
 var Nav = require('react-bootstrap').Nav;
 var NavItem = require('react-bootstrap').NavItem;
 var SideBar = require('./dashboard-sidebar');
+var NavBar = require('./dashboard-navbar');
 var ReviewFeeds = require('./dashboard-review-feeds');
 
 var PageContent = React.createClass({
@@ -40,12 +41,7 @@ var DashboardApp = React.createClass({
     render: function () {
         return (
             <div>
-                <Navbar brand="Baobab">
-                    <Nav right eventKey={1}>
-                        <NavItem eventKey={2} href="#">Settings</NavItem>
-                        <NavItem eventKey={3} href="#">Sign Out</NavItem>
-                    </Nav>
-                </Navbar>
+                <NavBar />
                 <SideBar sectionClickHandler={this.changeSection}></SideBar>
                 <PageContent {...this.state}></PageContent>
             </div>
