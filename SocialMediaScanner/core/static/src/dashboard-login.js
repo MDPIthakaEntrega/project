@@ -9,6 +9,7 @@ var NavItem = require('react-bootstrap').NavItem;
 var SideBar = require('./dashboard-sidebar');
 var NavBar = require('./dashboard-navbar');
 var ReviewFeeds = require('./dashboard-review-feeds');
+var DashboardPlot = require('./dashboard-charts');
 
 var PageContent = React.createClass({
     render: function() {
@@ -16,6 +17,10 @@ var PageContent = React.createClass({
         switch (this.props.sectionName) {
             case 'review_feeds':
                 content = <ReviewFeeds />;
+                break;
+            case 'charts':
+                content = <DashboardPlot />;
+                break;
         }
         return <div id="page-wrapper">{content}</div>;
     }
