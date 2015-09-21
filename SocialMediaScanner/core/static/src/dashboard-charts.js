@@ -5,7 +5,6 @@
  * Created by Emily on 9/16/15.
  */
 var React = require('react');
-//var $ = require('jquery');
 
 var SentimentPieChart = React.createClass({
     getInitialState: function() {
@@ -22,10 +21,12 @@ var SentimentPieChart = React.createClass({
             }
         };
     },
-    render: function() {
+    componentDidMount: function() {
         $.plot($("#flot-piechart"), this.props.data, this.state.pie_options);
+    },
+    render: function() {
         return(
-            <div id="flot-piechart" style="width:500px;height:500px" />
+            <div id="flot-piechart" style={{"width":"500px", "height":"500px"}} />
         )
     }
 });
@@ -52,20 +53,18 @@ var TimeChart = React.createClass({
             }
         };
     },
-    slice: function (from, to) {
-        var res = [];
-        for (i = 0; i < this.props.data.length; i++) {
-            if (this.props.data[i][0] > from && this.props.data[i][0]) {
-                res.push(this.props.data[i]);
-            }
-        }
-        return res;
+    getDefaultProps: function() {
+      return {
+          data: []
+      }
     },
-    render: function () {
+    componentDidMount: function() {
         var plot = $.plot("#flot-timeseries", [{data: this.props.data}], this.state.time_options);
 
         // Create the overview plot
-        var overview = $.plot("#overview", [{data: this.props.data}], time_options);
+        var overview = $.plot("#overview", [{data: this.props.data}], this.state.time_options);
+        var tempdata = this.props.data;
+        var temp_options = this.state.time_options;
 
         // now connect the two
         $("#flot-timeseries").bind("plotselected", function (event, ranges) {
@@ -80,10 +79,15 @@ var TimeChart = React.createClass({
             }
 
             // do the zooming
-            var temp = this.slice(ranges.xaxis.from, ranges.xaxis.to);
+            var temp = [];
+            for (i = 0; i < tempdata.length; i++) {
+                if (tempdata[i][0] > ranges.xaxis.from && tempdata[i][0]) {
+                    temp.push(tempdata[i]);
+                }
+            }
             console.log(temp);
-            plot = $.plot("#flot-timeseries", [{data: this.slice(ranges.xaxis.from, ranges.xaxis.to)}],
-                $.extend(true, {}, time_options, {
+            plot = $.plot("#flot-timeseries", [{data: temp}],
+                $.extend(true, {}, temp_options, {
                     xaxis: {min: ranges.xaxis.from, max: ranges.xaxis.to},
                     yaxis: {min: ranges.yaxis.from, max: ranges.yaxis.to}
                 })
@@ -99,11 +103,12 @@ var TimeChart = React.createClass({
 
         // Add the Flot version string to the footer
         $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
-
+    },
+    render: function () {
         return (
             <div class="demo-container">
-                <div id="flot-timeseries" class="demo-placeholder" style="float:left; width:650px;height:500px"></div>
-                <div id="overview" class="demo-placeholder" style="float:right;width:160px; height:125px;"></div>
+                <div id="flot-timeseries" class="demo-placeholder" style={{"float":"left", "width":"650px", "height":"500px"}}></div>
+                <div id="overview" class="demo-placeholder" style={{"float":"right", "width":"160px", "height":"125px"}}></div>
             </div>
         )
     }
@@ -173,8 +178,8 @@ var DashboardPlotApp = React.createClass({
             if (date_dict.hasOwnProperty(key)) {
                 curr_date = key;
                 var count = date_dict[key];
-                var curr_time_data = this.state.time_data;
-                var new_time_data = curr_time_data.push([curr_date, count]);
+                var temp = this.state.time_data;
+                var new_time_data = temp.concat([curr_date, count]);
                 this.setState({time_data: new_time_data});
             }
         }
@@ -188,18 +193,19 @@ var DashboardPlotApp = React.createClass({
             },
             dataType: 'json',
             success: function (data) {
-                this.setState({
-                    allData: data['reviews'],
-                    numberOfData: allData.length,
-                    workable: true
-                });
+                this.setState({allData: data['reviews']});
+                this.setState({numberOfData: this.state.allData.length});
+                this.setState({workable: true});
                 this.calculateAnalytics();
-                console.log(this.state.time_data);
-            },
+            }.bind(this),
             error: function (xhr, status, err) {
                 console.error(xhr, status, err.toString());
-            }
+            }.bind(this)
         });
+        console.log(this.state.allData);
+    },
+    componentWillMount: function() {
+        this.retrieveAllData();
     },
     render: function() {
         return(
