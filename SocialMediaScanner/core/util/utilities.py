@@ -4,7 +4,6 @@ __author__ = 'renl'
 from SocialMediaScanner.settings import BASE_DIR
 from dbHandler.cassandra_pull_reviews import cassandrareviewspuller
 from dbHandler.cassandra_select_reviews import CityGridReviewSelector
-from core.services import init_new_reviews
 import json
 
 
@@ -34,15 +33,6 @@ def pullAndInitializeNewReviews(company_name, username):
         file.close()
 
 
-def busi_init_new_reviews(username, company_name):
-    response = init_new_reviews(username=username, company=company_name)
-    if response.status == 200:
-        return 0
-    else:
-        return -1
-
-
-
 def get_form_data(form):
     username = form.cleaned_data['username']
     email = form.cleaned_data['email']
@@ -63,6 +53,7 @@ def signup_get_helper(request, form_errors):
                   {'error_user': form_errors.get('username'),
                    'error_email': form_errors.get('email'),
                    'error_password': form_errors.get('password2')})
+
 
 def get_username_password_from(request):
     username = request.POST.get('username', '')

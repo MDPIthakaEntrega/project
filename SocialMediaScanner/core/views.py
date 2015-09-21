@@ -27,17 +27,9 @@ def settings_view(request):
 
 def dashboard_view(request):
     if user_is_authenticated(request):
-        return render(request, 'new_dashboard.html')
+        return render(request, 'dashboard-login.html')
     else:
         return HttpResponseRedirect('/login/')
-
-
-def new_reviews_view(request):
-    return new_reviews_logic(request)
-
-
-def charts_view(request):
-    return charts_logic(request)
 
 
 def test_react(request):

@@ -86,26 +86,6 @@ def set_new_password(request, new_password):
     request.user.save()
 
 
-"""
-the following functions are prepared for the connection @Apr 8th
-"""
 
-
-def pull_new_reviews(username, company):
-    conn = httplib.HTTPConnection(CASSANDRA_URL)
-    conn.request("GET", "/pull?username=" + username + "&company=" + company)
-    response = conn.getresponse()
-    #maybe use deep copy
-    conn.close()
-    return response
-
-
-def init_new_reviews(username, company):
-    conn = httplib.HTTPConnection(CASSANDRA_URL)
-    conn.request("GET",
-                 "/initnewreviews?username=" + username + "&company=" + company)
-    response = conn.getresponse()
-    conn.close()
-    return response
 
 

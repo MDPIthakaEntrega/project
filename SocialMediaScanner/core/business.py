@@ -80,25 +80,3 @@ def settings_page_logic(request):
         return HttpResponseRedirect('/')
 
 
-def new_reviews_logic(request):
-    if user_is_authenticated(request):
-        username = get_username_from_session(request)
-        path = BASE_DIR + '/core/static/new_review_cookie/' + username + '_cookies.json'
-        if request.method == "POST":
-            stringify_new_reviews = request.POST["new_reviews"]
-            print stringify_new_reviews
-            list_object = json.loads(stringify_new_reviews)
-            store_data = {u'new_reviews': list_object}
-            print store_data
-            write_new_reviews_to(path, store_data)
-        newReviews = read_new_reivews(path)
-        return render(request, 'new_reviews.html', {'new_reviews': newReviews, 'reviews_num': len(newReviews)})
-    else:
-        return HttpResponseRedirect('/login/')
-
-def charts_logic(request):
-    if user_is_authenticated(request):
-        return render(request, 'charts.html')
-    else:
-        return HttpResponseRedirect('/')
-
