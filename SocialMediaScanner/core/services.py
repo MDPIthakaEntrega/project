@@ -40,7 +40,7 @@ def link_profile_to_sys_user(username, area, company_name):
         c.save()
     c = Company.objects.get(company_name=company_name)
     full_user \
-        = UserProfile(user=u,  habit_code=0, area=area, my_company=c, last_logged=now())
+        = UserProfile(user=u, area=area, my_company=c, last_logged=now())
     full_user.save()
 
 @transaction.atomic
@@ -61,8 +61,8 @@ def is_active(user):
     return user.is_active
 
 
-def get_username_from_session(requset):
-    return requset.user.username
+def get_username_from_session(request):
+    return request.user.username
 
 
 def write_new_reviews_to(path, data):

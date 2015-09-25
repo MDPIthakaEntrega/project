@@ -8,3 +8,5 @@
 /core/static/node_modules/
 /core/static/build/
 npm-debug.logg
+db.sqlite3
+core/migrations/

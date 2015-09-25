@@ -21,19 +21,11 @@ def login_auth_view(request):
     return login_auth_logic(request)
 
 
-def settings_view(request):
-    return settings_page_logic(request)
-
-
 def dashboard_view(request):
     if user_is_authenticated(request):
         return render(request, 'dashboard-login.html')
     else:
         return HttpResponseRedirect('/login/')
-
-
-def test_react(request):
-    return render(request, 'dashboard-login.html')
 
 
 

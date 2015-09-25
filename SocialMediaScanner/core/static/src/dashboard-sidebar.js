@@ -6,12 +6,63 @@ var React = require('React');
 var $ = require('jquery');
 
 var SideBar = React.createClass({
+    getInitialState: function () {
+        return {
+            section_to_name: {
+                dashboard: 'Dashboard',
+                review_feeds: 'Review Feeds',
+                charts: 'Charts',
+                settings: 'Settings',
+                logout: 'Log Out'
+            },
+            section_to_icon: {
+                dashboard: 'fa fa-tachometer fa-3x',
+                review_feeds: 'fa fa-pencil-square-o fa-3x',
+                charts: 'fa fa-pie-chart fa-3x',
+                settings: 'fa fa-cog fa-3x',
+                logout: 'fa fa-sign-out fa-3x'
+            },
+            username: '',
+            company: ''
+        };
+    },
+
+    componentDidMount: function () {
+        this.loadUserInfoFromServer();
+    },
+
+    loadUserInfoFromServer: function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/user/',
+            dataType: 'json',
+            success: function (data) {
+                this.setState({
+                    username: data.username,
+                    company: data.company
+                });
+            }.bind(this),
+            error: function (xhr, status, err) {
+            }.bind(this)
+        });
+    },
+
     sectionClickHandler: function (sectionName) {
         this.props.sectionClickHandler(sectionName);
-        $(".active-menu").removeClass("active-menu");
     },
 
     render: function () {
+        var sections = Object.keys(this.state.section_to_name).map((sectionName) => {
+            return (
+                <li onClick={this.sectionClickHandler.bind(this, sectionName)}>
+                    <a className={sectionName === this.props.sectionName ? "active-menu" : ""} href="#">
+                        <div className="hoverdiv"></div>
+                        <i className={this.state.section_to_icon[sectionName]}></i>
+                        <p className="SidebarIconName">{this.state.section_to_name[sectionName]}</p>
+                    </a>
+                </li>
+            );
+        });
         return (
             <nav className="navbar-default navbar-side" role="navigation">
                 <div className="sidebar-collapse">
@@ -20,45 +71,11 @@ var SideBar = React.createClass({
                             <div className="circle"></div>
                             <div className="circleinfo">
                                 <p className="welcome">Welcome</p>
-                                <p className="Mr">Mr.Obama</p>
-                                <p className="status">Status: Online</p>
+                                <p className="Mr"><b>{this.state.username}</b></p>
+                                <p>From: <b>{this.state.company}</b></p>
                             </div>
                         </li>
-                        <li onClick={this.sectionClickHandler.bind(this, 'dashboard')}>
-                            <a className="active-menu" href="#">
-                                <div className="hoverdiv"></div>
-                                <i className="fa fa-tachometer fa-3x"></i>
-                                <p className="SidebarIconName">Dashboard</p>
-                            </a>
-                        </li>
-                        <li onClick={this.sectionClickHandler.bind(this, 'review_feeds')}>
-                            <a href="#">
-                                <div className="hoverdiv"></div>
-                                <i className="fa fa-pencil-square-o fa-3x"></i>
-                                <p className="SidebarIconName">Review Feeds</p>
-                            </a>
-                        </li>
-                        <li onClick={this.sectionClickHandler.bind(this, 'charts')}>
-                            <a href="#">
-                                <div className="hoverdiv"></div>
-                                <i className="fa fa-pie-chart fa-3x"></i>
-                                <p className="SidebarIconName"> Charts</p>
-                            </a>
-                        </li>
-                        <li onClick={this.sectionClickHandler.bind(this, 'settings')}>
-                            <a href="#">
-                                <div className="hoverdiv"></div>
-                                <i className="fa fa-cog fa-3x"></i>
-                                <p className="SidebarIconName">Setting</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div className="hoverdiv"></div>
-                                <i className="fa fa-sign-out fa-3x"></i>
-                                <p className="SidebarIconName">Log out</p>
-                            </a>
-                        </li>
+                        {sections}
                     </ul>
                 </div>
             </nav>
