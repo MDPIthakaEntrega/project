@@ -1,0 +1,4 @@
+reviews					$.results				
+content					$.review_text
+title					$.review_title
+date					$.review_date
