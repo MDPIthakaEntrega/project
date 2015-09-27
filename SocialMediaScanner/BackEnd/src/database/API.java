@@ -47,8 +47,16 @@ public class API {
 				review_table, inverted_table);
 		current_session = init_session.connect();
 		
+//		CreateReviewKeyspace.closeConnection();
 		preparedStmt = current_session.prepare("INSERT INTO " +  review_table + 
 	    		" (review_id, company_name, json)" + "VALUES (?,?,?) IF NOT EXISTS;");
+		
+	}
+	
+	static public void closeConnection() {
+		
+		current_session.close();
+		CreateReviewKeyspace.closeConnection();
 		
 	}
 	
