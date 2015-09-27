@@ -1,0 +1,3 @@
+reviews					$.results.reviews				
+content					$.review_text
+date					$.review_date

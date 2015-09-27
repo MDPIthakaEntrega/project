@@ -7,7 +7,7 @@ import com.datastax.driver.core.policies.DefaultRetryPolicy;
 
 public class CreateReviewKeyspace {
 	
-	private Session current_session;
+	static private Session current_session;
 	private String host;
 	private String keyspace_name;
 	private String review_table;
@@ -35,8 +35,12 @@ public class CreateReviewKeyspace {
 		this.createReviewTable();
 		this.createInvertedTable();
 		this.createIndex();
-	}
+	}	
 	
+	static public void closeConnection() {
+		
+		current_session.close();
+	}
 	
 	public static void main(String[] args) {
 //		System.out.print("TEST");
