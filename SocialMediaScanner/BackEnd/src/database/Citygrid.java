@@ -1,26 +1,5 @@
 package database;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import service.ResponseStruct;
-import service.Server;
-
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.Row;
-import com.jayway.jsonpath.JsonPath;
-
 public class Citygrid extends API {
 
 //	static private Map<String, String> path = new HashMap<String, String>();

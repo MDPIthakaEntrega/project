@@ -72,6 +72,7 @@ import java.io.UnsupportedEncodingException;
 			this.linkedData = linkedData;
 		}
 		
+		@Override
 		public String getParameterString(){
 			String retString = super.getParameterString();
 			try{

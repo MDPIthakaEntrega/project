@@ -21,6 +21,7 @@ public class AlchemyAPI_TextParams extends AlchemyAPI_Params{
 		this.extractLinks = extractLinks;
 	}
 	
+	@Override
 	public String getParameterString(){
 		String retString = super.getParameterString();
 		

@@ -44,6 +44,7 @@ public class AlchemyAPI_CategoryParams extends AlchemyAPI_Params {
 		this.baseUrl = baseUrl;
 	}
 	
+	@Override
 	public String getParameterString(){
 		String retString = super.getParameterString();
 		try{

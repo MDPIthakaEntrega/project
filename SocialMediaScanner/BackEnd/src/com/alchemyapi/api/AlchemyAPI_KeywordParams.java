@@ -96,6 +96,7 @@ import java.io.UnsupportedEncodingException;
 			this.baseUrl = baseUrl;
 		}
 		
+		@Override
 		public String getParameterString(){
 			String retString = super.getParameterString();
 			try{
