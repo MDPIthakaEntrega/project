@@ -12,7 +12,6 @@ class Company(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    last_logged = models.DateTimeField()
     area = models.CharField(max_length=100, blank=True)
     api_config = models.TextField(default="{}")
     my_company = models.ForeignKey(Company)

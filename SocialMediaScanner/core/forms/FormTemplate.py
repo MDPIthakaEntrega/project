@@ -42,11 +42,9 @@ class SignupForm(forms.Form):
                 raise forms.ValidationError('Passwords are not the same.')
 
     def clean_cname(self):
-        print 0
         company_name = self.cleaned_data['cname']
         return company_name
 
     def clean_area(self):
-        print 2
         area = self.cleaned_data['area']
         return area

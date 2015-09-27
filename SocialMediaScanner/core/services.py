@@ -40,7 +40,7 @@ def link_profile_to_sys_user(username, area, company_name):
         c.save()
     c = Company.objects.get(company_name=company_name)
     full_user \
-        = UserProfile(user=u, area=area, my_company=c, last_logged=now())
+        = UserProfile(user=u, area=area, my_company=c)
     full_user.save()
 
 @transaction.atomic
