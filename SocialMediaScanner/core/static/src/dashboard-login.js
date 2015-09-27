@@ -12,11 +12,6 @@ var ReviewFeeds = require('./dashboard-review-feeds');
 var DashboardPlot = require('./dashboard-charts');
 var Settings = require('./dashboard-settings');
 
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
 var PageContent = React.createClass({
     render: function() {
         var content;
@@ -45,18 +40,6 @@ var DashboardApp = React.createClass({
         };
     },
 
-    componentDidMount: function() {
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    // Send the token to same-origin, relative URLs only.
-                    // Send the token only if the method warrants CSRF protection
-                    // Using the CSRFToken value acquired earlier
-                    xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
-                }
-            }
-        });
-    },
 
     changeSection: function (sectionName) {
         this.setState({

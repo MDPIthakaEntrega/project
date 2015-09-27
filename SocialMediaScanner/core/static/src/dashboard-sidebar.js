@@ -3,7 +3,6 @@
  */
 
 var React = require('React');
-var $ = require('jquery');
 
 var SideBar = React.createClass({
     getInitialState: function () {
@@ -31,6 +30,19 @@ var SideBar = React.createClass({
         this.loadUserInfoFromServer();
     },
 
+    logoutHandler: function () {
+        //document.getElementById('logoutForm').submit();
+        $.ajax({
+            type: 'POST',
+            url: '/logout/',
+            success: function (data) {
+                window.location.href = "/";
+            }.bind(this),
+            error: function (xhr, status, err) {
+            }.bind(this)
+        });
+    },
+
     loadUserInfoFromServer: function () {
         $.ajax({
             type: 'GET',
@@ -53,15 +65,27 @@ var SideBar = React.createClass({
 
     render: function () {
         var sections = Object.keys(this.state.section_to_name).map((sectionName) => {
-            return (
-                <li onClick={this.sectionClickHandler.bind(this, sectionName)}>
-                    <a className={sectionName === this.props.sectionName ? "active-menu" : ""} href="#">
-                        <div className="hoverdiv"></div>
-                        <i className={this.state.section_to_icon[sectionName]}></i>
-                        <p className="SidebarIconName">{this.state.section_to_name[sectionName]}</p>
-                    </a>
-                </li>
-            );
+            if (sectionName !== 'logout') {
+                return (
+                    <li onClick={this.sectionClickHandler.bind(this, sectionName)}>
+                        <a className={sectionName === this.props.sectionName ? "active-menu" : ""} href="#">
+                            <div className="hoverdiv"></div>
+                            <i className={this.state.section_to_icon[sectionName]}></i>
+                            <p className="SidebarIconName">{this.state.section_to_name[sectionName]}</p>
+                        </a>
+                    </li>
+                );
+            } else {
+                return (
+                    <li onClick={this.logoutHandler}>
+                        <a className={sectionName === this.props.sectionName ? "active-menu" : ""} href="#">
+                            <div className="hoverdiv"></div>
+                            <i className={this.state.section_to_icon[sectionName]}></i>
+                            <p className="SidebarIconName">{this.state.section_to_name[sectionName]}</p>
+                        </a>
+                    </li>
+                );
+            }
         });
         return (
             <nav className="navbar-default navbar-side" role="navigation">
@@ -71,8 +95,12 @@ var SideBar = React.createClass({
                             <div className="circle"></div>
                             <div className="circleinfo">
                                 <p className="welcome">Welcome</p>
-                                <p className="Mr"><b>{this.state.username}</b></p>
-                                <p>From: <b>{this.state.company}</b></p>
+                                <p className="Mr">
+                                    <b>{this.state.username}</b>
+                                </p>
+                                <p>From:
+                                    <b>{this.state.company}</b>
+                                </p>
                             </div>
                         </li>
                         {sections}

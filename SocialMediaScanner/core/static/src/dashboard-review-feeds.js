@@ -79,7 +79,7 @@ var ReviewFeed = React.createClass({
             });
         }
         return (
-            <div>
+            <div className="col-xs-10">
                 <div style={{padding: '20px'}}>
                     <SearchBar onKeywordChange={this.handleChangeSearchKeyword} />
                 </div>

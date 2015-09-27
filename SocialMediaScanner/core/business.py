@@ -12,8 +12,12 @@ This file is intended for all the business logic
 
 
 def log_out_user_logic(request):
-    log_out_user(request)
-    return HttpResponseRedirect('/')
+    if user_is_authenticated(request) and request.method == 'POST':
+        print "catch the post"
+        log_out_user(request)
+        return HttpResponseRedirect('/')
+    else:
+        pass
 
 
 def log_in_user(request):
