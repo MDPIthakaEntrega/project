@@ -1,9 +1,6 @@
 /**
  * Created by Emily on 9/20/15.
  */
-/**
- * Created by Emily on 9/16/15.
- */
 var React = require('react');
 
 var RatingBarChart = React.createClass({
