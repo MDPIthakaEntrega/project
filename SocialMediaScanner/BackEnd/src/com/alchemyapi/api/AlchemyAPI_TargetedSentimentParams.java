@@ -24,6 +24,7 @@ public class AlchemyAPI_TargetedSentimentParams extends AlchemyAPI_Params {
 		this.target = target;
 	}
 	
+	@Override
 	public String getParameterString(){
 		String retString = super.getParameterString();
 		try{

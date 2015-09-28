@@ -4,7 +4,6 @@ import org.json.JSONObject;
 
 import com.jayway.jsonpath.JsonPath;
 
-
 public class Citygrid extends API {
 
 	@Override

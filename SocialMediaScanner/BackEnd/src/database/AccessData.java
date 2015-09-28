@@ -49,6 +49,7 @@ public class AccessData implements Data {
 	private static boolean initialized = false;
 	
 	public static void main(String[] args) throws InstantiationException,
+
 		IllegalAccessException, ClassNotFoundException, JSONException {
 	
 	  AccessData test = new AccessData();
@@ -84,6 +85,7 @@ public class AccessData implements Data {
 	 * Must be called before insertData() or select()
 	 */
 	public static void init(String folder_location_i) {
+
 		
 		folder_location = folder_location_i;
 		try {
@@ -191,9 +193,68 @@ public class AccessData implements Data {
 		read.close();
 	}
 
+
 	/**
+	 * 
+	 * Initialize variables needed to create database and creates database Must
+	 * be called before insertData() or select()
+	 */
+	@Override
+	public void initializeDatabase(String host_i, String keyspace_name_i,
+			String review_table_i, String inverted_table_i) {
+		host = host_i;
+		keyspace_name = keyspace_name_i;
+		review_table = review_table_i;
+		inverted_table = inverted_table_i;
+		CreateReviewKeyspace init_session = new CreateReviewKeyspace(host,
+				keyspace_name, review_table, inverted_table);
+		init_session.init();
+		current_session = init_session.connect();
+		// current_session.execute("USE" + keyspace_name);
+		API.initializeDatabase(host_i, keyspace_name_i, review_table_i,
+				inverted_table_i);
+	}
+
+	/*
+	 * Calls wrapper to add all API's that have been implemented And then calls
+	 * wrapper so each API class will read and store the path for attributes
+	 * 
+	 * "Folder_location_i" is the path to the folder that contains the
+	 * configuration files for each API all API configuration files should be in
+	 * one folder
+	 * 
+	 * Must be called before insertData() or select()
+	 */
+	@Override
+	public void init(String folder_location_i) throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException {
+		folder_location = folder_location_i;
+		try {
+			this.initializeSources();
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		for (String key : sources.keySet()) {
+			try {
+				((API) sources.get(key).newInstance()).init(folder_location, business_attributes);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	static public void closeConnection() {
+		
+		current_session.close();
+		API.closeConnection();
+	}
+
+	/*
 	 * Inserts responses from API to database for a given company
 	 */
+	@Override
 	public void insertData(List<ResponseStruct> responses)
 			throws InstantiationException, IllegalAccessException,
 			JSONException, ClassNotFoundException {

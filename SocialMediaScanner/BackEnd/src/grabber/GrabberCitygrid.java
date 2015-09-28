@@ -102,7 +102,7 @@ public class GrabberCitygrid extends DataGrabberGeneric {
 				response = sendGet(url);
 				response = processResponse(response);
 				responseStructList.add(new ResponseStruct(response,
-						companyName, null));
+						companyName, toString()));
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -13,8 +13,14 @@ import service.ResponseStruct;
 
 public abstract class DataGrabberGeneric {
 	
+	/*
+	 * Set location to null if not specified.
+	 */
 	public abstract List<ResponseStruct> pullData(String companyName, String location) throws UnsupportedEncodingException;
 	
+	/*
+	 * A wrapper of pullData to pull data for a list of company-location pair. 
+	 */
 	public List<ResponseStruct> pullDataForAll(List<String> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
 		
 		List<ResponseStruct> responseList = new LinkedList<ResponseStruct>();
