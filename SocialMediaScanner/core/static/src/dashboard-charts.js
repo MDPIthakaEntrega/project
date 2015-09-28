@@ -2,14 +2,17 @@
  * Created by Emily on 9/20/15.
  */
 var React = require('react');
+var Grid = require('react-bootstrap').Grid;
+var Col = require('react-bootstrap').Col;
+var Row = require('react-bootstrap').Row;
 
 var RatingBarChart = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             options: {
                 xaxis: {
                     ticklength: 0,
-                    ticks:[[0,"0"],[1,"1"],[2,"2"],[3,"3"],[4, "4"], [5, "5"]]
+                    ticks: [[0, "0"], [1, "1"], [2, "2"], [3, "3"], [4, "4"], [5, "5"]]
                 }
             }
         }
@@ -26,10 +29,10 @@ var RatingBarChart = React.createClass({
             }
         ], this.state.options);
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.setChartData();
     },
-    render: function() {
+    render: function () {
         console.log(this.props.data);
         if (this.props.init) {
             this.setChartData();
@@ -41,7 +44,7 @@ var RatingBarChart = React.createClass({
 });
 
 var SentimentPieChart = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             pie_options: {
                 series: {
@@ -73,7 +76,7 @@ var SentimentPieChart = React.createClass({
 });
 
 var TimeChart = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             time_options: {
                 series: {
@@ -154,13 +157,13 @@ var TimeChart = React.createClass({
             this.setChartData();
         }
         return (
-            <div class="demo-container">
-                <div id="flot-timeseries" class="demo-placeholder" style={{
+            <div className="demo-container">
+                <div id="flot-timeseries" className="demo-placeholder" style={{
                     "float": "left",
                     "width": "650px",
                     "height": "500px"
                 }}></div>
-                <div id="overview" class="demo-placeholder" style={{
+                <div id="overview" className="demo-placeholder" style={{
                     "float": "right",
                     "width": "160px",
                     "height": "125px"
@@ -290,19 +293,22 @@ var DashboardPlotApp = React.createClass({
     render: function () {
         return (
             <div style={{padding: '20px'}}>
-                <div>
-                    Sentiment Pie Chart
-                    <SentimentPieChart data={this.state.pie_data} init={this.state.initialized}/>
-                </div>
-                <div>
-                    Bar Chart Ratings
-                    <RatingBarChart data={this.state.ratingBarChartData} init={this.state.initialized}/>
-                </div>
-                <div>
-                    Number of Reviews by Month
-                    <TimeChart data={this.state.time_data} init={this.state.initialized}/>
-                </div>
-
+                <Grid>
+                    <Row>
+                        <Col xs={6}>
+                            Sentiment Pie Chart
+                            <SentimentPieChart data={this.state.pie_data} init={this.state.initialized}/>
+                        </Col>
+                        <Col xs={6}>
+                            Bar Chart Ratings
+                            <RatingBarChart data={this.state.ratingBarChartData} init={this.state.initialized}/>
+                        </Col>
+                        <Col xs={10} xsOffset={1}>
+                            Number of Reviews by Month
+                            <TimeChart data={this.state.time_data} init={this.state.initialized}/>
+                        </Col>
+                    </Row>
+                </Grid>
             </div>
         );
     }

@@ -3,10 +3,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from core.models import UserProfile, Company
 from django.core.exceptions import ObjectDoesNotExist
-from django.utils.timezone import now
-from SocialMediaScanner.settings import CASSANDRA_URL
 from django.db import transaction
-import httplib
 import json
 
 

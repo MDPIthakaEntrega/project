@@ -2,7 +2,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from util.utilities import *
 from forms.FormTemplate import *
 from services import *
-from django.contrib import auth
 from django.shortcuts import render
 __author__ = 'renl'
 """

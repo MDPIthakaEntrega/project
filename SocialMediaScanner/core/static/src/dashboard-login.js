@@ -40,7 +40,6 @@ var DashboardApp = React.createClass({
         };
     },
 
-
     changeSection: function (sectionName) {
         this.setState({
             sectionName: sectionName

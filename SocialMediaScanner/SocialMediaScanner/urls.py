@@ -14,6 +14,5 @@ urlpatterns = patterns('',
     url(r'^logout/', logout),
     url(r'^dashboard/$', dashboard_view),
     url(r'^api/settings/$', settings_logic),
-    url(r'^api/platforms/$', platforms),
     url(r'^api/user/$', userinfo)
 )
