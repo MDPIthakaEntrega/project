@@ -217,12 +217,11 @@ public class Server extends ServerGeneric {
 		// TODO Auto-generated method stub
 		// Connect to Cassandra;
 		
-		//dbAccessor.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
-		
 		// Charlie adding to test new implementation
+		//dbAccessor.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
 		AccessData.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
 		
-		//			dbAccessor.init(SOURCE_PATH);
+		// dbAccessor.init(SOURCE_PATH);
 		AccessData.init(SOURCE_PATH);
 		
 		//Get all grabbers;
@@ -266,6 +265,7 @@ public class Server extends ServerGeneric {
 			while (scanner.hasNext()) {
 
 				String lineStr = scanner.nextLine();
+				System.out.println(lineStr);
 				listAPIs.add(lineStr.split(" ")[0]);
 				if (lineStr.split(" ")[1].equalsIgnoreCase("NO")) {
 
