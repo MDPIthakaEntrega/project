@@ -18,7 +18,7 @@ public interface Data {
 	 * Must be called before insertData() or select()
 	 * 
 	 */
-	public void init(String folder_location_i) throws InstantiationException, IllegalAccessException, ClassNotFoundException;
+//	public void init(String folder_location_i) throws InstantiationException, IllegalAccessException, ClassNotFoundException;
 	
 	
 	/*
@@ -26,8 +26,8 @@ public interface Data {
 	 * Initialize variables needed to create database and creates database
 	 * Must be called before insertData() or select()
 	 */
-	public void initializeDatabase(String host_i, String keyspace_name_i, String
-			review_table_i, String inverted_table_i);
+//	public void initializeDatabase(String host_i, String keyspace_name_i, String
+//			review_table_i, String inverted_table_i);
 	
 	
 	/*

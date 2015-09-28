@@ -217,14 +217,14 @@ public class Server extends ServerGeneric {
 	public void initServer() {
 		// TODO Auto-generated method stub
 		// Connect to Cassandra;
-		dbAccessor.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
-		try {
-			dbAccessor.init(SOURCE_PATH);
-		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		//dbAccessor.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
+		
+		// Charlie adding to test new implementation
+		AccessData.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
+		
+		//			dbAccessor.init(SOURCE_PATH);
+		AccessData.init(SOURCE_PATH);
 		
 		//Get all grabbers;
 		File grabberFolder = new File(GRABBER_PATH);
