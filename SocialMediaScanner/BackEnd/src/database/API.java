@@ -25,113 +25,92 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.jayway.jsonpath.JsonPath;
 
-public class API {
-	
-	static protected Session current_session;
-	static protected String host;
-	static protected String keyspace_name;
-	static protected String review_table;
-	static protected String inverted_table;
-	static protected PreparedStatement preparedStmt; 
-	
-	static private Map<String, Map<String, String>> path_map = new HashMap<String, Map<String, String>>();
+public abstract class API extends AccessData {
+
+	static protected Map<String, Map<String, String>> path_map = new HashMap<String, Map<String, String>>();
 	static private Map<String, Double> conversion_map = new HashMap<String, Double>();
 
-	static public void initializeDatabase(String host_i, String keyspace_name_i, String
-			review_table_i, String inverted_table_i) {
-		host = host_i;
-		keyspace_name = keyspace_name_i;
-		review_table = review_table_i;
-		inverted_table = inverted_table_i;
-		CreateReviewKeyspace init_session = new CreateReviewKeyspace(host, keyspace_name,
-				review_table, inverted_table);
-		current_session = init_session.connect();
-		
-//		CreateReviewKeyspace.closeConnection();
-		preparedStmt = current_session.prepare("INSERT INTO " +  review_table + 
-	    		" (review_id, company_name, json)" + "VALUES (?,?,?) IF NOT EXISTS;");
-		
-	}
+	public static void init(String folder_location_i, List<String> attributes, String APIName) throws IOException {
 	
-	static public void closeConnection() {
-		
-		current_session.close();
-		CreateReviewKeyspace.closeConnection();
-		
-	}
-	
-	public void init(String folder_location_i, List<String> attributes) throws IOException {
-		path_map.put(this.getClass().getSimpleName(), new HashMap<String, String>());
+		path_map.put(APIName, new HashMap<String, String>());
 		
 		String config_file = folder_location_i;
-		config_file += ("API" + this.getClass().getSimpleName() + ".txt");
+		config_file += ("API" + APIName + ".txt");
 		File mapping = new File(config_file);
 		BufferedReader read = new BufferedReader(new FileReader(mapping));
 		String line = new String();
 		while ((line = read.readLine()) != null) {
 			String[] key_val = line.split("\\s+");
-			path_map.get(this.getClass().getSimpleName()).put(key_val[0], key_val[1]);
+			path_map.get(APIName).put(key_val[0], key_val[1]);
 		}
-		this.addMissingAttributes(attributes);
+		API.addMissingAttributes(attributes, APIName);
 		read.close();
 		
-		conversion_map.put(this.getClass().getSimpleName(), 10.0);
+		conversion_map.put(APIName, 10.0);
 	}
 	
-	private void addMissingAttributes(List<String> attributes) {
+	private static void addMissingAttributes(List<String> attributes, String APIName) {
+		System.out.println("AddMissingAttributes called for " + APIName);
 		for(String attribute: attributes) {
-			if(path_map.get(this.getClass().getSimpleName()).get(attribute) == null) {
-				path_map.get(this.getClass().getSimpleName()).put(attribute, "$." + attribute);
+			
+			if(path_map.get(APIName).get(attribute) == null) {
+				System.out.println("attribute: " + attribute + " is null");
+				path_map.get(APIName).put(attribute, "$." + attribute);
 			}
 		}
 	}
-
-	public void insert(String response, String company_name) throws JSONException, ParseException {}
- 
+	
+	public abstract String getContent(JSONObject currentReview);
+	public abstract String getId(JSONObject currentReview);
+	
 	public void insert(ResponseStruct responses) throws JSONException,
 	ParseException {
 		
+		System.out.println("reviews_path: " +  path_map.get(this.getClass().getSimpleName()).get("reviews"));
 		JSONArray reviews = new JSONArray(JsonPath.read(
 				new JSONParser().parse(responses.getResponse()),
 				path_map.get(this.getClass().getSimpleName()).get("reviews")).toString());
 		
 		JSONObject current_review;
-		String current_review_text, full_review;
+		String current_review_text;
 		String current_review_id;
 		SentimentStruct current_review_sentiment;
 		// insert reviews 1 by 1
 		for (int i = 0; i < reviews.length(); ++i) {
 			current_review = reviews.getJSONObject(i);
-			current_review_text = JsonPath.read(current_review.toString(),
-					path_map.get(this.getClass().getSimpleName()).get("content"));
-			current_review_id = this.getClass().getSimpleName() + "_"
-					+ JsonPath.read(current_review.toString(), 
-							path_map.get(this.getClass().getSimpleName()).get("id"));
+			
+			current_review_text = this.getContent(current_review);
+			
+			current_review_id = this.getId(current_review);
+			
 			current_review.put("source", this.getClass().getSimpleName());
 			
-			current_review_sentiment = Server.sentimentAnalyze(current_review_text);
-			current_review.put("sentiment_score", current_review_sentiment.getScore());
-			current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
-		
-			// insert review_text into column in database or do something with
-			// SOLR
-			full_review = current_review.toString();
-		
-			this.insertReview(current_review_id, responses.getCompanyName(),
-					full_review);
+			if(current_review_text != null) {
+				
+				current_review_sentiment = Server.sentimentAnalyze(current_review_text);
+				current_review.put("sentiment_score", current_review_sentiment.getScore());
+				current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
+			}
+			
+			// TODO insert review_text into column in database or do something with SOLR
+
+			// TODO what should be case if id is null
+			if(current_review_id != null) {
+				this.insertReview(current_review_id, responses.getCompanyName(),
+						current_review.toString());
+			}
+			
 		}
 	}
 	
 	private void insertReview(String review_id, String company_name,
 			String full_review) {
-		//System.out.println(review_id + " " + company_name + " " + full_review);
+		
 		BoundStatement boundStatement = new BoundStatement(preparedStmt);
 		current_session.execute(boundStatement.bind(review_id, company_name,
 				full_review));
 
 	}
-	
-	
 	
 	public JSONObject formatReview(Row current_row, List<String> attributes)
 			throws JSONException {

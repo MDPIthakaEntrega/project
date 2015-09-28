@@ -16,7 +16,6 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 
-
 public class AccessReviewKeyspace {
 		
 		private Session current_session;
@@ -63,11 +62,11 @@ public class AccessReviewKeyspace {
 
 		}
 		
-		public void init() {
-			CreateReviewKeyspace setup = new CreateReviewKeyspace(host, keyspace_name, review_table, inverted_table);
-			setup.init();
-			current_session = setup.connect();
-		}
+//		public void init() {
+//			CreateReviewKeyspace setup = new CreateReviewKeyspace(host, keyspace_name, review_table, inverted_table);
+//			setup.init();
+//			current_session = setup.connect();
+//		}
 				
 		private JSONArray getReviewArray(String entire_review, String api_site) throws JSONException {
 			JSONObject response = new JSONObject(entire_review);

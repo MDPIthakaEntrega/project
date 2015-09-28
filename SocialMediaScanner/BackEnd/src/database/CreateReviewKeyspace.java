@@ -4,59 +4,77 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.policies.DefaultRetryPolicy;
 
+/**
+ *  
+ * Used to create the keyspace and tables,
+ * call getinstance() to get instance, then call
+ * init()
+ *
+ * @author Charlie
+ *
+ */
+
 
 public class CreateReviewKeyspace {
 	
-	static private Session current_session;
+	private Cluster cluster;
+	private Session current_session;
 	private String host;
 	private String keyspace_name;
 	private String review_table;
 	private String inverted_table;
+	boolean created = false;
 	
-	CreateReviewKeyspace() {
-		host = "127.0.0.1";
-		keyspace_name = "review_keyspace";
-		review_table = "review_table2";
-		inverted_table = "inverted_table";
+	private static CreateReviewKeyspace singleton = new CreateReviewKeyspace();
+	
+	public static void main(String[] args) {
+		System.out.print("TEST");
+		CreateReviewKeyspace test = CreateReviewKeyspace.getInstance();
+		test.init();
+		System.out.print("SUCCESS");
+
 	}
 	
-	CreateReviewKeyspace(String host_i, String keyspace_name_i, String review_table_i, 
+	public static CreateReviewKeyspace getInstance() {
+		
+		return singleton;
+	}
+	
+	private CreateReviewKeyspace() {
+		host = "127.0.0.1";
+		keyspace_name = "review_keyspace2";
+		review_table = "review_table2";
+		inverted_table = "inverted_table2";
+	}
+	
+	private CreateReviewKeyspace(String host_i, String keyspace_name_i, String review_table_i, 
 				String inverted_table_i) {
 		host = host_i;
 		keyspace_name = keyspace_name_i;
-		//can change to allow parameters
 		review_table = review_table_i;
 		inverted_table = inverted_table_i;
 	}
 	
 	public void init() {
-		this.createKeyspace();
-		this.connect();
-		this.createReviewTable();
-		this.createInvertedTable();
-		this.createIndex();
+		if(!created) {
+			this.createKeyspace();
+			this.connect();
+			this.createReviewTable();
+			this.createInvertedTable();
+			this.createIndex();
+			this.close();
+			created = true;
+		}
 	}	
 	
-	static public void closeConnection() {
+	public void close() {
 		
 		current_session.close();
-	}
-	
-	public static void main(String[] args) {
-//		System.out.print("TEST");
-//		CreateReviewKeyspace initial = new CreateReviewKeyspace();
-//		initial.createKeyspace("127.0.0.1", "review_keyspace");
-//		Session test = initial.connect();
-//		initial.createTable(test, "review_table2");
-//		initial.createIndex(test, "company2", "review_table2");
-//		initial.createInvertedTable();
-//		initial.test(test);
-//		System.out.print("SUCCESS");
-
+		cluster.close();
 	}
 	
 	public void createKeyspace() {
-		Cluster cluster;
+
 		cluster = Cluster
         	    .builder()
         	    .addContactPoint(host)
@@ -91,7 +109,7 @@ public class CreateReviewKeyspace {
 	
 	public void createIndex() {
 		
-		current_session.execute("CREATE INDEX IF NOT EXISTS " + "company" + 
+		current_session.execute("CREATE INDEX IF NOT EXISTS " + "company2" + 
 				" ON " + keyspace_name + "." +  review_table + " (company_name);" );
 
 	}
