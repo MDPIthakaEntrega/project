@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import com.jayway.jsonpath.JsonPath;
 
-public class Yelp extends API {
+public class ImportMagicYelp extends API {
 
 	@Override
 	public String getContent(JSONObject currentReview) {
@@ -15,6 +15,10 @@ public class Yelp extends API {
 					path_map.get(this.getClass().getSimpleName()).get("content"));
 		}
 		catch (NullPointerException e) {
+			
+			return null;
+		}
+		catch (Exception e) {
 			
 			return null;
 		}

@@ -248,7 +248,7 @@ public class Server extends ServerGeneric {
 		}
 		
 		for (Class<? extends DataGrabberGeneric> grabberClass: listGrabberClass) {
-			
+			System.out.println("grabberClass: " + grabberClass.getName());
 			try {
 				listGrabber.add(grabberClass.newInstance());
 			} catch (InstantiationException | IllegalAccessException e) {
@@ -272,6 +272,8 @@ public class Server extends ServerGeneric {
 					// pull data for all users.
 					for (DataGrabberGeneric grabber: listGrabber) {
 						
+						System.out.println("grabber: " + grabber.toString());
+						System.out.println(listAPIs.get(listAPIs.size() - 1));
 						if (grabber.toString().equalsIgnoreCase(listAPIs.get(listAPIs.size() - 1))) {
 							
 							listNewGrabber.add(grabber);

@@ -29,7 +29,7 @@ public abstract class ImportIO extends DataGrabberGeneric {
 	// Using default extractor
 	// private String baseURL = "https://api.import.io/store/connector/_magic?url=";
 	// custom extractor
-	private String baseURL;
+	protected String baseURL;
 	
 	protected String companyName;
 	
@@ -40,7 +40,7 @@ public abstract class ImportIO extends DataGrabberGeneric {
 	protected String regionText;
 	
 	//	Whether to process with javascript on (slower)
-	protected boolean processJS = false;
+	protected boolean processJS = true;
 	
 	//	 How many times to load infinite scroll - requires js=true
 	protected int infiniteScrollPages = -1;
@@ -58,7 +58,7 @@ public abstract class ImportIO extends DataGrabberGeneric {
 	public List<ResponseStruct> pullData(String companyName, String location)
 			throws UnsupportedEncodingException {
 
-		
+		System.out.println("pullData importio: " + companyName);
 		String jsParam = null;
 		String infiniteScrollParam = null;
 		String userParam = "_user=" + user;
@@ -84,19 +84,17 @@ public abstract class ImportIO extends DataGrabberGeneric {
 			requestURL += "&" + infiniteScrollParam;
 		}
 		
-		requestURL += userParam + "&" + apiParam;		
+		requestURL += "&" + userParam + "&" + apiParam;		
 		String response = null;
 		try {
 			System.out.println(requestURL);
 			response = sendGet(requestURL);
 			System.out.println("Returned");
 			System.out.println(response);
-
 		}
 		catch (IOException e) {
 			
 			// TODO
-			
 		}
 		
 		
