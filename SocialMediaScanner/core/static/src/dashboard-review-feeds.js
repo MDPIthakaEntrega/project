@@ -56,6 +56,7 @@ var ReviewFeed = React.createClass({
             url: '/static/search.json',
             dataType: 'json',
             success: function (data) {
+                console.log(data);
                 this.setState({
                     data: data
                 });
