@@ -28,6 +28,7 @@ public abstract class DataGrabberGeneric {
 			
 			String companyName = companyNameList.get(i);
 			String location = locationList.get(i);
+			System.out.println("CompanName: " + companyName + " Location: " +  location);
 			responseList.addAll(pullData(companyName, location));
 		}
 		

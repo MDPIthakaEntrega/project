@@ -209,6 +209,9 @@ public class AccessData implements Data {
 		String api_name;
 		for (ResponseStruct response : responses) {
 			api_name = response.getAPIName();
+			System.out.println("Apiname: " + response.getAPIName());
+			System.out.println("company: " + response.getCompanyName());
+			System.out.println("response: " + response.getResponse());
 			Class<?> api = Class.forName(this.getClass().getPackage().getName()
 					+ "." + api_name);
 			try {
