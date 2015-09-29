@@ -3,10 +3,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from core.models import UserProfile, Company
 from django.core.exceptions import ObjectDoesNotExist
-from django.utils.timezone import now
-from SocialMediaScanner.settings import CASSANDRA_URL
 from django.db import transaction
-import httplib
 import json
 
 
@@ -40,7 +37,7 @@ def link_profile_to_sys_user(username, area, company_name):
         c.save()
     c = Company.objects.get(company_name=company_name)
     full_user \
-        = UserProfile(user=u,  habit_code=0, area=area, my_company=c, last_logged=now())
+        = UserProfile(user=u, area=area, my_company=c)
     full_user.save()
 
 @transaction.atomic
@@ -61,8 +58,8 @@ def is_active(user):
     return user.is_active
 
 
-def get_username_from_session(requset):
-    return requset.user.username
+def get_username_from_session(request):
+    return request.user.username
 
 
 def write_new_reviews_to(path, data):
@@ -86,26 +83,6 @@ def set_new_password(request, new_password):
     request.user.save()
 
 
-"""
-the following functions are prepared for the connection @Apr 8th
-"""
 
-
-def pull_new_reviews(username, company):
-    conn = httplib.HTTPConnection(CASSANDRA_URL)
-    conn.request("GET", "/pull?username=" + username + "&company=" + company)
-    response = conn.getresponse()
-    #maybe use deep copy
-    conn.close()
-    return response
-
-
-def init_new_reviews(username, company):
-    conn = httplib.HTTPConnection(CASSANDRA_URL)
-    conn.request("GET",
-                 "/initnewreviews?username=" + username + "&company=" + company)
-    response = conn.getresponse()
-    conn.close()
-    return response
 
 

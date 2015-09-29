@@ -4,3 +4,4 @@ SocialMediaScanner/settings.py
 .idea
 *.DS_Store
 *.classpath
+SocialMediaScanner/BackEnd/.metadata/

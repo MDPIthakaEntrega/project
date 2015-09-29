@@ -1,18 +1,40 @@
 {
   "name": "static",
   "version": "1.0.0",
-  "description": "",
+  "description": "package management for JavaScirpt in Baobab",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": ""
+    "test": "jest",
+    "build": "browserify -t reactify -t es6-destructuring src/dashboard-login.js -o build/dashboard-login.js"
   },
   "author": "Ithaka-Entrega-MDP",
   "license": "ISC",
   "devDependencies": {
+    "bootstrap": "^3.3.5",
     "browserify": "^10.2.0",
     "es6-destructuring": "^0.4.0",
+    "jest-cli": "^0.5.8",
     "jquery": "^2.1.4",
-    "bootstrap": "^3.3.5"
+    "jquery.cookie": "^1.4.1",
+    "react": "^0.13.3",
+    "react-bootstrap": "^0.25.2",
+    "react-tools": "^0.13.3",
+    "reactify": "^1.1.1",
+    "babel-jest": "^5.3.0"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"],
+    "testFileExtensions": [
+      "es6",
+      "js",
+      "jsx"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "es6"
+    ]
   }
 }

@@ -1,0 +1,280 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+#wrapper {
+    width: 100%;
+    background: white;
+}
+
+#page-wrapper {
+    padding: 15px 15px;
+}
+
+#page-inner {
+    width: 100%;
+    margin: 10px 20px 10px 0px;
+    background-color: #fff !important;
+    padding: 10px;
+    min-height: 1200px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.no-boder {
+    border: 1px solid #f3f3f3;
+}
+
+h2 {
+    color: #f00;
+}
+
+h4 {
+    padding-top: 10px;
+}
+
+p {
+    font-size: 16px;
+}
+
+/*==============================================
+    MENU STYLES    
+    =============================================*/
+
+.user-image {
+    margin: 25px auto;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    max-height: 170px;
+    max-width: 170px;
+}
+
+.navbar-cls-top .navbar-brand {
+    color: #fff;
+    width: 260px;
+    text-align: center;
+    height: 60px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/*current page*/
+
+.sidebar-collapse, .sidebar-collapse .nav {
+    background: none;
+}
+
+.sidebar-collapse .nav {
+    padding: 0;
+}
+
+.sidebar-collapse .nav > li > a {
+    color: #474a4d;
+    text-shadow: none;
+}
+
+.sidebar-collapse > .nav > li > a {
+    padding: 15px 0px;
+}
+
+.navbar-cls-top {
+    background: #eff3f3;
+    border-bottom: none;
+    margin: 0 auto;
+    width: 100%;
+    position: fixed;
+    z-index: 10;
+    height: 60px;
+
+}
+
+/*.navbar-cls-top .navbar-brand:hover {
+background: #C90000;
+color:#fff;
+}*/
+
+.navbar-default {
+    border: 0px solid black;
+
+}
+
+/*/////////////*/
+.navbar-header {
+    height: 111px;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #fff;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #FFF;
+}
+
+.nav > li > a > i {
+    margin-right: 10px;
+}
+
+/*==============================================
+    MEDIA QUERIES
+    =============================================*/
+
+@media (min-width: 768px) {
+    #page-wrapper {
+        margin: 0px 0 0 260px;
+        padding: 80px 30px 15px 30px;
+        min-height: 1200px;
+
+    }
+
+    .navbar-side {
+        z-index: 1;
+        position: absolute;
+        width: 260px;
+    }
+
+    .navbar {
+        border-radius: 0px;
+    }
+
+}
+
+/*////////////////////*/
+
+/*logo is 251px * 96px*/
+.main_logo {
+    width: 90%;
+}
+
+/*logo background color*/
+.logo_bg {
+    background-color: #23272b;
+}
+
+.refresh_circle {
+    color: #00b07d;
+}
+
+.refresh_icon {
+    padding: 10px 20px 5px 15px;
+    float: left;
+    font-size: 15px;
+}
+
+.title_page {
+    border: 2px solid;
+    border-color: #c9cbcb;
+    border-radius: 25px;
+    height: 30px;
+    margin-top: 15px;
+    width: 100px;
+    text-align: center;
+    /*vertical-align: center;*/
+    font-weight: 800;
+    -moz-border-radius: 25px; /* Old Firefox */
+}
+
+/*Sidebar height move down with 51px*/
+.navbar-side {
+    border: none;
+    margin-top: 111px;
+    background: url('../img/sidebarbg.png');
+    background-repeat: repeat-y;
+    height: 1200px;
+    position: fixed;
+}
+
+.SidebarIconName {
+    display: block;
+}
+
+.hoverdiv {
+    background-color: #1eb98f;
+    display: inline-block;
+    height: 92px;
+    width: 6px;
+    float: left;
+    margin: 0 auto;
+    margin-left: -10px;
+    margin-top: -15.6px;
+    display: none;
+}
+
+.sidebar-collapse .nav > li > a:hover .hoverdiv,
+.sidebar-collapse .nav > li > a:focus .hoverdiv {
+
+    background: #1eb98f;
+    outline: 0;
+    display: block;
+}
+
+/* side bar hover*/
+.sidebar-collapse .nav > li > a:hover,
+.sidebar-collapse .nav > li > a:focus {
+
+    background: #0A0A0A;
+    color: #1eb98f;
+    outline: 0;
+}
+
+.active-menu {
+    background-color: #0A0A0A;
+}
+
+.active-menu i {
+    color: #1eb98f;
+}
+
+.active-menu p {
+    color: #1eb98f;
+}
+
+.sidebar-collapse .nav li {
+    text-align: center;
+}
+
+.circle {
+    width: 80px;
+    height: 80px;
+    background: red;
+    -moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+    background: url("../img/find_user.png");
+    background-color: black;
+    display: inline-block;
+}
+
+.circleli {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.circleinfo {
+    color: white;
+    display: inline-block;
+    line-height: 15px;
+    margin-left: 30px;
+    text-align: center;
+}
+
+.circleinfo .Mr {
+    font-weight: 300;
+}
+
+.circleinfo .status {
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.dot {
+    text-align: center;
+    padding-right: 10px;
+}
+
+/*////////////////////*/
+
+
