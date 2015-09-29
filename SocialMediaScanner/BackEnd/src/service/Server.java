@@ -312,7 +312,12 @@ public class Server extends ServerGeneric {
 			List<String> locationList) {
 		// TODO Auto-generated method stub
 		
+		for(String name: companyNameList) {
+			
+			System.out.println("curname: " + name);
+		}
 		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
+		
 		
 		//store responseStructList to the database;
 		try {

@@ -83,6 +83,7 @@ public abstract class API extends AccessData {
 			
 			current_review_id = this.getId(current_review);
 			
+			System.out.println("source: " + this.getClass().getSimpleName());
 			current_review.put("source", this.getClass().getSimpleName());
 			
 			if(current_review_text != null) {
@@ -96,7 +97,7 @@ public abstract class API extends AccessData {
 
 			// TODO what should be case if id is null
 			if(current_review_id != null) {
-				this.insertReview(current_review_id, responses.getCompanyName(),
+				this.insertReview(current_review_id, responses.getCompanyName().toLowerCase(),
 						current_review.toString());
 			}
 			
@@ -109,7 +110,6 @@ public abstract class API extends AccessData {
 		BoundStatement boundStatement = new BoundStatement(preparedStmt);
 		current_session.execute(boundStatement.bind(review_id, company_name,
 				full_review));
-
 	}
 	
 	public JSONObject formatReview(Row current_row, List<String> attributes)
