@@ -97,8 +97,8 @@ var DashboardPlotApp = React.createClass({
             type: 'GET',
             crossDomain: true,
             //url: 'http://35.2.73.31:3456/search?company%20name=zingerman%27s&keyword=',
-            //url: 'http://localhost:3456/search?company%20name=zingerman%27s&keyword=',
-            url: '/static/search.json',
+            url: 'http://localhost:3456/search?company%20name=zingerman%27s&keyword=',
+            //url: '/static/search.json',
             dataType: 'json',
             success: function (data) {
                 var tempData = data['reviews'];

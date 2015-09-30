@@ -6,6 +6,7 @@ var React = require('react');
 var $ = require('jquery');
 var SearchInput = require('react-bootstrap').Input;
 var CityGridReviewCard = require('./dashboard-review-cards').CityGridReviewCard;
+var YelpReviewCard = require('./dashboard-review-cards').YelpReviewCard;
 var searchKeywordFromData = require('./search-algorithm');
 
 var SearchBar = React.createClass({
@@ -52,8 +53,8 @@ var ReviewFeed = React.createClass({
             type: 'GET',
             crossDomain: true,
             //url: 'http://35.2.73.31:3456/search?company%20name=zingerman%27s&keyword=',
-            //url: 'http://localhost:3456/search?company%20name=zingerman%27s&keyword=',
-            url: '/static/search.json',
+            url: 'http://localhost:3456/search?company%20name=zingerman%27s&keyword=',
+            //url: '/static/search.json',
             dataType: 'json',
             success: function (data) {
                 console.log(data);
@@ -72,11 +73,27 @@ var ReviewFeed = React.createClass({
             var reviews = this.state.data['reviews'];
             var filteredReviews = searchKeywordFromData(this.state.searchKeyword, reviews);
             reviewsCards = filteredReviews.map(function (review, idx) {
-                return (<CityGridReviewCard
-                    key={idx}
-                    title={review.title}
-                    content={review.content}
-                />);
+                switch (review.source) {
+                    case 'Citygrid':
+                        return (
+                            <CityGridReviewCard
+                                key={idx}
+                                title={review.title}
+                                content={review.content}
+                                date={review.date}
+                            />
+                        );
+                    case 'ImportMagicYelp':
+                        return (
+                            <YelpReviewCard
+                                key={idx}
+                                title={review.title}
+                                content={review.content}
+                                date={review.date}
+                            />
+                        );
+                }
+
             });
         }
         return (

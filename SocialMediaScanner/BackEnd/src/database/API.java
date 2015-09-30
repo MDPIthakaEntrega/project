@@ -82,8 +82,7 @@ public abstract class API extends AccessData {
 			current_review_text = this.getContent(current_review);
 			
 			current_review_id = this.getId(current_review);
-			
-//			System.out.println("source: " + this.getClass().getSimpleName());
+
 			current_review.put("source", this.getClass().getSimpleName());
 			
 			if(current_review_text != null) {

@@ -36,7 +36,7 @@ var AccountConfig = React.createClass({
         $.ajax({
             type: 'POST',
             url: '/api/settings/',
-            data: configs,
+            data: {type: 'account', configs: JSON.stringify(configs)},
             success: function (data) {
                 console.log("succeed to post");
             }.bind(this),
@@ -58,7 +58,7 @@ var AccountConfig = React.createClass({
     loadAPIsFromServer: function () {
         $.ajax({
             type: 'GET',
-            url: '/api/settings/',
+            url: '/api/settings/?part=account',
             success: function (data) {
                 console.log(data);
                 this.setState({

@@ -49,6 +49,7 @@ var SideBar = React.createClass({
             url: '/api/user/',
             dataType: 'json',
             success: function (data) {
+                console.log(data);
                 this.setState({
                     username: data.username,
                     company: data.company
