@@ -46,6 +46,7 @@ public class GrabberTwitter extends DataGrabberGeneric {
 			query.setCount(MAX_RRP);
 			while (query != null) {
 				QueryResult result = twitter.search(query);
+				System.out.println(result.toString());
 				System.out.println(result.getTweets().size());
 				for (Status status : result.getTweets()) {
 					System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
@@ -80,6 +81,9 @@ public class GrabberTwitter extends DataGrabberGeneric {
 				System.out.println("Inside while");
 				JSONArray jsonArray = new JSONArray();
 				QueryResult result = twitter.search(query);
+//				System.out.println(result.toString());
+//				System.out.println(result.getTweets().size());
+
 				for (Status status : result.getTweets()) {
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("text", status.getText());
@@ -88,6 +92,7 @@ public class GrabberTwitter extends DataGrabberGeneric {
 					jsonObj.put("date", status.getCreatedAt());
 					jsonArray.add(jsonObj);
 				}
+				query = result.nextQuery();
 				JSONObject jsonWrapper = new JSONObject();
 				jsonWrapper.put("statuses", jsonArray);
 				listResponseStruct.add(new ResponseStruct(jsonWrapper.toString(), companyName, toString()));

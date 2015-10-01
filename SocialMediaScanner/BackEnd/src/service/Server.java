@@ -146,6 +146,8 @@ public class Server extends ServerGeneric {
 		
 		try {
 			AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile(API_KEY_PATH);
+//			System.out.println("Calling alchemy with: " );
+//			System.out.println(review);
 			Document result = alchemyObj.TextGetTextSentiment(review);
 			SentimentStruct s = parseSentimentStruct(result);
 			//System.out.println(s);

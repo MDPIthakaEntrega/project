@@ -83,14 +83,20 @@ public abstract class API extends AccessData {
 			
 			current_review_id = this.getId(current_review);
 			
-			System.out.println("source: " + this.getClass().getSimpleName());
+//			System.out.println("source: " + this.getClass().getSimpleName());
 			current_review.put("source", this.getClass().getSimpleName());
 			
 			if(current_review_text != null) {
 				
 				current_review_sentiment = Server.sentimentAnalyze(current_review_text);
-				current_review.put("sentiment_score", current_review_sentiment.getScore());
-				current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
+				if(current_review_sentiment != null) {
+					current_review.put("sentiment_score", current_review_sentiment.getScore());
+					current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
+				}
+				else {
+					current_review.put("sentiment_score", 0);
+					current_review.put("sentiment_feeling", "neutral");
+				}
 			}
 			
 			// TODO insert review_text into column in database or do something with SOLR
@@ -119,6 +125,8 @@ public abstract class API extends AccessData {
 		for (String attribute : attributes) {
 			try {
 
+//				System.out.println("Attribute: " + attribute);
+//				System.out.println(path_map.get(this.getClass().getSimpleName()).get(attribute));
 				Object val = JsonPath.read(json_as_string, path_map.get(this.getClass().getSimpleName()).get(attribute));
 				if (val == null) {
 
@@ -134,6 +142,7 @@ public abstract class API extends AccessData {
 					}
 				}
 			} catch (com.jayway.jsonpath.InvalidPathException e) {
+				// If attribute is not in the review, then we just put a blank value in
 				json_api_format.put(attribute, "");
 			}
 		}
