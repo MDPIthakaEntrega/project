@@ -4,7 +4,7 @@
 jest.dontMock('../search-algorithm');
 
 describe('search-algorithm', function () {
-    it('searches', function () {
+    it('should return a correct ranking.', function () {
         var mock_data = [
             {"content":"a b c d","title":"t1"},
             {"content":"a b","title":"t2"},

@@ -10,10 +10,10 @@ def settings_logic(request):
         if request.method == "POST":
             if user_is_authenticated(request):
                 username = request.user.username
-                print request.POST['type']
                 user = User.objects.get(username=username)
                 userprofile = UserProfile.objects.get(user=user)
                 if request.POST['type'] == "account":
+                    print request.POST['configs']
                     userprofile.api_config = request.POST['configs']
                     userprofile.save()
                     return HttpResponse(

@@ -45,7 +45,7 @@ var ChartConfig = React.createClass({
     },
     // this function will update the config value when you trying to type in
     handleChange: function (chartType) {
-        chart_config = this.state.chart_config;
+        var chart_config = this.state.chart_config;
         chart_config[chartType] = !this.refs[chartType].props.checked;
         this.setState({
             chart_config: chart_config
@@ -68,7 +68,7 @@ var ChartConfig = React.createClass({
     },
 
     render: function () {
-        chart_configs = Object.keys(this.state.charts).map((label) => {
+        var chart_configs = Object.keys(this.state.charts).map((label) => {
             var is_checked = false;
             if (this.state.chart_config.hasOwnProperty(label)) {
                 is_checked = this.state.chart_config[label];
