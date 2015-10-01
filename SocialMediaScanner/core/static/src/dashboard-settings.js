@@ -8,10 +8,13 @@ var ConfigChart = require('./config-chart');
 
 var Settings = React.createClass({
     render: function () {
+        console.log(this.props);
         return (
             <div>
-                <ConfigAccount></ConfigAccount>
-                <ConfigChart></ConfigChart>
+                <ConfigAccount />
+                <ConfigChart
+                    setChartConfigFunction={this.props.setChartConfigFunction}
+                />
             </div>
         );
     }

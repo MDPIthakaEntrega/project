@@ -115,9 +115,6 @@ var DashboardPlotApp = React.createClass({
                     ratingBarChartData: chart_data[2],
                     initialized: true
                 });
-                console.log(this.state.pie_data);
-                console.log(this.state.time_data.length);
-                console.log(this.state.ratingBarChartData);
             }.bind(this),
             error: function (xhr, status, err) {
                 console.error(xhr, status, err.toString());

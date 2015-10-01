@@ -12,24 +12,6 @@ var ReviewFeeds = require('./dashboard-review-feeds');
 var DashboardPlot = require('./dashboard-charts');
 var Settings = require('./dashboard-settings');
 
-var PageContent = React.createClass({
-    render: function() {
-        var content;
-        switch (this.props.sectionName) {
-            case 'review_feeds':
-                content = <ReviewFeeds />;
-                break;
-            case 'charts':
-                content = <DashboardPlot />;
-                break;
-            case 'settings':
-                content = <Settings />;
-                break;
-        }
-        return <div id="page-wrapper">{content}</div>;
-    }
-});
-
 var DashboardApp = React.createClass({
     getInitialState: function () {
         /**
@@ -47,6 +29,18 @@ var DashboardApp = React.createClass({
     },
 
     render: function () {
+        var content;
+        switch (this.state.sectionName) {
+            case 'review_feeds':
+                content = <ReviewFeeds />;
+                break;
+            case 'charts':
+                content = <DashboardPlot />;
+                break;
+            case 'settings':
+                content = <Settings />;
+                break;
+        }
         return (
             <div>
                 <NavBar />
@@ -54,7 +48,7 @@ var DashboardApp = React.createClass({
                     sectionClickHandler={this.changeSection}
                     sectionName={this.state.sectionName}
                 />
-                <PageContent {...this.state} />
+                <div id="page-wrapper">{content}</div>
             </div>
         );
     }

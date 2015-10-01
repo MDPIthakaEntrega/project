@@ -54,7 +54,6 @@ var TimeChart = React.createClass({
                     temp.push(tempdata[i]);
                 }
             }
-            console.log(temp);
             plot = $.plot("#flot-timeseries", [{data: temp}],
                 $.extend(true, {}, temp_options, {
                     xaxis: {min: ranges.xaxis.from, max: ranges.xaxis.to},
@@ -72,7 +71,6 @@ var TimeChart = React.createClass({
 
         // Add the Flot version string to the footer
         $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
-        console.log(this.props.data);
     },
     componentDidMount: function () {
         this.setChartData();

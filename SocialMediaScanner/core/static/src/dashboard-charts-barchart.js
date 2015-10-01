@@ -27,7 +27,6 @@ var RatingBarChart = React.createClass({
         this.setChartData();
     },
     render: function () {
-        console.log(this.props.data);
         if (this.props.init) {
             this.setChartData();
         }

@@ -20,7 +20,6 @@ var SentimentPieChart = React.createClass({
     },
     componentDidMount: function () {
         this.setChartData();
-        console.log(this.props.data);
     },
     render: function () {
         if (this.props.init) {

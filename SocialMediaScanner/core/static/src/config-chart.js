@@ -38,7 +38,6 @@ var ChartConfig = React.createClass({
             url: '/api/settings/',
             data: {type: 'chart', configs: JSON.stringify(configs)},
             success: function (data) {
-                console.log("succeed to post");
             }.bind(this),
             error: function (xhr, status, err) {
             }.bind(this)
