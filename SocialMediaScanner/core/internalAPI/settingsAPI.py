@@ -13,7 +13,6 @@ def settings_logic(request):
                 user = User.objects.get(username=username)
                 userprofile = UserProfile.objects.get(user=user)
                 if request.POST['type'] == "account":
-                    print request.POST['configs']
                     userprofile.api_config = request.POST['configs']
                     userprofile.save()
                     return HttpResponse(
@@ -31,9 +30,7 @@ def settings_logic(request):
                 pass
         elif request.method == "GET":
             if user_is_authenticated(request):
-                print "here"
                 part = request.GET.get('part', None)
-                print part
                 username = request.user.username
                 user = User.objects.get(username=username)
                 userprofile = UserProfile.objects.get(user=user)
