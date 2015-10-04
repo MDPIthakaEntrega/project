@@ -7,6 +7,7 @@ var $ = require('jquery');
 var SearchInput = require('react-bootstrap').Input;
 var CityGridReviewCard = require('./dashboard-review-cards').CityGridReviewCard;
 var YelpReviewCard = require('./dashboard-review-cards').YelpReviewCard;
+var TweetCard = require('./dashboard-review-cards').TweetCard;
 var searchKeywordFromData = require('./search-algorithm');
 
 var SearchBar = React.createClass({
@@ -92,6 +93,13 @@ var ReviewFeed = React.createClass({
                                 date={review.date}
                             />
                         );
+                    case 'Twitter':
+                        return <TweetCard
+                                key={idx}
+                                title={review.title}
+                                content={review.content}
+                                date={review.date}
+                            />;
                 }
 
             });

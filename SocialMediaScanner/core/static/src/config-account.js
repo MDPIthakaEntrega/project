@@ -38,7 +38,12 @@ var AccountConfig = React.createClass({
             url: '/api/settings/',
             data: {type: 'account', configs: JSON.stringify(configs)},
             success: function (data) {
-                console.log("succeed to post");
+                noty({
+                    text: 'save account config successfully',
+                    layout: 'topRight',
+                    type: 'success',
+                    closeWith: ['click', 'hover']
+                });
             }.bind(this),
             error: function (xhr, status, err) {
             }.bind(this)

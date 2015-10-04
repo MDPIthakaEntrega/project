@@ -11,6 +11,8 @@ var Col = require('react-bootstrap').Col;
 var Row = require('react-bootstrap').Row;
 var Label = require('react-bootstrap').Label;
 var Button = require('react-bootstrap').Button;
+var noty = require('noty');
+
 
 var ChartConfig = React.createClass({
     handleClick: function () {
@@ -24,6 +26,12 @@ var ChartConfig = React.createClass({
             data: {type: 'chart', configs: JSON.stringify(configs)},
             success: function (data) {
                 this.props.setChartConfigFunction(configs);
+                noty({
+                    text: 'save chart config successfully',
+                    layout: 'topRight',
+                    type: 'success',
+                    closeWith: ['click', 'hover']
+                });
             }.bind(this),
             error: function (xhr, status, err) {
             }.bind(this)

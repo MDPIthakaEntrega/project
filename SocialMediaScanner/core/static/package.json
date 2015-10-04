@@ -27,7 +27,9 @@
       "__DEV__": true
     },
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ],
     "testFileExtensions": [
       "es6",
       "js",
@@ -39,5 +41,8 @@
       "json",
       "es6"
     ]
+  },
+  "dependencies": {
+    "noty": "^2.3.6"
   }
 }
