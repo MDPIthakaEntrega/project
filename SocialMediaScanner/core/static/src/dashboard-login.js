@@ -18,7 +18,9 @@ var DashboardApp = React.createClass({
          * searchKeyWord: the keyword that we want to filter from the review
          */
         return {
-            sectionName: 'dashboard'
+            sectionName: 'dashboard',
+            chart_config: {},
+            charts: {}
         };
     },
 
@@ -28,6 +30,31 @@ var DashboardApp = React.createClass({
         });
     },
 
+    setChartConfig: function (chart_config) {
+        this.setState({
+            chart_config: chart_config
+        });
+    },
+
+    loadChartConfigsFromServer: function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/settings/?part=chart',
+            success: function (data) {
+                this.setState({
+                    charts: data.charts,
+                    chart_config: JSON.parse(data.configs)
+                });
+            }.bind(this),
+            error: function (xhr, status, err) {
+            }.bind(this)
+        });
+    },
+
+    componentDidMount: function () {
+        this.loadChartConfigsFromServer();
+    },
+
     render: function () {
         var content;
         switch (this.state.sectionName) {
@@ -35,10 +62,14 @@ var DashboardApp = React.createClass({
                 content = <ReviewFeeds />;
                 break;
             case 'charts':
-                content = <DashboardPlot />;
+                content = <DashboardPlot {...this.state} />;
                 break;
             case 'settings':
-                content = <Settings />;
+                content =
+                    <Settings
+                        setChartConfigFunction={this.setChartConfig}
+                        {...this.state}
+                    />;
                 break;
         }
         return (

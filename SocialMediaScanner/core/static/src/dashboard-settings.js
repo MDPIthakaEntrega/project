@@ -12,9 +12,7 @@ var Settings = React.createClass({
         return (
             <div>
                 <ConfigAccount />
-                <ConfigChart
-                    setChartConfigFunction={this.props.setChartConfigFunction}
-                />
+                <ConfigChart {...this.props} />
             </div>
         );
     }

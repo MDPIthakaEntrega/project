@@ -31,7 +31,9 @@ def settings_logic(request):
                 pass
         elif request.method == "GET":
             if user_is_authenticated(request):
+                print "here"
                 part = request.GET.get('part', None)
+                print part
                 username = request.user.username
                 user = User.objects.get(username=username)
                 userprofile = UserProfile.objects.get(user=user)

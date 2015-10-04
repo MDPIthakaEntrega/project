@@ -26,7 +26,7 @@ var SentimentPieChart = React.createClass({
             this.setChartData();
         }
         return (
-            <div id="flot-piechart" style={{"width": "500px", "height": "500px"}} />
+            <div id="flot-piechart" style={{"width": "250px", "height": "250px"}} />
         )
     }
 });

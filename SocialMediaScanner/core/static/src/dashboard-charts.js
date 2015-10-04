@@ -121,26 +121,51 @@ var DashboardPlotApp = React.createClass({
             }.bind(this)
         });
     },
+
     componentDidMount: function () {
         this.retrieveAllData();
     },
+
+    filterChart: function (chart_config) {
+        var result = [];
+        for (var chartType in chart_config) {
+            if (chart_config[chartType]) result.push(chartType);
+        }
+        return result;
+    },
+
     render: function () {
+        var filtered_chart = this.filterChart(this.props.chart_config, this.props.charts);
+        var selected_charts = filtered_chart.map((chartType) => {
+            switch (chartType) {
+                case 'bar_chart_ratings':
+                    return (
+                        <Col xs={6}>
+                            {this.props.charts[chartType]}
+                            <RatingBarChart data={this.state.ratingBarChartData} init={this.state.initialized}/>
+                        </Col>
+                    );
+                case 'num_reviews_by_month':
+                    return (
+                        <Col xs={6}>
+                            {this.props.charts[chartType]}
+                            <TimeChart data={this.state.time_data} init={this.state.initialized}/>
+                        </Col>
+                    );
+                case 'sentiment_pie_chart':
+                    return (
+                        <Col xs={6}>
+                            {this.props.charts[chartType]}
+                            <SentimentPieChart data={this.state.pie_data} init={this.state.initialized}/>
+                        </Col>
+                    );
+            }
+        });
         return (
             <div style={{padding: '20px'}}>
                 <Grid>
                     <Row>
-                        <Col xs={6}>
-                            Sentiment Pie Chart
-                            <SentimentPieChart data={this.state.pie_data} init={this.state.initialized}/>
-                        </Col>
-                        <Col xs={6}>
-                            Bar Chart Ratings
-                            <RatingBarChart data={this.state.ratingBarChartData} init={this.state.initialized}/>
-                        </Col>
-                        <Col xs={10} xsOffset={1}>
-                            Number of Reviews by Month
-                            <TimeChart data={this.state.time_data} init={this.state.initialized}/>
-                        </Col>
+                        {selected_charts}
                     </Row>
                 </Grid>
             </div>

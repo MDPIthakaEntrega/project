@@ -83,13 +83,13 @@ var TimeChart = React.createClass({
             <div className="demo-container">
                 <div id="flot-timeseries" className="demo-placeholder" style={{
                     "float": "left",
-                    "width": "650px",
-                    "height": "500px"
+                    "width": "325px",
+                    "height": "250px"
                 }}></div>
                 <div id="overview" className="demo-placeholder" style={{
-                    "float": "right",
-                    "width": "160px",
-                    "height": "125px"
+                    "float": "left",
+                    "width": "80px",
+                    "height": "60px"
                 }}></div>
             </div>
         )
