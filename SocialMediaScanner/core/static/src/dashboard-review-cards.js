@@ -26,9 +26,9 @@ var TweetCard = React.createClass({
     render: function () {
         return (
             <div className="card">
-                <img src="img/twitter.png" className="img-responsive icon" alt="" />
+                <img src="/static/img/twitter.png" className="img-responsive icon" alt="" />
                 <div className="card_content">
-                    I'm wearing striped knee socks and a blanket tied around my neck like a cape... Definitely turning 32 in 3 days.
+                    {this.props.content}
                 </div>
                 <div className="time">
                     <p>{this.props.date}</p>

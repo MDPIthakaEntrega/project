@@ -88,7 +88,9 @@ public abstract class API extends AccessData {
 			if(current_review_text != null) {
 				
 				current_review_sentiment = Server.sentimentAnalyze(current_review_text);
+				System.out.print(current_review_sentiment);
 				if(current_review_sentiment != null) {
+					System.out.print(current_review_sentiment);
 					current_review.put("sentiment_score", current_review_sentiment.getScore());
 					current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
 				}
