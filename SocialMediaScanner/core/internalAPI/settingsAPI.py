@@ -54,6 +54,5 @@ def settings_logic(request):
                     json.dumps(response_data),
                     content_type="application/json"
                 )
-
     else:
         raise Http404

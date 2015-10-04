@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import net.minidev.json.JSONArray;
+import service.CompanyStruct;
 import service.ResponseStruct;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -63,9 +64,8 @@ public class GrabberTwitter extends DataGrabberGeneric {
 	}
 
 	@Override
-	public List<ResponseStruct> pullData(String companyName, String location) throws UnsupportedEncodingException {
+	public List<ResponseStruct> pullData(CompanyStruct companyName, String location) throws UnsupportedEncodingException {
 		// TODO Auto-generated method stub
-		System.out.println("InsideTwitter PUll data for: " + companyName + " " + location);
 		
 		Twitter twitter = new TwitterFactory().getInstance();
 		AccessToken accessToken = new AccessToken(ACCESS_TOKEN, ACCESS_SECRET);
@@ -75,14 +75,11 @@ public class GrabberTwitter extends DataGrabberGeneric {
 		List<ResponseStruct> listResponseStruct = new ArrayList<ResponseStruct>();
 
 		try {
-			Query query = new Query(companyName);
+			Query query = new Query(companyName.getCompanyName());
 			query.setCount(MAX_RRP);
 			while (query != null) {
-				System.out.println("Inside while");
 				JSONArray jsonArray = new JSONArray();
 				QueryResult result = twitter.search(query);
-//				System.out.println(result.toString());
-//				System.out.println(result.getTweets().size());
 
 				for (Status status : result.getTweets()) {
 					JSONObject jsonObj = new JSONObject();
@@ -95,8 +92,8 @@ public class GrabberTwitter extends DataGrabberGeneric {
 				query = result.nextQuery();
 				JSONObject jsonWrapper = new JSONObject();
 				jsonWrapper.put("statuses", jsonArray);
-				listResponseStruct.add(new ResponseStruct(jsonWrapper.toString(), companyName, toString()));
-				System.out.println("infinite loop");
+				listResponseStruct.add(new ResponseStruct(jsonWrapper.toString(), companyName.getCompanyName(), toString()));
+				
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
