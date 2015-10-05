@@ -10,48 +10,32 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
     <!-- Custom CSS -->
-    <link href="{{ STATIC_URL }}css/homepage.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/index.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ STATIC_URL }}font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation" style="height: 80px">
     <div class="container topnav">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only">Toggle <nav></nav>igation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand topnav" href="/"><img src="{{ STATIC_URL }}img/font.png" class="logo_front"></a>
+            <a class="navbar-brand" href="#">
+                <img src="{{ STATIC_URL }}img/logo.png" class="logo_front img-responsive">
+            </a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#about">Home</a>
-                </li>
-                <li>
-                    <a href="#services">Services</a>
-                </li>
-                <li>
-                    <a href="/login/">Sign in</a>
-                </li>
-                <li>
-                    <a href="/signup/">Sign up</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
 </nav>
-<br/>
-<br/>
 {% block content %}{% endblock %}
 </body>
 </html>
