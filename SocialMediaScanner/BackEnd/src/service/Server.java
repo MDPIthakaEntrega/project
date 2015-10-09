@@ -204,13 +204,7 @@ public class Server extends ServerGeneric {
 		// TODO Auto-generated method stub
 		// Connect to Cassandra;
 
-		// Charlie adding to test new implementation
-		// dbAccessor.initializeDatabase(dbAddr, keyspaceName, tableName,
-		// invertTableName);
 		AccessData.initializeDatabase(dbAddr, keyspaceName, tableName, invertTableName);
-
-		// dbAccessor.init(SOURCE_PATH);
-		AccessData.init(utility.Parser.SOURCE_PATH);
 
 		// Get all grabbers;
 		File grabberFolder = new File(utility.Parser.GRABBER_PATH);
@@ -236,7 +230,6 @@ public class Server extends ServerGeneric {
 		}
 
 		for (Class<? extends DataGrabberGeneric> grabberClass : listGrabberClass) {
-			System.out.println("grabberClass: " + grabberClass.getName());
 			try {
 				listGrabber.add(grabberClass.newInstance());
 			} catch (InstantiationException | IllegalAccessException e) {
@@ -253,15 +246,13 @@ public class Server extends ServerGeneric {
 			while (scanner.hasNext()) {
 
 				String lineStr = scanner.nextLine();
-				System.out.println(lineStr);
+	
 				listAPIs.add(lineStr.split(" ")[0]);
 				if (lineStr.split(" ")[1].equalsIgnoreCase("NO")) {
 
 					// pull data for all users.
 					for (DataGrabberGeneric grabber : listGrabber) {
 
-						System.out.println("grabber: " + grabber.toString());
-						System.out.println(listAPIs.get(listAPIs.size() - 1));
 						if (grabber.toString().equalsIgnoreCase(listAPIs.get(listAPIs.size() - 1))) {
 
 							listNewGrabber.add(grabber);
@@ -299,10 +290,6 @@ public class Server extends ServerGeneric {
 	void pullAllAPIAndStoreForUsers(List<String> companyNameList, List<String> locationList) {
 		// TODO Auto-generated method stub
 
-		for (String name : companyNameList) {
-
-			System.out.println("curname: " + name);
-		}
 		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
 
 		// store responseStructList to the database;
