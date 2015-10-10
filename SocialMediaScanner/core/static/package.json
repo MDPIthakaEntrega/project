@@ -5,22 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "browserify -t reactify -t es6-destructuring src/dashboard-login.js -o build/dashboard-login.js"
+    "build": "browserify -t reactify -t es6-destructuring src/dashboard-login.js -o build/dashboard-login.js",
+    "build-watch": "watchify -t reactify -t es6-destructuring src/dashboard-login.js -o build/dashboard-login.js -v"
   },
   "author": "Ithaka-Entrega-MDP",
   "license": "ISC",
   "devDependencies": {
+    "babel-jest": "^5.3.0",
     "bootstrap": "^3.3.5",
     "browserify": "^10.2.0",
     "es6-destructuring": "^0.4.0",
     "jest-cli": "^0.5.8",
     "jquery": "^2.1.4",
     "jquery.cookie": "^1.4.1",
+    "knuth-shuffle": "^1.0.1",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
-    "babel-jest": "^5.3.0"
+    "watchify": "^3.4.0"
   },
   "jest": {
     "globals": {

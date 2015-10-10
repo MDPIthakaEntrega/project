@@ -101,7 +101,6 @@ var ReviewFeed = React.createClass({
                                 date={review.date}
                             />;
                 }
-
             });
         }
         return (

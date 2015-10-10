@@ -8,14 +8,14 @@ var SideBar = React.createClass({
     getInitialState: function () {
         return {
             section_to_name: {
-                dashboard: 'Dashboard',
+                summary: 'Summary',
                 review_feeds: 'Review Feeds',
                 charts: 'Charts',
                 settings: 'Settings',
                 logout: 'Log Out'
             },
             section_to_icon: {
-                dashboard: 'fa fa-tachometer fa-3x',
+                summary: 'fa fa-tachometer fa-3x',
                 review_feeds: 'fa fa-pencil-square-o fa-3x',
                 charts: 'fa fa-pie-chart fa-3x',
                 settings: 'fa fa-cog fa-3x',

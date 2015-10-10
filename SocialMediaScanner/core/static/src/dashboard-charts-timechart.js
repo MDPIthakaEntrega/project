@@ -88,7 +88,7 @@ var TimeChart = React.createClass({
                 }}></div>
                 <div id="overview" className="demo-placeholder" style={{
                     "float": "left",
-                    "width": "1000px",
+                    "width": "100px",
                     "height": "80px"
                 }}></div>
             </div>

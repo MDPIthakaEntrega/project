@@ -11,6 +11,7 @@ var NavBar = require('./dashboard-navbar');
 var ReviewFeeds = require('./dashboard-review-feeds');
 var DashboardPlot = require('./dashboard-charts');
 var Settings = require('./dashboard-settings');
+var Summary = require('./dashboard-summary');
 
 var DashboardApp = React.createClass({
     getInitialState: function () {
@@ -18,7 +19,7 @@ var DashboardApp = React.createClass({
          * searchKeyWord: the keyword that we want to filter from the review
          */
         return {
-            sectionName: 'dashboard',
+            sectionName: 'summary',
             chart_config: {},
             charts: {}
         };
@@ -58,6 +59,9 @@ var DashboardApp = React.createClass({
     render: function () {
         var content;
         switch (this.state.sectionName) {
+            case 'summary':
+                content = <Summary></Summary>;
+                break;
             case 'review_feeds':
                 content = <ReviewFeeds />;
                 break;
