@@ -20,14 +20,8 @@ var SideBar = React.createClass({
                 charts: 'fa fa-pie-chart fa-3x',
                 settings: 'fa fa-cog fa-3x',
                 logout: 'fa fa-sign-out fa-3x'
-            },
-            username: '',
-            company: ''
+            }
         };
-    },
-
-    componentDidMount: function () {
-        this.loadUserInfoFromServer();
     },
 
     logoutHandler: function () {
@@ -37,23 +31,6 @@ var SideBar = React.createClass({
             url: '/logout/',
             success: function (data) {
                 window.location.href = "/";
-            }.bind(this),
-            error: function (xhr, status, err) {
-            }.bind(this)
-        });
-    },
-
-    loadUserInfoFromServer: function () {
-        $.ajax({
-            type: 'GET',
-            url: '/api/user/',
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                this.setState({
-                    username: data.username,
-                    company: data.company
-                });
             }.bind(this),
             error: function (xhr, status, err) {
             }.bind(this)
@@ -97,10 +74,10 @@ var SideBar = React.createClass({
                             <div className="circleinfo">
                                 <p className="welcome">Welcome</p>
                                 <p className="Mr">
-                                    <b>{this.state.username}</b>
+                                    <b>{this.props.username}</b>
                                 </p>
                                 <p>From:
-                                    <b>{this.state.company}</b>
+                                    <b>{this.props.company}</b>
                                 </p>
                             </div>
                         </li>
