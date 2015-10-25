@@ -21,7 +21,11 @@ var DashboardApp = React.createClass({
         return {
             sectionName: 'summary',
             chart_config: {},
-            charts: {}
+            charts: {},
+            reviews: [],
+            api_config: {},
+            username: '',
+            company: ''
         };
     },
 
@@ -37,14 +41,19 @@ var DashboardApp = React.createClass({
         });
     },
 
-    loadChartConfigsFromServer: function () {
+    loadDataFromServer: function () {
         $.ajax({
             type: 'GET',
-            url: '/api/settings/?part=chart',
+            url: '/api/data/pack',
             success: function (data) {
                 this.setState({
                     charts: data.charts,
-                    chart_config: JSON.parse(data.configs)
+                    chart_config: JSON.parse(data.chart_config),
+                    apis: data.apis,
+                    api_config: JSON.parse(data.api_config),
+                    reviews: JSON.parse(data.reviews).reviews,
+                    username: data.username,
+                    company: data.company
                 });
             }.bind(this),
             error: function (xhr, status, err) {
@@ -53,17 +62,17 @@ var DashboardApp = React.createClass({
     },
 
     componentDidMount: function () {
-        this.loadChartConfigsFromServer();
+        this.loadDataFromServer();
     },
 
     render: function () {
         var content;
         switch (this.state.sectionName) {
             case 'summary':
-                content = <Summary></Summary>;
+                content = <Summary {...this.state} ></Summary>;
                 break;
             case 'review_feeds':
-                content = <ReviewFeeds />;
+                content = <ReviewFeeds {...this.state} />;
                 break;
             case 'charts':
                 content = <DashboardPlot {...this.state} />;
@@ -81,7 +90,7 @@ var DashboardApp = React.createClass({
                 <NavBar />
                 <SideBar
                     sectionClickHandler={this.changeSection}
-                    sectionName={this.state.sectionName}
+                    {...this.state}
                 />
                 <div id="page-wrapper">{content}</div>
             </div>

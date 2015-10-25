@@ -22,14 +22,14 @@ var DashboardPlotApp = React.createClass({
             ratingBarChartData: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]],
             allData: [],
             numberOfData: -1,
-            workable: false,
+            workable: true,
             positive: 0,
             negative: 0,
             neutral: 0,
             initialized: false
         };
     },
-    calculateAnalytics: function () {
+    calculateAnalytics: function (data) {
         this.setState({
             neutral: 0,
             positive: 0,
@@ -37,47 +37,38 @@ var DashboardPlotApp = React.createClass({
         });
         var date_dict = {};
         var rating_dict = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
-        if (this.state.workable) {
-            for (i = 0; i < this.state.numberOfData; ++i) {
-                var sentiment = this.state.allData[i].sentiment_feeling;
-                var rating = this.state.allData[i].sentiment_score;
-                var date = this.state.allData[i].date;
+        var sentiment_result = {
+            negative: 0,
+            positive: 0,
+            neutral: 0
+        };
+        for (var i = 0; i < data.length; ++i) {
+            var sentiment = data[i].sentiment_feeling;
+            var rating = data[i].sentiment_score;
+            var date = data[i].date;
+            sentiment_result[sentiment] += 1;
+            //Get Date counts
+            date = new Date(date);
+            var month = date.getMonth();
+            var year = date.getYear();
 
-                // Count Sentiments
-                if (sentiment == 'negative') {
-                    this.setState({negative: this.state.negative + 1});
-                }
-                else if (sentiment == 'positive') {
-                    this.setState({positive: this.state.positive + 1});
-                }
-                else if (sentiment == 'neutral') {
-                    this.setState({neutral: this.state.neutral + 1});
-                }
+            var curr_date = Date.UTC(year, month);
 
-                //Get Date counts
-                date = new Date(date);
-                var month = date.getMonth();
-                var year = date.getYear();
-
-                var curr_date = Date.UTC(year, month);
-
-                if (curr_date in date_dict) {
-                    date_dict[curr_date] += 1;
-                }
-                else {
-                    date_dict[curr_date] = 1;
-                }
-
-                //Get Ratings Counts
-                rating = Math.round(((rating + 1) / 2) * 5);
-                rating_dict[rating] += 1;
-
-
+            if (curr_date in date_dict) {
+                date_dict[curr_date] += 1;
             }
+            else {
+                date_dict[curr_date] = 1;
+            }
+
+            //Get Ratings Counts
+            rating = Math.round(((rating + 1) / 2) * 5);
+            rating_dict[rating] += 1;
         }
-        var pie_data = [{label: "Positive", data: this.state.positive, color: "#4572A7"},
-            {label: "Negative", data: this.state.negative, color: "#AA4643"},
-            {label: "Neutral", data: this.state.neutral, color: "#80699B"}];
+        this.setState(sentiment_result);
+        var pie_data = [{label: "Positive", data: sentiment_result.positive, color: "#4572A7"},
+            {label: "Negative", data: sentiment_result.negative, color: "#AA4643"},
+            {label: "Neutral", data: sentiment_result.neutral, color: "#80699B"}];
 
         var time_data = [];
         for (var key in date_dict) {
@@ -91,39 +82,21 @@ var DashboardPlotApp = React.createClass({
         var ratingBarChartData = [[0, rating_dict[0]], [1, rating_dict[1]], [2, rating_dict[2]], [3, rating_dict[3]], [4, rating_dict[4]], [5, rating_dict[5]]];
         return [pie_data, time_data, ratingBarChartData];
     },
-    retrieveAllData: function () {
-        $.ajax({
-            port: 3456,
-            type: 'GET',
-            crossDomain: true,
-            //url: 'http://35.2.73.31:3456/search?company%20name=zingerman%27s&keyword=',
-            url: 'http://localhost:3456/search?company%20name=zingerman%27s&keyword=',
-            //url: '/static/search.json',
-            dataType: 'json',
-            success: function (data) {
-                var tempData = data['reviews'];
-                this.setState({
-                    allData: tempData,
-                    numberOfData: tempData.length,
-                    workable: true
-                });
-                var chart_data = this.calculateAnalytics();
-
-                this.setState({
-                    pie_data: chart_data[0],
-                    time_data: chart_data[1],
-                    ratingBarChartData: chart_data[2],
-                    initialized: true
-                });
-            }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(xhr, status, err.toString());
-            }.bind(this)
-        });
-    },
 
     componentDidMount: function () {
-        this.retrieveAllData();
+        var tempData = this.props.reviews;
+        this.setState({
+            allData: tempData,
+            numberOfData: tempData.length
+        });
+        var chart_data = this.calculateAnalytics(tempData);
+
+        this.setState({
+            pie_data: chart_data[0],
+            time_data: chart_data[1],
+            ratingBarChartData: chart_data[2],
+            initialized: true
+        });
     },
 
     filterChart: function (chart_config) {
