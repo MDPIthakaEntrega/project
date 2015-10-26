@@ -12,46 +12,48 @@ import java.util.List;
 import service.ResponseStruct;
 
 public abstract class DataGrabberGeneric {
-
-    /*
-     * Set location to null if not specified.
-     */
-    public abstract List<ResponseStruct> pullData(String companyName, String location)
-	    throws UnsupportedEncodingException;
-
-    /*
-     * A wrapper of pullData to pull data for a list of company-location pair.
-     */
-    public List<ResponseStruct> pullDataForAll(List<String> companyNameList, List<String> locationList)
-	    throws UnsupportedEncodingException {
-
-	List<ResponseStruct> responseList = new LinkedList<ResponseStruct>();
-	for (int i = 0; i < companyNameList.size(); i++) {
-
-	    String companyName = companyNameList.get(i);
-	    String location = locationList.get(i);
-	    System.out.println("CompanName: " + companyName + " Location: " + location);
-	    responseList.addAll(pullData(companyName, location));
+	
+	/*
+	 * Set location to null if not specified.
+	 */
+	public abstract List<ResponseStruct> pullData(String companyName, String location) throws UnsupportedEncodingException;
+	
+	/*
+	 * A wrapper of pullData to pull data for a list of company-location pair. 
+	 */
+	public List<ResponseStruct> pullDataForAll(List<String> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
+		
+		List<ResponseStruct> responseList = new LinkedList<ResponseStruct>();
+		for (int i = 0; i < companyNameList.size(); i++) {
+			
+			String companyName = companyNameList.get(i);
+			String location = locationList.get(i);
+			responseList.addAll(pullData(companyName, location));
+		}
+		
+		return responseList;
 	}
-
-	return responseList;
-    }
-
-    String sendGet(String url) throws IOException {
-	URL urlObj = new URL(url);
-	HttpURLConnection httpCon = (HttpURLConnection) urlObj.openConnection();
-	httpCon.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-	httpCon.setRequestMethod("GET");
-
-	BufferedReader in = new BufferedReader(new InputStreamReader(httpCon.getInputStream()));
-	String inputLine = null;
-	StringBuffer response = new StringBuffer();
-	while ((inputLine = in.readLine()) != null) {
-
-	    response.append(new String(inputLine.getBytes("UTF-8"), "UTF-8"));
+	
+	String sendGet(String url) throws IOException {
+		
+		//url = "http://api.citygridmedia.com/content/reviews/v2/search/where?where=Ann%20Arbor,%20mi&what=Zingerman%27s&publisher=10000008938&format=json";
+		
+		URL urlObj = new URL(url);
+		HttpURLConnection httpCon = (HttpURLConnection) urlObj.openConnection();
+		httpCon.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+		httpCon.setRequestMethod("GET");
+		
+		System.out.println();
+			
+		BufferedReader in = new BufferedReader(new InputStreamReader(httpCon.getInputStream()));
+		String inputLine = null;
+		StringBuffer response = new StringBuffer();
+		while ((inputLine = in.readLine()) != null) {
+			
+			response.append(new String(inputLine.getBytes("UTF-8"), "UTF-8"));
+		}
+		in.close();
+		
+		return response.toString();
 	}
-	in.close();
-
-	return response.toString();
-    }
 }

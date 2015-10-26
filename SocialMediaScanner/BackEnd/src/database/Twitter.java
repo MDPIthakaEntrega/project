@@ -2,6 +2,8 @@ package database;
 
 import org.json.JSONObject;
 
+import utility.Parser.APIParser;
+
 import com.jayway.jsonpath.JsonPath;
 
 public class Twitter extends API {
@@ -12,7 +14,7 @@ public class Twitter extends API {
 		try {
 			
 			return JsonPath.read(currentReview.toString(),
-					path_map.get(this.getClass().getSimpleName()).get("content"));
+					APIParser.getAPIMap(this.getClass().getSimpleName()).get("content"));
 		}
 		catch (NullPointerException e) {
 			
@@ -26,7 +28,7 @@ public class Twitter extends API {
 		try {
 			return this.getClass().getSimpleName() + "_"
 					+ JsonPath.read(currentReview.toString(), 
-							path_map.get(this.getClass().getSimpleName()).get("id"));
+							APIParser.getAPIMap(this.getClass().getSimpleName()).get("id"));
 		}
 		catch (NullPointerException e) {
 			return null;
