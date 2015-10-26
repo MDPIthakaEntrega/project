@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from core.services import *
 from django.http import Http404
+from core.config.api_config import api_config
 import requests
 
 """
@@ -13,7 +14,7 @@ def data_pack(request):
         username = request.user.username
         user = User.objects.get(username=username)
         user_profile = UserProfile.objects.get(user=user)
-        mock_apis = ["Twitter", "Yelp", "CityGrid"]
+        mock_apis = api_config
         chart_to_name = {
             "sentiment_pie_chart": "Sentiment Pie Chart",
             "bar_chart_ratings": "Bar Chart Ratings",

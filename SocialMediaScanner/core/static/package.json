@@ -46,6 +46,7 @@
     ]
   },
   "dependencies": {
-    "noty": "^2.3.6"
+    "noty": "^2.3.6",
+    "react-dom": "^0.14.0"
   }
 }

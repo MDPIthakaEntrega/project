@@ -3,6 +3,7 @@ from util.utilities import *
 from forms.FormTemplate import *
 from services import *
 from django.shortcuts import render
+import json
 __author__ = 'renl'
 """
 This file is intended for all the business logic
@@ -37,10 +38,15 @@ def signup_logic(request):
     form_errors = {'username': '', 'email': '', 'password2': ''}
     if request.method == 'POST':
         form = SignupForm(request.POST)
+        data = request.POST.dict()
+        api_config = {}
+        for key, val in data.items():
+            if key.startswith("api-"):
+                api_config[key[4:]] = val
         form_errors = form.errors
         if form.is_valid():
             username, email, password, company_name, area = get_form_data(form)
-            setup_user_profile(username, email, password, area, company_name)
+            setup_user_profile(username, email, password, area, company_name, json.dumps(api_config))
             signup_login_user(request, username, password)
             return HttpResponseRedirect('/dashboard/')
     return signup_get_helper(request, form_errors)
