@@ -16,6 +16,7 @@
     "jest-cli": "^0.5.8",
     "jquery": "^2.1.4",
     "jquery.cookie": "^1.4.1",
+    "mocha": "0.3.x",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
     "react-tools": "^0.13.3",
