@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from core.services import *
 from django.http import Http404
 from core.models import UserProfile
-
+from core.config.api_config import api_config
 
 def settings_logic(request):
     if user_is_authenticated(request):
@@ -31,7 +31,7 @@ def settings_logic(request):
             user = User.objects.get(username=username)
             userprofile = UserProfile.objects.get(user=user)
             if part == 'account':
-                mock_apis = ["Twitter", "Yelp", "CityGrid"]
+                mock_apis = api_config
                 response_data = {
                     'apis': mock_apis,
                     'configs': userprofile.api_config

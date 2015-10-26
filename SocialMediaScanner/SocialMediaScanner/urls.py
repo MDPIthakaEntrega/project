@@ -4,6 +4,7 @@ from core.views import *
 from core.internalAPI.settingsAPI import *
 from core.internalAPI.userInfoAPI import *
 from core.internalAPI.dashpackAPI import *
+from core.internalAPI import constantsAPI
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
@@ -16,5 +17,6 @@ urlpatterns = patterns('',
     url(r'^dashboard/$', dashboard_view),
     url(r'^api/settings/$', settings_logic),
     url(r'^api/user/$', userinfo),
-    url(r'^api/data/pack', data_pack)
+    url(r'^api/data/pack', data_pack),
+    url(r'^api/constants/platforms', constantsAPI.platforms)
 )
