@@ -156,30 +156,9 @@ abstract class ServerGeneric {
 	    responseHeaders.set("Content-Type", "application/json");
 	    exchange.sendResponseHeaders(200, 0);
 
-	    
-//        InputStreamReader isr =
-//                new InputStreamReader(exchange.getRequestBody(),"utf-8");
-
-
-        
-//        URI uri = exchange.getRequestURI();
-//        uri.
-        
-//        BufferedReader br = new BufferedReader(isr);
-//        String query = br.readLine();
-//        String query2 = br.readLine();
-//        String query3 = br.readLine();
-        
-//        String pairs[] = query.split("[&]");
-//        
-//        System.out.println("Queru:" + query);
-//        System.out.println("Queru2:" + query2);
-//        System.out.println("Queru3:" + query3);
-        
         if ("post".equalsIgnoreCase(exchange.getRequestMethod())) {
             @SuppressWarnings("unchecked")
             Map<String, Object> parameters = new HashMap<String, Object>();
-//                (Map<String, Object>)exchange.getAttribute("parameters");
             InputStreamReader isr =
                 new InputStreamReader(exchange.getRequestBody(),"utf-8");
             BufferedReader br = new BufferedReader(isr);
@@ -195,7 +174,7 @@ abstract class ServerGeneric {
             String locationName = (String) parameters.get("locationName");
             System.out.println(companyName + twitterName + yelpName + citygridName);
             
-            CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName,locationName);
+            CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
             List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
             companies.add(company);
             
@@ -203,6 +182,17 @@ abstract class ServerGeneric {
             locations.add(locationName);
             
             pullAllAPIAndStoreForUsers(companies, locations);
+            
+            
+    	    OutputStream responseBody = exchange.getResponseBody();
+    	    URI uri = exchange.getRequestURI();
+    	    
+    	    String output = "Successfully pulled data for ";
+
+    		output += companyName + " ,";
+
+    	    responseBody.write(output.getBytes());
+    	    responseBody.close();
             
             
         }
