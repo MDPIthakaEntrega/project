@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import service.CompanyStruct;
 import service.ResponseStruct;
 
 public class ImportYelp extends ImportIO {
@@ -21,20 +22,20 @@ public class ImportYelp extends ImportIO {
 
     public static void main(String[] args) {
 
-	ImportYelp test = null;
-	try {
-	    test = new ImportYelp("espresso-royale-ann-arbor-5");
-	} catch (UnsupportedEncodingException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-
-	try {
-	    test.pullData("Espresso Royale", "Ann Arbor");
-	} catch (UnsupportedEncodingException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+//		ImportYelp test = null;
+//		try {
+//		    test = new ImportYelp("espresso-royale-ann-arbor-5");
+//		} catch (UnsupportedEncodingException e) {
+//		    // TODO Auto-generated catch block
+//		    e.printStackTrace();
+//		}
+//	
+//		try {
+//		    test.pullData("Espresso Royale", "Ann Arbor");
+//		} catch (UnsupportedEncodingException e) {
+//		    // TODO Auto-generated catch block
+//		    e.printStackTrace();
+//		}
 
     }
 
@@ -46,7 +47,7 @@ public class ImportYelp extends ImportIO {
     }
 
     @Override
-    public List<ResponseStruct> pullData(String companyName, String location) throws UnsupportedEncodingException {
+    public List<ResponseStruct> pullData(CompanyStruct companyName, String location) throws UnsupportedEncodingException {
 
 	String userParam = "_user=" + user;
 	String apiParam = "_apikey=" + apiKey;

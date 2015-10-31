@@ -9,6 +9,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import service.CompanyStruct;
 import service.ResponseStruct;
 
 /**
@@ -68,14 +69,15 @@ public class GrabberCitygrid extends DataGrabberGeneric {
     }
 
     @Override
-    public List<ResponseStruct> pullData(String companyName, String location) {
+    public List<ResponseStruct> pullData(CompanyStruct companyName, String location) {
 	// TODO Auto-generated method stub
 
 	String urlForPageNum = null;
 	int maxPageNum = 0;
 	String response = null;
 	try {
-	    urlForPageNum = generateURL(companyName, location, 1, 1);
+		System.out.println("location input: " + location);
+	    urlForPageNum = generateURL(companyName.getCompanyName(), location, 1, 1);
 	    response = sendGet(urlForPageNum);
 	    response = processResponse(response);
 	} catch (IOException e) {
@@ -94,11 +96,11 @@ public class GrabberCitygrid extends DataGrabberGeneric {
 	for (int i = 1; i <= maxPageNum; i++) {
 
 	    try {
-		String url = generateURL(companyName, location, i, MAX_RRP);
+		String url = generateURL(companyName.getCompanyName(), location, i, MAX_RRP);
 		// System.out.println(url);
 		response = sendGet(url);
 		response = processResponse(response);
-		responseStructList.add(new ResponseStruct(response, companyName, toString()));
+		responseStructList.add(new ResponseStruct(response, companyName.getCompanyName(), toString()));
 	    } catch (UnsupportedEncodingException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

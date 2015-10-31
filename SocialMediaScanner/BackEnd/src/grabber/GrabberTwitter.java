@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import net.minidev.json.JSONArray;
+import service.CompanyStruct;
 import service.ResponseStruct;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -63,7 +64,7 @@ public class GrabberTwitter extends DataGrabberGeneric {
 	}
 
 	@Override
-	public List<ResponseStruct> pullData(String companyName, String location) throws UnsupportedEncodingException {
+	public List<ResponseStruct> pullData(CompanyStruct companyName, String location) throws UnsupportedEncodingException {
 		// TODO Auto-generated method stub
 		
 		Twitter twitter = new TwitterFactory().getInstance();
@@ -74,7 +75,7 @@ public class GrabberTwitter extends DataGrabberGeneric {
 		List<ResponseStruct> listResponseStruct = new ArrayList<ResponseStruct>();
 
 		try {
-			Query query = new Query(companyName);
+			Query query = new Query(companyName.getCompanyName());
 			query.setCount(MAX_RRP);
 			while (query != null) {
 				JSONArray jsonArray = new JSONArray();
@@ -91,7 +92,7 @@ public class GrabberTwitter extends DataGrabberGeneric {
 				query = result.nextQuery();
 				JSONObject jsonWrapper = new JSONObject();
 				jsonWrapper.put("statuses", jsonArray);
-				listResponseStruct.add(new ResponseStruct(jsonWrapper.toString(), companyName, toString()));
+				listResponseStruct.add(new ResponseStruct(jsonWrapper.toString(), companyName.getCompanyName(), toString()));
 				
 			}
 		} catch (Exception e) {

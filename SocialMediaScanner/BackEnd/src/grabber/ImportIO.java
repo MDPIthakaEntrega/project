@@ -10,20 +10,21 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import service.CompanyStruct;
 import service.ResponseStruct;
 
 public abstract class ImportIO extends DataGrabberGeneric {
 
     public static void main(String[] args) {
-	System.out.println("Start test");
-	try {
-	    ImportYelp test = new ImportYelp("zingermans-delicatessen-ann-arbor-2");
-	    test.pullData("Zingerman's", "Ann Arbor");
-	} catch (UnsupportedEncodingException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-	System.out.println("End Test");
+//		System.out.println("Start test");
+//		try {
+//		    ImportYelp test = new ImportYelp("zingermans-delicatessen-ann-arbor-2");
+//		    test.pullData("Zingerman's", "Ann Arbor");
+//		} catch (UnsupportedEncodingException e) {
+//		    // TODO Auto-generated catch block
+//		    e.printStackTrace();
+//		}
+//		System.out.println("End Test");
     }
 
     // To authenticate ImportIO API
@@ -56,7 +57,7 @@ public abstract class ImportIO extends DataGrabberGeneric {
     protected String user = "ae3388c0-633f-4035-a299-ab81e7e5f122";
 
     @Override
-    public List<ResponseStruct> pullData(String companyName, String location) throws UnsupportedEncodingException {
+    public List<ResponseStruct> pullData(CompanyStruct companyName, String location) throws UnsupportedEncodingException {
 
 	System.out.println("pullData importio: " + companyName);
 	String jsParam = null;
