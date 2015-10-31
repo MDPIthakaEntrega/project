@@ -93,12 +93,15 @@ public class AccessData implements Data {
 	
 	public static void connect() {
 		
+
 		cluster = Cluster
         	    .builder()
         	    .addContactPoint(host)
         	    .withRetryPolicy(DefaultRetryPolicy.INSTANCE)
         	    .build();
-        current_session = cluster.connect(keyspace_name); 
+
+		current_session = cluster.connect(keyspace_name); 
+
 	}
 	
 	/**
