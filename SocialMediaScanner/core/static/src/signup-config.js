@@ -16,7 +16,7 @@ var buttonStyle = {
     width: '100%'
 };
 
-var SingupConfig = React.createClass({
+var SignupConfig = React.createClass({
     getInitialState: function () {
         return {
             platforms: {},
@@ -134,6 +134,6 @@ var SingupConfig = React.createClass({
 });
 
 React.render(
-    <SingupConfig />,
+    <SignupConfig />,
     document.getElementById('dynamic-api-config')
 );
