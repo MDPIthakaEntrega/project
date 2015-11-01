@@ -24,13 +24,6 @@ var Summary = React.createClass({
     },
 
     render: function () {
-        if (this.props.reviews.length === 0) {
-            return (
-                <div>
-                    <p>Data processing</p>
-                </div>
-            );
-        }
         var sentiment_result = this.calculateDivision(this.props.reviews);
         return (
             <div>

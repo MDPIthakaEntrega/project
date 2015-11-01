@@ -12,6 +12,7 @@ var ReviewFeeds = require('./dashboard-review-feeds');
 var DashboardPlot = require('./dashboard-charts');
 var Settings = require('./dashboard-settings');
 var Summary = require('./dashboard-summary');
+var Spinner = require('react-spinkit');
 
 var DashboardApp = React.createClass({
     getInitialState: function () {
@@ -19,6 +20,7 @@ var DashboardApp = React.createClass({
          * searchKeyWord: the keyword that we want to filter from the review
          */
         return {
+            init: false,
             sectionName: 'summary',
             chart_config: {},
             charts: {},
@@ -47,6 +49,7 @@ var DashboardApp = React.createClass({
             url: '/api/data/pack',
             success: function (data) {
                 this.setState({
+                    init: true,
                     charts: data.charts,
                     chart_config: JSON.parse(data.chart_config),
                     apis: data.apis,
@@ -57,6 +60,7 @@ var DashboardApp = React.createClass({
                 });
             }.bind(this),
             error: function (xhr, status, err) {
+                setTimeout(this.loadDataFromServer, 20000);
             }.bind(this)
         });
     },
@@ -66,6 +70,14 @@ var DashboardApp = React.createClass({
     },
 
     render: function () {
+        if (!this.state.init) {
+            return (
+                <div>
+                    <p>Preparing data, please wait...</p>
+                    <Spinner spinnerName='wave' />
+                </div>
+            );
+        }
         var content;
         switch (this.state.sectionName) {
             case 'summary':
