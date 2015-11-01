@@ -36,9 +36,15 @@ var AccountConfig = React.createClass({
         $.ajax({
             type: 'POST',
             url: '/api/settings/',
-            data: configs,
+            data: {type: 'account', configs: JSON.stringify(configs)},
             success: function (data) {
-                console.log("succeed to post");
+                noty({
+                    text: 'save account config successfully',
+                    layout: 'topRight',
+                    type: 'success',
+                    killer: true,
+                    closeWith: ['click', 'hover']
+                });
             }.bind(this),
             error: function (xhr, status, err) {
             }.bind(this)
@@ -58,7 +64,7 @@ var AccountConfig = React.createClass({
     loadAPIsFromServer: function () {
         $.ajax({
             type: 'GET',
-            url: '/api/settings/',
+            url: '/api/settings/?part=account',
             success: function (data) {
                 console.log(data);
                 this.setState({

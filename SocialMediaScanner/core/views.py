@@ -2,7 +2,7 @@ from business import *
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'new_index.html')
 
 
 def logout(request):

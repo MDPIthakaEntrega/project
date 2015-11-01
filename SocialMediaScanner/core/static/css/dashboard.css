@@ -1,3 +1,5 @@
+*, *:before, *:after {box-sizing:  border-box !important;}
+
 body {
     font-family: 'Open Sans', sans-serif;
 }
@@ -273,6 +275,80 @@ color:#fff;
 .dot {
     text-align: center;
     padding-right: 10px;
+}
+
+.huge {
+    font-size: 25px;
+}
+
+.panel-blue {
+    border-color: #46a4e8;
+}
+
+.panel-blue > .panel-heading {
+    border-color: #46a4e8;
+    color: #fff;
+    background-color: #46a4e8;
+}
+
+.panel-blue > a {
+    color: #46a4e8;
+}
+
+.panel-blue > a:hover {
+    color: #3d8b3d;
+}
+
+.panel-green {
+    border-color: #00b07d;
+}
+
+.panel-green > .panel-heading {
+    border-color: #00b07d;
+    color: #fff;
+    background-color: #00b07d;
+}
+
+.panel-green > a {
+    color: #00b07d;
+}
+
+.panel-green > a:hover {
+    color: #3d8b3d;
+}
+
+.panel-red {
+    border-color: #d74d54;
+}
+
+.panel-red > .panel-heading {
+    border-color: #d74d54;
+    color: #fff;
+    background-color: #d74d54;
+}
+
+.panel-red > a {
+    color: #d74d54;
+}
+
+.panel-red > a:hover {
+    color: #b52b27;
+}
+
+.customRow {
+    -moz-column-width: 18em;
+    -webkit-column-width: 18em;
+    -moz-column-gap: 1em;
+    -webkit-column-gap:1em;
+}
+
+.item {
+    display: inline-block;
+    padding:  .25rem;
+}
+
+.ChartSection {
+    margin-bottom: 50px;
 }
 
 /*////////////////////*/

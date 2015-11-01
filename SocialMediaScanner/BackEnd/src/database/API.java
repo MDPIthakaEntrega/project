@@ -41,7 +41,6 @@ public abstract class API extends AccessData {
 			current_review.put("source", this.getClass().getSimpleName());
 			
 			if(current_review_text != null) {
-				
 				try {
 					
 					current_review_sentiment = Server.sentimentAnalyze(current_review_text);

@@ -3,6 +3,9 @@ from util.utilities import *
 from forms.FormTemplate import *
 from services import *
 from django.shortcuts import render
+from multiprocessing import Process
+import time
+import json
 __author__ = 'renl'
 """
 This file is intended for all the business logic
@@ -11,8 +14,7 @@ This file is intended for all the business logic
 
 
 def log_out_user_logic(request):
-    if user_is_authenticated(request) and request.method == 'POST':
-        print "catch the post"
+    if user_is_authenticated(request):
         log_out_user(request)
         return HttpResponseRedirect('/')
     else:
@@ -32,17 +34,30 @@ def check_status_redirect(request, render_page, redirect_path='/dashboard'):
         return render(request, render_page)
 
 
+def foo(input):
+    time.sleep(10)
+    print input
+
+
 def signup_logic(request):
     if user_is_authenticated(request):
         return HttpResponseRedirect('/dashboard/')
     form_errors = {'username': '', 'email': '', 'password2': ''}
     if request.method == 'POST':
         form = SignupForm(request.POST)
+        data = request.POST.dict()
+        api_config = {}
+        print data
+        for key, val in data.items():
+            if key.startswith("api-"):
+                api_config[key[4:]] = val
         form_errors = form.errors
         if form.is_valid():
             username, email, password, company_name, area = get_form_data(form)
-            setup_user_profile(username, email, password, area, company_name)
+            setup_user_profile(username, email, password, area, company_name, json.dumps(api_config))
             signup_login_user(request, username, password)
+            p = Process(target=foo, args=('bob',))
+            p.start()
             return HttpResponseRedirect('/dashboard/')
     return signup_get_helper(request, form_errors)
 
