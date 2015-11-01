@@ -60,8 +60,6 @@ abstract class ServerGeneric {
 			}
 	    }
 
-	    // System.out.println(companyNameList);
-	    // System.out.println(locationList);
 
 	    pullAllAPIAndStoreForUsers(companyNameList, locationList);
 
@@ -146,101 +144,51 @@ abstract class ServerGeneric {
 	@SuppressWarnings("restriction")
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-	    // TODO Auto-generated method stub
-		System.out.println(exchange.getRequestMethod());
-
-		System.out.println("init");
 		
 	    Headers responseHeaders = exchange.getResponseHeaders();
 	    responseHeaders.set("Access-Control-Allow-Origin", "*");
 	    responseHeaders.set("Content-Type", "application/json");
 	    exchange.sendResponseHeaders(200, 0);
 
-        if ("post".equalsIgnoreCase(exchange.getRequestMethod())) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            InputStreamReader isr =
-                new InputStreamReader(exchange.getRequestBody(),"utf-8");
-            BufferedReader br = new BufferedReader(isr);
-            String query = br.readLine();
-            System.out.println("Calling parse query");
-            parseQuery(query, parameters);
-            System.out.println("PARAM response");
-        
-            String companyName = (String)parameters.get("companyName");
-            String twitterName = (String)parameters.get("twitterName");
-            String yelpName = (String)parameters.get("yelpName");
-            String citygridName = (String) parameters.get("citygridName");
-            String locationName = (String) parameters.get("locationName");
-            System.out.println(companyName + twitterName + yelpName + citygridName);
-            
-            CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
-            List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
-            companies.add(company);
-            
-            List<String> locations = new LinkedList<String>();
-            locations.add(locationName);
-            
-            pullAllAPIAndStoreForUsers(companies, locations);
-            
-            
-    	    OutputStream responseBody = exchange.getResponseBody();
-    	    URI uri = exchange.getRequestURI();
-    	    
-    	    String output = "Successfully pulled data for ";
-
-    		output += companyName + " ,";
-
-    	    responseBody.write(output.getBytes());
-    	    responseBody.close();
-            
-            
-        }
-        
-        
-        
-//		OutputStream responseBodyTest = exchange.getRequestBody();
-//	    OutputStream responseBody = exchange.getResponseBody();
-//	    URI uri = exchange.getRequestURI();
-//	    String companyName = null;
-//	    String keyword = null;
-//
-//	    String querytest = uri.getQuery();
-//	    String elements[] = query.split("&");
-//	    System.out.println("HERE");
-	    
-	    //	    for (String element : elements) {
-//
-//		if (element.split("=").length == 1) {
-//
-//		    continue;
-//		}
-//
-//		String name = element.split("=")[0];
-//		String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
-//
-//		if (name.equalsIgnoreCase("company name")) {
-//
-//		    companyName = val;
-//		} else if (name.equalsIgnoreCase("keyword")) {
-//
-//		    keyword = val;
-//		} else {
-//
-//		    System.err.println("URI format invalid!");
-//		}
-//	    }
-//
-//	    if (keyword == null) {
-//
-//		keyword = "";
-//	    }
-//
-//	    // System.out.println(companyName + " " + keyword);
-//	    String jsonResponse = searchReviews(companyName, keyword);
-//	    responseBody.write(jsonResponse.getBytes());
-//	    responseBody.close();
-
+	    if ("post".equalsIgnoreCase(exchange.getRequestMethod())) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> parameters = new HashMap<String, Object>();
+                InputStreamReader isr =
+                    new InputStreamReader(exchange.getRequestBody(),"utf-8");
+                BufferedReader br = new BufferedReader(isr);
+                String query = br.readLine();
+                
+                parseQuery(query, parameters);
+                
+                String companyName = (String)parameters.get("companyName");
+                String twitterName = (String)parameters.get("twitterName");
+                String yelpName = (String)parameters.get("yelpName");
+                String citygridName = (String) parameters.get("citygridName");
+                String locationName = (String) parameters.get("locationName");
+                
+                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
+                List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
+                companies.add(company);
+                
+                List<String> locations = new LinkedList<String>();
+                locations.add(locationName);
+                
+                pullAllAPIAndStoreForUsers(companies, locations);
+                
+                
+        	    OutputStream responseBody = exchange.getResponseBody();
+        	    URI uri = exchange.getRequestURI();
+        	    
+        	    String output = "Successfully pulled data for ";
+    
+        	    output += companyName + " ,";
+    
+        	    responseBody.write(output.getBytes());
+        	    responseBody.close();
+                
+                
+            }
+         
 	}
     }
     
@@ -284,7 +232,6 @@ abstract class ServerGeneric {
                 }
             }
         }
-        System.out.println("END PARSING");
    }
     
     
