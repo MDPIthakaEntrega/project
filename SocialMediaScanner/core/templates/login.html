@@ -1,7 +1,6 @@
 {% extends "navbase_plain.html" %}
 {% block content %}
-<div class="container">
-
+<div class="container" style="padding-top: 100px;">
     <form class="form-signin" method="post" action="/login_auth/">
         {% csrf_token %}
         <h2 class="form-signin-heading">Please sign in</h2>

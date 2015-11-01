@@ -15,7 +15,7 @@ var NavBar = React.createClass({
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <a className="navbar-brand" href="index.html">
+                    <a className="navbar-brand" href="/">
                         <img className="main_logo"src="/static/img/logo.png" alt="logo"/>
                     </a>
                 </div>

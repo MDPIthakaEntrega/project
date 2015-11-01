@@ -82,21 +82,29 @@ public abstract class API extends AccessData {
 			current_review_text = this.getContent(current_review);
 			
 			current_review_id = this.getId(current_review);
-			
+
 			current_review.put("source", this.getClass().getSimpleName());
 			
 			if(current_review_text != null) {
 				
 				current_review_sentiment = Server.sentimentAnalyze(current_review_text);
-				current_review.put("sentiment_score", current_review_sentiment.getScore());
-				current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
+				System.out.print(current_review_sentiment);
+				if(current_review_sentiment != null) {
+					System.out.print(current_review_sentiment);
+					current_review.put("sentiment_score", current_review_sentiment.getScore());
+					current_review.put("sentiment_feeling", current_review_sentiment.getFeeling());
+				}
+				else {
+					current_review.put("sentiment_score", 0);
+					current_review.put("sentiment_feeling", "neutral");
+				}
 			}
 			
 			// TODO insert review_text into column in database or do something with SOLR
 
 			// TODO what should be case if id is null
 			if(current_review_id != null) {
-				this.insertReview(current_review_id, responses.getCompanyName(),
+				this.insertReview(current_review_id, responses.getCompanyName().toLowerCase(),
 						current_review.toString());
 			}
 			
@@ -109,7 +117,6 @@ public abstract class API extends AccessData {
 		BoundStatement boundStatement = new BoundStatement(preparedStmt);
 		current_session.execute(boundStatement.bind(review_id, company_name,
 				full_review));
-
 	}
 	
 	public JSONObject formatReview(Row current_row, List<String> attributes)
@@ -119,6 +126,8 @@ public abstract class API extends AccessData {
 		for (String attribute : attributes) {
 			try {
 
+//				System.out.println("Attribute: " + attribute);
+//				System.out.println(path_map.get(this.getClass().getSimpleName()).get(attribute));
 				Object val = JsonPath.read(json_as_string, path_map.get(this.getClass().getSimpleName()).get(attribute));
 				if (val == null) {
 
@@ -134,6 +143,7 @@ public abstract class API extends AccessData {
 					}
 				}
 			} catch (com.jayway.jsonpath.InvalidPathException e) {
+				// If attribute is not in the review, then we just put a blank value in
 				json_api_format.put(attribute, "");
 			}
 		}

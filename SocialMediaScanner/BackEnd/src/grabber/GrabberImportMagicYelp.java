@@ -41,7 +41,7 @@ public class GrabberImportMagicYelp extends ImportIO {
 	public GrabberImportMagicYelp() {
 		
 		// TODO change to dynamic name
-		yelpCompanyName = "espresso-royale-ann-arbor-5";
+		yelpCompanyName = "zingermans-delicatessen-ann-arbor-2";
 		baseURL = "https://api.import.io/store/connector/_magic?url=";
 		try {
 			searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");

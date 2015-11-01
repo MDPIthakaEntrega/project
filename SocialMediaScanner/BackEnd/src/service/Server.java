@@ -146,6 +146,8 @@ public class Server extends ServerGeneric {
 		
 		try {
 			AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile(API_KEY_PATH);
+//			System.out.println("Calling alchemy with: " );
+//			System.out.println(review);
 			Document result = alchemyObj.TextGetTextSentiment(review);
 			SentimentStruct s = parseSentimentStruct(result);
 			//System.out.println(s);
@@ -312,7 +314,12 @@ public class Server extends ServerGeneric {
 			List<String> locationList) {
 		// TODO Auto-generated method stub
 		
+		for(String name: companyNameList) {
+			
+			System.out.println("curname: " + name);
+		}
 		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
+		
 		
 		//store responseStructList to the database;
 		try {

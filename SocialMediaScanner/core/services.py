@@ -28,7 +28,7 @@ def user_is_authenticated(request):
     return request.user.is_authenticated()
 
 
-def link_profile_to_sys_user(username, area, company_name):
+def link_profile_to_sys_user(username, area, company_name, api_config):
     u = User.objects.get(username=username)
     try:
         Company.objects.get(company_name=company_name)
@@ -37,13 +37,13 @@ def link_profile_to_sys_user(username, area, company_name):
         c.save()
     c = Company.objects.get(company_name=company_name)
     full_user \
-        = UserProfile(user=u, area=area, my_company=c)
+        = UserProfile(user=u, area=area, my_company=c, api_config=api_config)
     full_user.save()
 
 @transaction.atomic
-def setup_user_profile(username, email, password, area, company_name):
+def setup_user_profile(username, email, password, area, company_name, api_config):
     create_sys_user(username, email, password)
-    link_profile_to_sys_user(username, area, company_name)
+    link_profile_to_sys_user(username, area, company_name, api_config)
 
 
 def authen_user(username, password):

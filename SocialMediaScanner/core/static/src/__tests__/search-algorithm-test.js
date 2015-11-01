@@ -1,10 +1,6 @@
-/**
- * Created by renl on 9/25/15.
- */
-jest.dontMock('../search-algorithm');
-
+var assert = require('assert');
 describe('search-algorithm', function () {
-    it('searches', function () {
+    it('should return a correct ranking.', function () {
         var mock_data = [
             {"content":"a b c d","title":"t1"},
             {"content":"a b","title":"t2"},
@@ -17,7 +13,7 @@ describe('search-algorithm', function () {
         var keyword_mock = "a b c d";
         var searchKeywordFromData = require('../search-algorithm');
         var result = searchKeywordFromData(keyword_mock, mock_data);
-        expect(result[0].content).toBe("a b c d");
-        expect(result[1].title).toBe("t3");
+        assert.equal(result[0].content, "a b c d");
+        assert(result[1].title, "t3");
     });
 });

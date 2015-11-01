@@ -14,5 +14,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     area = models.CharField(max_length=100, blank=True)
     api_config = models.TextField(default="{}")
+    chart_config = models.TextField(default="{}")
     my_company = models.ForeignKey(Company)
 
