@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 
+import service.CompanyStruct;
 import service.ResponseStruct;
 
 public class GrabberImportMagicYelp extends ImportIO {
@@ -28,13 +29,13 @@ public class GrabberImportMagicYelp extends ImportIO {
 		
 		GrabberImportMagicYelp test = new GrabberImportMagicYelp();
 		
-		try {
-			test.pullData("zingerman's", "Ann Arbor");
-			System.out.println("Success");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			test.pullData("zingerman's", "Ann Arbor");
+//			System.out.println("Success");
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 			
 	}
 	
@@ -51,10 +52,10 @@ public class GrabberImportMagicYelp extends ImportIO {
 		}
 	}
 
-	public GrabberImportMagicYelp(String yelpCompanyName_in) {
+	public GrabberImportMagicYelp(CompanyStruct yelpCompanyName_in) {
 		
 		// TODO change to dynamic name
-		yelpCompanyName = yelpCompanyName_in;
+		yelpCompanyName = yelpCompanyName_in.getYelpName();
 		baseURL = "https://api.import.io/store/connector/_magic?url=";
 		try {
 			searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
@@ -89,7 +90,7 @@ public class GrabberImportMagicYelp extends ImportIO {
 	}
 	
 	@Override
-	public List<ResponseStruct> pullData(String companyName, String location)
+	public List<ResponseStruct> pullData(CompanyStruct companyName, String location)
 			throws UnsupportedEncodingException {
 
 		String userParam = "_user=" + user;
@@ -102,7 +103,7 @@ public class GrabberImportMagicYelp extends ImportIO {
 		try {
 
 			response = sendGet(requestURL);
-			responseStructList.add(new ResponseStruct(response, companyName, "Yelp"));
+			responseStructList.add(new ResponseStruct(response, companyName.getCompanyName(), "Yelp"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -119,7 +120,7 @@ public class GrabberImportMagicYelp extends ImportIO {
 			try {
 				System.out.println(requestURL);
 				response = sendGet(requestURL);
-				responseStructList.add(new ResponseStruct(response, companyName, "Yelp"));
+				responseStructList.add(new ResponseStruct(response, companyName.getCompanyName(), "Yelp"));
 				System.out.println("Returned");
 				System.out.println(response);
 			}

@@ -1,12 +1,18 @@
 package service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 import com.sun.net.httpserver.Headers;
@@ -35,25 +41,25 @@ abstract class ServerGeneric {
 	    exchange.sendResponseHeaders(200, 0);
 	    OutputStream responseBody = exchange.getResponseBody();
 	    URI uri = exchange.getRequestURI();
-	    List<String> companyNameList = new LinkedList<>();
+	    List<CompanyStruct> companyNameList = new LinkedList<>();
+	   
+	    
 	    List<String> locationList = new LinkedList<>();
 	    String query = uri.getQuery();
 	    String[] elements = query.split("&");
 	    for (int i = 0; i < elements.length; i++) {
 
-		String element = elements[i];
-		String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
-		if (i % 2 == 0) {
-
-		    companyNameList.add(val);
-		} else {
-
-		    locationList.add(val);
-		}
+			String element = elements[i];
+			String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
+			if (i % 2 == 0) {
+				CompanyStruct newCompany = new CompanyStruct(val, "","","", "");
+			    companyNameList.add(newCompany);
+			} else {
+	
+			    locationList.add(val);
+			}
 	    }
 
-	    // System.out.println(companyNameList);
-	    // System.out.println(locationList);
 
 	    pullAllAPIAndStoreForUsers(companyNameList, locationList);
 
@@ -126,6 +132,110 @@ abstract class ServerGeneric {
 	}
     }
 
+    
+    /**
+     * Handler to handle client request.
+     * 
+     * @author Yuke
+     * 
+     */
+    class QueryHandlerInit implements HttpHandler {
+
+	@SuppressWarnings("restriction")
+	@Override
+	public void handle(HttpExchange exchange) throws IOException {
+		
+	    Headers responseHeaders = exchange.getResponseHeaders();
+	    responseHeaders.set("Access-Control-Allow-Origin", "*");
+	    responseHeaders.set("Content-Type", "application/json");
+	    exchange.sendResponseHeaders(200, 0);
+
+	    if ("post".equalsIgnoreCase(exchange.getRequestMethod())) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> parameters = new HashMap<String, Object>();
+                InputStreamReader isr =
+                    new InputStreamReader(exchange.getRequestBody(),"utf-8");
+                BufferedReader br = new BufferedReader(isr);
+                String query = br.readLine();
+                
+                parseQuery(query, parameters);
+                
+                String companyName = (String)parameters.get("companyName");
+                String twitterName = (String)parameters.get("twitterName");
+                String yelpName = (String)parameters.get("yelpName");
+                String citygridName = (String) parameters.get("citygridName");
+                String locationName = (String) parameters.get("locationName");
+                
+                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
+                List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
+                companies.add(company);
+                
+                List<String> locations = new LinkedList<String>();
+                locations.add(locationName);
+                
+                pullAllAPIAndStoreForUsers(companies, locations);
+                
+                
+        	    OutputStream responseBody = exchange.getResponseBody();
+        	    URI uri = exchange.getRequestURI();
+        	    
+        	    String output = "Successfully pulled data for ";
+    
+        	    output += companyName + " ,";
+    
+        	    responseBody.write(output.getBytes());
+        	    responseBody.close();
+                
+                
+            }
+         
+	}
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    private void parseQuery(String query, Map<String, Object> parameters)
+        throws UnsupportedEncodingException {
+
+        if (query != null) {
+            String pairs[] = query.split("[&]");
+            System.out.println("parssize: " + pairs.length);
+            for (String pair : pairs) {
+            	System.out.println("paircurrent: " + pair);
+                String param[] = pair.split("[=]");
+
+                String key = null;
+                String value = null;
+                if (param.length > 0) {
+                    key = URLDecoder.decode(param[0],
+                        System.getProperty("file.encoding"));
+                }
+
+                if (param.length > 1) {
+                    value = URLDecoder.decode(param[1],
+                        System.getProperty("file.encoding"));
+                }
+
+                if (parameters.containsKey(key)) {
+                    Object obj = parameters.get(key);
+                    if(obj instanceof List<?>) {
+                        List<String> values = (List<String>)obj;
+                        values.add(value);
+                    } else if(obj instanceof String) {
+                        List<String> values = new ArrayList<String>();
+                        values.add((String)obj);
+                        values.add(value);
+                        parameters.put(key, values);
+                    }
+                } else {
+                    parameters.put(key, value);
+                }
+            }
+        }
+   }
+    
+    
+    
     /**
      * the port number specified for listening.
      */
@@ -152,7 +262,7 @@ abstract class ServerGeneric {
      * @param companyNameList
      * @param locationList
      */
-    abstract void pullAllAPIAndStoreForUsers(List<String> companyNameList, List<String> locationList);
+    abstract void pullAllAPIAndStoreForUsers(List<CompanyStruct> companyNameList, List<String> locationList);
 
     /**
      * pull data for all users.
@@ -176,6 +286,9 @@ abstract class ServerGeneric {
 	// Specify the handlers to deal with different contexts.
 	server.createContext("/search", new QueryHandlerSearch());
 	server.createContext("/pull", new QueryHandlerPull());
+	
+	server.createContext("/init", new QueryHandlerInit());
+	
 	server.setExecutor(Executors.newCachedThreadPool());
 	server.start();
 	System.out.println("Server is listening on port " + port);

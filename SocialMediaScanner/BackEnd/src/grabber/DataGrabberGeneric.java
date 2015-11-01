@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+import service.CompanyStruct;
 import service.ResponseStruct;
 
 public abstract class DataGrabberGeneric {
@@ -16,17 +17,17 @@ public abstract class DataGrabberGeneric {
 	/*
 	 * Set location to null if not specified.
 	 */
-	public abstract List<ResponseStruct> pullData(String companyName, String location) throws UnsupportedEncodingException;
+	public abstract List<ResponseStruct> pullData(CompanyStruct companyName, String location) throws UnsupportedEncodingException;
 	
 	/*
 	 * A wrapper of pullData to pull data for a list of company-location pair. 
 	 */
-	public List<ResponseStruct> pullDataForAll(List<String> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
+	public List<ResponseStruct> pullDataForAll(List<CompanyStruct> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
 		
 		List<ResponseStruct> responseList = new LinkedList<ResponseStruct>();
 		for (int i = 0; i < companyNameList.size(); i++) {
 			
-			String companyName = companyNameList.get(i);
+			CompanyStruct companyName = companyNameList.get(i);
 			String location = locationList.get(i);
 			responseList.addAll(pullData(companyName, location));
 		}

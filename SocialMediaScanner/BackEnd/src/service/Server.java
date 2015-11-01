@@ -287,7 +287,7 @@ public class Server extends ServerGeneric {
 	}
 
 	@Override
-	void pullAllAPIAndStoreForUsers(List<String> companyNameList, List<String> locationList) {
+	void pullAllAPIAndStoreForUsers(List<CompanyStruct> companyNameList, List<String> locationList) {
 		// TODO Auto-generated method stub
 
 		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
@@ -305,11 +305,14 @@ public class Server extends ServerGeneric {
 	void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listPartGrabbers) {
 		// TODO Auto-generated method stub
 		List<CompanyLocationPair> userList = getAllUsers();
-		List<String> companyNameList = new LinkedList<String>();
+//		List<String> companyNameList = new LinkedList<String>();
+		List<CompanyStruct> companyNameList = new LinkedList<CompanyStruct>();
+		
 		List<String> locationList = new LinkedList<String>();
 		for (CompanyLocationPair pair : userList) {
-
-			companyNameList.add(pair.getCompanyName());
+			
+			CompanyStruct newCompany = new CompanyStruct(pair.getCompanyName(), "","","", "");
+			companyNameList.add(newCompany);
 			locationList.add(pair.getLocation());
 		}
 
@@ -332,7 +335,7 @@ public class Server extends ServerGeneric {
 	 * @param listGrabber
 	 * @return
 	 */
-	List<ResponseStruct> pullAPIsForUsers(List<String> companyNameList, List<String> locationList,
+	List<ResponseStruct> pullAPIsForUsers(List<CompanyStruct> companyNameList, List<String> locationList,
 			List<DataGrabberGeneric> listGrabber) {
 
 		List<ResponseStruct> responseStructAllList = new LinkedList<ResponseStruct>();
