@@ -4,7 +4,7 @@
   "description": "package management for JavaScirpt in Baobab",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "mocha src/__tests__",
     "build": "browserify -t reactify -t es6-destructuring src/dashboard-login.js -o build/dashboard-login.js",
     "build-watch": "watchify -t reactify -t es6-destructuring src/dashboard-login.js -o build/dashboard-login.js -v"
   },
