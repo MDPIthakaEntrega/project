@@ -16,12 +16,13 @@
     "jest-cli": "^0.5.8",
     "jquery": "^2.1.4",
     "jquery.cookie": "^1.4.1",
-    "mocha": "0.3.x",
+    "mocha": "^2.3.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
-    "babel-jest": "^5.3.0"
+    "babel-jest": "^5.3.0",
+    "testdom": "^2.0.0"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
