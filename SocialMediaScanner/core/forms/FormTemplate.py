@@ -1,6 +1,5 @@
 __author__ = 'renl'
 from django import forms
-from core.models import Company
 from django.core.exceptions import ObjectDoesNotExist
 import re
 from django.contrib.auth.models import User

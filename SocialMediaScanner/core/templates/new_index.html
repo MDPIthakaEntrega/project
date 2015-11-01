@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" type="image/vnd.microsoft.icon"/>
+    <title>Baobab</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link href="{{ STATIC_URL }}css/index.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{{ STATIC_URL }}font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top topnav" role="navigation">
+    <div class="container topnav">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle <nav></nav>igation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="{{ STATIC_URL }}img/logo.png" class="logo_front img-responsive">
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#about">Home</a>
+                </li>
+                <li>
+                    <a href="#services">Services</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="/dashboard/">Dashboard</a>
+                </li>
+                <li>
+                    <a href="/logout/">Log out</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login/">Log in</a>
+                </li>
+                <li>
+                    <a href="/signup/">Sign up</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+<!-- Header -->
+<a name="about"></a>
+
+<div class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <img src="{{ STATIC_URL }}img/favicon.png" alt="img" class="middlelogo">
+
+                    <h3>A Useful Social Media Scanner Tool</h3>
+                    <hr class="intro-divider">
+
+                    <ul class="list-inline icons">
+                        <li>
+                                <span class="fa-stack fa-4x">
+<!--                                     <i class="fa fa-circle fa-stack-2x "></i>
+ -->                                    <i class="fa fa-search fa-fw fa-inverse"></i> 
+                                </span>
+                        </li>
+
+                        <li>
+                                <span class="fa-stack fa-4x">
+<!--                                     <i class="fa fa-circle fa-stack-2x "></i>
+ -->                                    <i class="fa fa-line-chart fa-fw fa-inverse"></i>
+                                    </span>
+                        </li>
+                        <li>
+                                <span class="fa-stack fa-4x">
+<!--                                     <i class="fa fa-circle fa-stack-2x"></i>
+ -->                                    <i class="fa fa-desktop fa-fw fa-inverse"></i>
+                                    </span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="{{ STATIC_URL }}img/mac.png" alt="">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+
+
+<!-- Page Content -->
+
+<a name="services"></a>
+
+<div class="content-section-a">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-sm-6">
+                <hr class="section-heading-spacer">
+                <div class="clearfix"></div>
+                <h2 class="section-heading">Search Function</h2>
+
+                <p class="lead">Our product has search function which allows users to search by keywords through
+                    different social media website.</p>
+            </div>
+            <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                <img class="img-responsive" src="{{ STATIC_URL }}img/ipadmockup.png" alt="">
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.content-section-a -->
+
+<div class="content-section-b">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                <hr class="section-heading-spacer">
+                <div class="clearfix"></div>
+                <h2 class="section-heading">Multi-Social Media</h2>
+
+                <p class="lead">Our product offers reviews from several different social media websites like Yelp,
+                    Citygrid and Twitter. We have modulized API so that it is easy for our customers to plug-in any
+                    social media website they want.</p>
+            </div>
+            <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                <img class="img-responsive" src="{{ STATIC_URL }}img/mac1.png" alt="">
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.content-section-b -->
+
+<div class="content-section-a">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-5 col-sm-6">
+                <hr class="section-heading-spacer">
+                <div class="clearfix"></div>
+                <h2 class="section-heading">Management Function</h2>
+
+                <p class="lead">This function is coming soon! Users can use the our product to manage their social media
+                    account in our product. They can add their social media account to our product and they can review,
+                    reply and post comments.</p>
+            </div>
+            <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                <img class="img-responsive" src="{{ STATIC_URL }}img/socialmedia.png" alt="">
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.content-section-a -->
+
+<a name="contact"></a>
+<!-- /.banner -->
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-inline">
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small">Copyright &copy; 2015. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

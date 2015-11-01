@@ -19,7 +19,5 @@ def userinfo(request):
                 json.dumps(response_data),
                 content_type="application/json"
             )
-        else:
-            pass
     else:
         raise Http404

@@ -11,24 +11,8 @@ var NavBar = require('./dashboard-navbar');
 var ReviewFeeds = require('./dashboard-review-feeds');
 var DashboardPlot = require('./dashboard-charts');
 var Settings = require('./dashboard-settings');
-
-var PageContent = React.createClass({
-    render: function() {
-        var content;
-        switch (this.props.sectionName) {
-            case 'review_feeds':
-                content = <ReviewFeeds />;
-                break;
-            case 'charts':
-                content = <DashboardPlot />;
-                break;
-            case 'settings':
-                content = <Settings />;
-                break;
-        }
-        return <div id="page-wrapper">{content}</div>;
-    }
-});
+var Summary = require('./dashboard-summary');
+var Spinner = require('react-spinkit');
 
 var DashboardApp = React.createClass({
     getInitialState: function () {
@@ -36,7 +20,14 @@ var DashboardApp = React.createClass({
          * searchKeyWord: the keyword that we want to filter from the review
          */
         return {
-            sectionName: 'dashboard'
+            init: false,
+            sectionName: 'summary',
+            chart_config: {},
+            charts: {},
+            reviews: [],
+            api_config: {},
+            username: '',
+            company: ''
         };
     },
 
@@ -46,15 +37,74 @@ var DashboardApp = React.createClass({
         });
     },
 
+    setChartConfig: function (chart_config) {
+        this.setState({
+            chart_config: chart_config
+        });
+    },
+
+    loadDataFromServer: function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/data/pack',
+            success: function (data) {
+                this.setState({
+                    init: true,
+                    charts: data.charts,
+                    chart_config: JSON.parse(data.chart_config),
+                    apis: data.apis,
+                    api_config: JSON.parse(data.api_config),
+                    reviews: JSON.parse(data.reviews).reviews,
+                    username: data.username,
+                    company: data.company
+                });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                setTimeout(this.loadDataFromServer, 20000);
+            }.bind(this)
+        });
+    },
+
+    componentDidMount: function () {
+        this.loadDataFromServer();
+    },
+
     render: function () {
+        if (!this.state.init) {
+            return (
+                <div>
+                    <p>Preparing data, please wait...</p>
+                    <Spinner spinnerName='wave' />
+                </div>
+            );
+        }
+        var content;
+        switch (this.state.sectionName) {
+            case 'summary':
+                content = <Summary {...this.state} ></Summary>;
+                break;
+            case 'review_feeds':
+                content = <ReviewFeeds {...this.state} />;
+                break;
+            case 'charts':
+                content = <DashboardPlot {...this.state} />;
+                break;
+            case 'settings':
+                content =
+                    <Settings
+                        setChartConfigFunction={this.setChartConfig}
+                        {...this.state}
+                    />;
+                break;
+        }
         return (
             <div>
                 <NavBar />
                 <SideBar
                     sectionClickHandler={this.changeSection}
-                    sectionName={this.state.sectionName}
+                    {...this.state}
                 />
-                <PageContent {...this.state} />
+                <div id="page-wrapper">{content}</div>
             </div>
         );
     }
