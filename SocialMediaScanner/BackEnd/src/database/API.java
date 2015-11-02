@@ -57,7 +57,7 @@ public abstract class API extends AccessData {
 				catch(Exception e) {
 					
 					System.out.println("analysis error");
-					e.printStackTrace();
+//					e.printStackTrace();
 				}
 				
 			}

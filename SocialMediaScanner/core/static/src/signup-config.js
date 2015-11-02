@@ -5,6 +5,7 @@ var Col = require('react-bootstrap').Col;
 var Button = require('react-bootstrap').Button;
 var Input = require('react-bootstrap').Input;
 var AddPlatformBlock = require('./add-platform-block');
+var $ = require('jquery');
 
 var inputStyle = {
     display: 'block',
@@ -92,12 +93,14 @@ var SignupConfig = React.createClass({
                 return (
                     <div style={{margin: '10px'}}>
                         <Row>
-                            <Col xs={2}><p>{platform}</p></Col>
+                            <Col xs={2}>
+                                <p>{platform}</p>
+                            </Col>
                             <Col xs={8}>
                                 <Input
                                     className="form-control"
                                     type="text"
-                                    name={"api-"+platform}
+                                    name={"api-" + platform}
                                     value={platforms[platform]}
                                     readOnly />
                             </Col>
@@ -133,7 +136,4 @@ var SignupConfig = React.createClass({
     }
 });
 
-React.render(
-    <SignupConfig />,
-    document.getElementById('dynamic-api-config')
-);
+module.exports = SignupConfig;

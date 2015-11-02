@@ -18,6 +18,7 @@ def create_sys_user(username, email, password):
         email=email,
         password=password)
     confirm.save()
+    return confirm
 
 
 def log_out_user(request):
@@ -39,11 +40,12 @@ def link_profile_to_sys_user(username, area, company_name, api_config):
     full_user \
         = UserProfile(user=u, area=area, my_company=c, api_config=api_config)
     full_user.save()
+    return u
 
 @transaction.atomic
 def setup_user_profile(username, email, password, area, company_name, api_config):
     create_sys_user(username, email, password)
-    link_profile_to_sys_user(username, area, company_name, api_config)
+    return link_profile_to_sys_user(username, area, company_name, api_config)
 
 
 def authen_user(username, password):
