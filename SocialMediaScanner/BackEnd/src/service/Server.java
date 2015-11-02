@@ -139,16 +139,20 @@ public class Server extends ServerGeneric {
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("Alchemy IOException");
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("Alchemy XPathExpressionException");
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("Alchemy SAXException");
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("Alchemy ParserConfigurationException");
 		}
 		return null;
 	}

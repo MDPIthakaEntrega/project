@@ -185,11 +185,20 @@ public class AccessData implements Data {
 			JSONObject jsonObj = ((API) (api_type.newInstance())).formatReview(
 					row, attributes);
 			
+//			try {
+				
+				if (containsAll(jsonObj.getString("content"), each_word)) {
 
-			if (containsAll(jsonObj.getString("content"), each_word)) {
+					formatted_reviews.put(jsonObj);
+				}
 
-				formatted_reviews.put(jsonObj);
-			}
+//			}
+//			catch(JSONException j) {
+//				JSONArray descriptions = jsonObj.getJSONArray("content");
+//				if (containsAll(descriptions.toString(), each_word)) {
+//					formatted_reviews.put(jsonObj);
+//				}
+//			}
 		}
 		JSONObject all_reviews = new JSONObject();
 		all_reviews.put("reviews", formatted_reviews);

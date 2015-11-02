@@ -34,6 +34,7 @@ public abstract class API extends AccessData {
 		String current_review_id;
 		SentimentStruct current_review_sentiment;
 		// insert reviews 1 by 1
+		System.out.println("Review.length: " + reviews.length());
 		for (int i = 0; i < reviews.length(); ++i) {
 			current_review = reviews.getJSONObject(i);
 			current_review_text = this.getContent(current_review);
@@ -100,8 +101,8 @@ public abstract class API extends AccessData {
 						json_api_format.put(attribute, (int) val
 								/ APIParser.getConversionMap(this.getClass().getSimpleName()));
 					} else {
-						
-						json_api_format.put(attribute, val);
+
+						json_api_format.put(attribute, val.toString());
 					}
 				}
 			} catch (com.jayway.jsonpath.InvalidPathException e) {
