@@ -25,6 +25,8 @@
     "knuth-shuffle": "^1.0.1",
     "mocha": "^2.3.3",
     "mocha-jsdom": "^1.0.0",
+    "mocha-sinon": "^1.1.4",
+    "noty": "^2.3.7",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
     "react-spinkit": "^1.1.4",

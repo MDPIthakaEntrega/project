@@ -10,14 +10,25 @@ var TestUtils = React.addons.TestUtils;
 
 describe("signup-config", function() {
     describe("test-ajax", function() {
+        var fakeData = [];
+
+
         beforeEach(function () {
-            this.callback = sinon.spy(jQuery, "ajax");
+            sinon.stub($, "ajax").yieldsTo("success", fakeData);
         });
 
         afterEach(function () {
             $.ajax.restore();
         });
 
+        it('call the ajax', function() {
+            var signup = TestUtils.renderIntoDocument(
+                React.createElement(SignupConfig, {})
+            );
+        })
+
     });
+
+
 
 });
