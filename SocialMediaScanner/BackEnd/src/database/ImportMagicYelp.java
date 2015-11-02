@@ -1,5 +1,8 @@
 package database;
 
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import utility.Parser.APIParser;
@@ -12,9 +15,23 @@ public class ImportMagicYelp extends API {
 	public String getContent(JSONObject currentReview) {
 	
 		try {
-			
-			return JsonPath.read(currentReview.toString(),
-					APIParser.getAPIMap(this.getClass().getSimpleName()).get("content"));
+			try {
+				
+				List<String> descriptions = JsonPath.read(currentReview.toString(),
+						APIParser.getAPIMap(this.getClass().getSimpleName()).get("content"));
+				String result = "";
+				for(String description: descriptions) {
+					
+					result += description;
+				}
+				
+				return result;
+
+			}
+			catch (Exception e) {
+				return JsonPath.read(currentReview.toString(),
+						APIParser.getAPIMap(this.getClass().getSimpleName()).get("content"));
+			}
 		}
 		catch (NullPointerException e) {
 			

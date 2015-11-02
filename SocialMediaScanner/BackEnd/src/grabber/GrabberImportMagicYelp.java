@@ -93,6 +93,16 @@ public class GrabberImportMagicYelp extends ImportIO {
 	public List<ResponseStruct> pullData(CompanyStruct companyName, String location)
 			throws UnsupportedEncodingException {
 
+		yelpCompanyName = companyName.getYelpName();
+		baseURL = "https://api.import.io/store/connector/_magic?url=";
+		try {
+			searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		String userParam = "_user=" + user;
 		String apiParam = "_apikey=" + apiKey;
 		
@@ -101,7 +111,7 @@ public class GrabberImportMagicYelp extends ImportIO {
 		String response;
 		List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
 		try {
-
+			System.out.println("requestURLYelp: " + requestURL);
 			response = sendGet(requestURL);
 			responseStructList.add(new ResponseStruct(response, companyName.getCompanyName(), "Yelp"));
 		} catch (IOException e1) {
