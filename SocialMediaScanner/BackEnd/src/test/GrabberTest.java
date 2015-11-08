@@ -1,4 +1,4 @@
-package grabber;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import grabber.DataGrabberGeneric;
+import grabber.GrabberCitygrid;
+import grabber.GrabberImportMagicYelp;
+import grabber.GrabberTwitter;
 import service.CompanyStruct;
 import service.ResponseStruct;
 
