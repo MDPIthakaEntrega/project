@@ -15,18 +15,6 @@ import service.ResponseStruct;
 
 public abstract class ImportIO extends DataGrabberGeneric {
 
-    public static void main(String[] args) {
-//		System.out.println("Start test");
-//		try {
-//		    ImportYelp test = new ImportYelp("zingermans-delicatessen-ann-arbor-2");
-//		    test.pullData("Zingerman's", "Ann Arbor");
-//		} catch (UnsupportedEncodingException e) {
-//		    // TODO Auto-generated catch block
-//		    e.printStackTrace();
-//		}
-//		System.out.println("End Test");
-    }
-
     // To authenticate ImportIO API
     protected String apiKey = "ae3388c0633f4035a299ab81e7e5f12226a1c9bd982527d5252cf6a198be01e7cc2c439a298d8457f163f207c455e4e642fceb4e3dcd2bdc317b6a102bea5bb59b71f68566574766b3f082670a6013e6";
 
@@ -57,9 +45,9 @@ public abstract class ImportIO extends DataGrabberGeneric {
     protected String user = "ae3388c0-633f-4035-a299-ab81e7e5f122";
 
     @Override
-    public List<ResponseStruct> pullData(CompanyStruct companyName, String location) throws UnsupportedEncodingException {
+    public List<ResponseStruct> pullData(CompanyStruct companyName, String location)
+	    throws UnsupportedEncodingException {
 
-	System.out.println("pullData importio: " + companyName);
 	String jsParam = null;
 	String infiniteScrollParam = null;
 	String userParam = "_user=" + user;
@@ -87,10 +75,7 @@ public abstract class ImportIO extends DataGrabberGeneric {
 	requestURL += "&" + userParam + "&" + apiParam;
 	String response = null;
 	try {
-	    System.out.println(requestURL);
 	    response = sendGet(requestURL);
-	    System.out.println("Returned");
-	    System.out.println(response);
 	} catch (IOException e) {
 
 	    // TODO

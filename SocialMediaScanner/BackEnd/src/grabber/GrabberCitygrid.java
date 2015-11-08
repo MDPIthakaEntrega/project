@@ -21,14 +21,6 @@ import service.ResponseStruct;
  */
 public class GrabberCitygrid extends DataGrabberGeneric {
 
-    public static void main(String[] args) throws IOException {
-
-	// DataGrabberGeneric d = new APICitygrid();
-	// System.out.println(d.pullData("Zingerman's", "Ann Arbor,48105"));
-	// String str = d.pullData("Zingerman's", "Ann Arbor,48105").get(0);
-	// System.out.println(URLDecoder.decode(str, "UTF-8"));
-    }
-
     private final int MAX_RRP = 50;
 
     private String generateURL(String companyName, String location, int pageNum, int rpp)
@@ -76,19 +68,16 @@ public class GrabberCitygrid extends DataGrabberGeneric {
 	int maxPageNum = 0;
 	String response = null;
 	try {
-		System.out.println("location input: " + location);
 	    urlForPageNum = generateURL(companyName.getCompanyName(), location, 1, 1);
 	    response = sendGet(urlForPageNum);
 	    response = processResponse(response);
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
 	try {
 	    maxPageNum = getMaxPageNum(response);
 	} catch (JSONException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
@@ -97,20 +86,15 @@ public class GrabberCitygrid extends DataGrabberGeneric {
 
 	    try {
 		String url = generateURL(companyName.getCompanyName(), location, i, MAX_RRP);
-		// System.out.println(url);
 		response = sendGet(url);
 		response = processResponse(response);
 		responseStructList.add(new ResponseStruct(response, companyName.getCompanyName(), toString()));
 	    } catch (UnsupportedEncodingException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    } catch (IOException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 	}
-
-	// System.out.println(responseList);
 
 	return responseStructList;
     }
