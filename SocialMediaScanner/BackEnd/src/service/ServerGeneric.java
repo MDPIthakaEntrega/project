@@ -192,6 +192,69 @@ abstract class ServerGeneric {
 	}
     }
     
+    class QueryHandlerUpdateAPI implements HttpHandler {
+
+	@SuppressWarnings("restriction")
+	@Override
+	public void handle(HttpExchange exchange) throws IOException {
+		
+		System.out.println("inside update api");
+	    Headers responseHeaders = exchange.getResponseHeaders();
+	    responseHeaders.set("Access-Control-Allow-Origin", "*");
+	    responseHeaders.set("Content-Type", "application/json");
+	    exchange.sendResponseHeaders(200, 0);
+
+	    if ("post".equalsIgnoreCase(exchange.getRequestMethod())) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> parameters = new HashMap<String, Object>();
+                InputStreamReader isr =
+                    new InputStreamReader(exchange.getRequestBody(),"utf-8");
+                BufferedReader br = new BufferedReader(isr);
+                String query = br.readLine();
+                
+                parseQuery(query, parameters);
+                
+                
+                
+//                List<ResponseStruct> pullAPIsForUsers(List<CompanyStruct> companyNameList, List<String> locationList,
+//            			List<DataGrabberGeneric> listGrabber)
+                String companyName = (String)parameters.get("companyName");
+                String twitterName = (String)parameters.get("twitterName");
+                String yelpName = (String)parameters.get("yelpName");
+                String citygridName = (String) parameters.get("citygridName");
+                String locationName = (String) parameters.get("locationName");
+                
+                String[] APIs = (String[]) parameters.get("apis");
+
+                for(String api: APIs) {
+                	
+                	System.out.println("API: " + api);
+                }
+//                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
+//                List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
+//                companies.add(company);
+//                
+//                List<String> locations = new LinkedList<String>();
+//                locations.add(locationName);
+//                
+//                pullAllAPIAndStoreForUsers(companies, locations);
+                
+                
+        	    OutputStream responseBody = exchange.getResponseBody();
+        	    URI uri = exchange.getRequestURI();
+        	    
+        	    String output = "Successfully pulled data for ";
+    
+        	    output += companyName + " ,";
+    
+        	    responseBody.write(output.getBytes());
+        	    responseBody.close();
+                          
+            }
+         
+	}
+    }
+    
     
     @SuppressWarnings("unchecked")
     private void parseQuery(String query, Map<String, Object> parameters)
@@ -288,6 +351,7 @@ abstract class ServerGeneric {
 	server.createContext("/pull", new QueryHandlerPull());
 	
 	server.createContext("/init", new QueryHandlerInit());
+	server.createContext("/updateAPI", new QueryHandlerUpdateAPI());
 	
 	server.setExecutor(Executors.newCachedThreadPool());
 	server.start();
