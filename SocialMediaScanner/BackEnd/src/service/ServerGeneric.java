@@ -142,7 +142,6 @@ abstract class ServerGeneric {
      */
     class QueryHandlerInit implements HttpHandler {
 
-	@SuppressWarnings("restriction")
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		
@@ -178,7 +177,6 @@ abstract class ServerGeneric {
                 
                 
         	    OutputStream responseBody = exchange.getResponseBody();
-        	    URI uri = exchange.getRequestURI();
         	    
         	    String output = "Successfully pulled data for ";
     

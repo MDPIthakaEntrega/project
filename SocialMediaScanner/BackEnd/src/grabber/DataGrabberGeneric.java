@@ -43,8 +43,6 @@ public abstract class DataGrabberGeneric {
 		HttpURLConnection httpCon = (HttpURLConnection) urlObj.openConnection();
 		httpCon.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 		httpCon.setRequestMethod("GET");
-		
-		System.out.println();
 			
 		BufferedReader in = new BufferedReader(new InputStreamReader(httpCon.getInputStream()));
 		String inputLine = null;

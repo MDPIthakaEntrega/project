@@ -126,32 +126,19 @@ public class Server extends ServerGeneric {
 	 */
 	public static SentimentStruct sentimentAnalyze(String review) {
 
-		// System.out.println(review);
-
 		try {
 			AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile(utility.Parser.API_KEY_PATH);
-			// System.out.println("Calling alchemy with: " );
-			// System.out.println(review);
 			Document result = alchemyObj.TextGetTextSentiment(review);
 			SentimentStruct s = parseSentimentStruct(result);
-			// System.out.println(s);
 			return s;
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
 			System.out.println("Alchemy IOException");
 		} catch (XPathExpressionException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
 			System.out.println("Alchemy XPathExpressionException");
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
 			System.out.println("Alchemy SAXException");
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
 			System.out.println("Alchemy ParserConfigurationException");
 		}
 		return null;
@@ -159,14 +146,11 @@ public class Server extends ServerGeneric {
 
 	private static SentimentStruct parseSentimentStruct(Document xmlDoc) {
 
-		// System.out.println(xmlDoc.toString());
-		// System.out.println(getStringFromDocument(xmlDoc));
 		Element rootElement = xmlDoc.getDocumentElement();
 		String typeStr = null;
 		double score = 0;
 		NodeList typeList = rootElement.getElementsByTagName("type");
 		typeStr = typeList.item(0).getTextContent();
-		// System.out.println(typeStr);
 		if (!typeStr.equalsIgnoreCase("neutral") && !typeStr.equalsIgnoreCase("mixed")) {
 
 			score = Double.parseDouble(rootElement.getElementsByTagName("score").item(0).getTextContent());
