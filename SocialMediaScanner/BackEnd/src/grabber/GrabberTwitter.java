@@ -31,6 +31,7 @@ public class GrabberTwitter extends DataGrabberGeneric {
     private final String ACCESS_SECRET = "LV2lfjawudzSJgT0MgmTIspiP4MHlJ1QILSZ885Dp7srA";
     private final int MAX_RRP = 100;
 
+    @SuppressWarnings("unused")
     private void testTry() {
 	Twitter twitter = new TwitterFactory().getInstance();
 	AccessToken accessToken = new AccessToken(ACCESS_TOKEN, ACCESS_SECRET);

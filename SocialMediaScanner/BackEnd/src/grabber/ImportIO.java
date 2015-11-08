@@ -73,12 +73,10 @@ public abstract class ImportIO extends DataGrabberGeneric {
 	}
 
 	requestURL += "&" + userParam + "&" + apiParam;
-	String response = null;
 	try {
-	    response = sendGet(requestURL);
+	    sendGet(requestURL);
 	} catch (IOException e) {
 
-	    // TODO
 	}
 
 	return null;
