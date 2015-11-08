@@ -66,7 +66,7 @@ public class GrabberTwitter extends DataGrabberGeneric {
 	@Override
 	public List<ResponseStruct> pullData(CompanyStruct companyName, String location) throws UnsupportedEncodingException {
 		// TODO Auto-generated method stub
-		
+    	System.out.println("PullData Twitter");
 		Twitter twitter = new TwitterFactory().getInstance();
 		AccessToken accessToken = new AccessToken(ACCESS_TOKEN, ACCESS_SECRET);
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);

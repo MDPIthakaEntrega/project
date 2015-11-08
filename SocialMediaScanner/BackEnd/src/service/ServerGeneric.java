@@ -9,6 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -224,12 +225,25 @@ abstract class ServerGeneric {
                 String citygridName = (String) parameters.get("citygridName");
                 String locationName = (String) parameters.get("locationName");
                 
-                String[] APIs = (String[]) parameters.get("apis");
+                String APIs = (String) parameters.get("apis");
 
-                for(String api: APIs) {
-                	
-                	System.out.println("API: " + api);
-                }
+                System.out.println(APIs);
+                
+                List<String> APIlist = Arrays.asList(APIs.split("\\s*,\\s*"));
+                      
+//                for(String api: items) {
+//                	
+//                	System.out.println("API: " + api + " " + api.length());
+//                }
+                
+                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
+                List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
+                companies.add(company);
+                pullSpecificAPIforUsers(APIlist, companies);
+                
+                
+                
+                
 //                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
 //                List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
 //                companies.add(company);
@@ -333,6 +347,9 @@ abstract class ServerGeneric {
      * @return
      */
     abstract void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listGrabber);
+    
+    
+    abstract void pullSpecificAPIforUsers(List<String> APIs, List<CompanyStruct> companyNameList);
 
     abstract String searchReviews(String companyName, String keyword);
 

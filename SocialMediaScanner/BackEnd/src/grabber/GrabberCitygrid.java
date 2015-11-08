@@ -72,6 +72,7 @@ public class GrabberCitygrid extends DataGrabberGeneric {
     public List<ResponseStruct> pullData(CompanyStruct companyName, String location) {
 	// TODO Auto-generated method stub
 
+    	System.out.println("PullData Citygrid");
 	String urlForPageNum = null;
 	int maxPageNum = 0;
 	String response = null;

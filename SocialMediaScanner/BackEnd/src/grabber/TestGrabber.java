@@ -9,7 +9,7 @@ import org.junit.Test;
 import service.CompanyStruct;
 import service.ResponseStruct;
 
-public class GrabberTest {
+public class TestGrabber {
 
     private void testCore(CompanyStruct companyStruct, DataGrabberGeneric grabber) {
 	List<ResponseStruct> listResponse = null;

@@ -93,6 +93,7 @@ public class GrabberImportMagicYelp extends ImportIO {
 	public List<ResponseStruct> pullData(CompanyStruct companyName, String location)
 			throws UnsupportedEncodingException {
 
+    	System.out.println("PullData Yelp");
 		yelpCompanyName = companyName.getYelpName();
 		baseURL = "https://api.import.io/store/connector/_magic?url=";
 		try {
