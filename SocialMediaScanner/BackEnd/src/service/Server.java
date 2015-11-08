@@ -288,6 +288,59 @@ public class Server extends ServerGeneric {
 			e.printStackTrace();
 		}
 	}
+	
+
+	@Override
+	void pullSpecificAPIforUsers(List<String> APIs,
+			List<CompanyStruct> companyNameList) {
+		// TODO Auto-generated method stub
+
+		List<DataGrabberGeneric> listNewGrabber = new LinkedList<DataGrabberGeneric>();
+
+		for(String API: APIs) {
+			
+			if(API.equals("citygrid")) {
+					
+				for (DataGrabberGeneric grabber : listGrabber) {
+					if (grabber.toString().equalsIgnoreCase("Citygrid")) {
+						listNewGrabber.add(grabber);
+					}
+				}
+				
+			}
+			else if(API.equals("yelp")) {
+
+				for (DataGrabberGeneric grabber : listGrabber) {
+					if (grabber.toString().equalsIgnoreCase("ImportMagicYelp")) {
+						listNewGrabber.add(grabber);
+					}
+				}
+			}
+			else if(API.equals("twitter")) {
+
+				for (DataGrabberGeneric grabber : listGrabber) {
+					if (grabber.toString().equalsIgnoreCase("Twitter")) {
+						listNewGrabber.add(grabber);
+					}
+				}
+			}
+			
+		}
+		List<String> locationList = new LinkedList<String>();
+		for(CompanyStruct company: companyNameList) {
+			
+			locationList.add(company.getLocation());
+		}
+		// TODO get rid of location list
+		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listNewGrabber);
+		
+		try {
+			dbAccessor.insertData(responseStructList);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
 
 	@Override
 	void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listPartGrabbers) {
