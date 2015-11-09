@@ -25,6 +25,7 @@ var AccountConfig = React.createClass({
     },
 
     handleClick: function () {
+        var noty = require('noty');
         var configs = {};
         for (var apiName in this.refs) {
             configs[apiName] = this.refs[apiName].getValue();
@@ -39,7 +40,7 @@ var AccountConfig = React.createClass({
             data: {type: 'account', configs: JSON.stringify(configs)},
             success: function (data) {
                 noty({
-                    text: 'save account config successfully',
+                    text: 'save account config successfully, please reload the dashboard to see changes.',
                     layout: 'topRight',
                     type: 'success',
                     killer: true,
