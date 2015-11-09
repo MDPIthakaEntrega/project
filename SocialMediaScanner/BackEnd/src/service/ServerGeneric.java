@@ -95,42 +95,67 @@ abstract class ServerGeneric {
 	    URI uri = exchange.getRequestURI();
 	    String companyName = null;
 	    String keyword = null;
+	    List<String> APIs = new LinkedList<String>();
 
 	    String query = uri.getQuery();
 	    String elements[] = query.split("&");
 	    for (String element : elements) {
-
-		if (element.split("=").length == 1) {
-
-		    continue;
+	
+				if (element.split("=").length == 1) {
+		
+				    continue;
+				}
+		
+				String name = element.split("=")[0];
+				String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
+		
+				if (name.equalsIgnoreCase("company name")) {
+		
+				    companyName = val;
+				} else if (name.equalsIgnoreCase("keyword")) {
+		
+				    keyword = val;
+				} else if (name.equalsIgnoreCase("twitter")) {
+					
+					if(val.equalsIgnoreCase("yes")) {
+						System.out.println("insidetwitter");
+						APIs.add("Twitter");
+					}
+					
+				} else if (name.equalsIgnoreCase("yelp")) {
+					
+					if(val.equalsIgnoreCase("yes")) {
+						System.out.println("insideyelp");
+						APIs.add("ImportMagicYelp");
+					}
+					
+				} else if (name.equalsIgnoreCase("citygrid")) {
+				
+					if(val.equalsIgnoreCase("yes")) {
+						System.out.println("insidecitygrid");
+						APIs.add("Citygrid");
+					}
+					
+				} else {
+		
+				    System.err.println("URI format invalid!");
+				}
+		    }
+	
+		    if (keyword == null) {
+	
+		    	keyword = "";
+		    }
+	
+		    // System.out.println(companyName + " " + keyword);
+		    
+	//	    List<String> APIlist = Arrays.asList(APIs.split("\\s*,\\s*"));
+		    
+		    String jsonResponse = searchReviews(companyName, keyword, APIs);
+		    responseBody.write(jsonResponse.getBytes());
+		    responseBody.close();
+	
 		}
-
-		String name = element.split("=")[0];
-		String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
-
-		if (name.equalsIgnoreCase("company name")) {
-
-		    companyName = val;
-		} else if (name.equalsIgnoreCase("keyword")) {
-
-		    keyword = val;
-		} else {
-
-		    System.err.println("URI format invalid!");
-		}
-	    }
-
-	    if (keyword == null) {
-
-		keyword = "";
-	    }
-
-	    // System.out.println(companyName + " " + keyword);
-	    String jsonResponse = searchReviews(companyName, keyword);
-	    responseBody.write(jsonResponse.getBytes());
-	    responseBody.close();
-
-	}
     }
 
     
@@ -186,9 +211,8 @@ abstract class ServerGeneric {
         	    responseBody.close();
                 
                 
-            }
-         
-	}
+            }         
+		}
     }
     
     class QueryHandlerUpdateAPI implements HttpHandler {
@@ -349,7 +373,7 @@ abstract class ServerGeneric {
     
     abstract void pullSpecificAPIforUsers(List<String> APIs, List<CompanyStruct> companyNameList);
 
-    abstract String searchReviews(String companyName, String keyword);
+    abstract String searchReviews(String companyName, String keyword, List<String> APIs);
 
     /**
      * Start the service.
