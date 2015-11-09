@@ -57,7 +57,7 @@ public class AccessData implements Data {
 	  ResponseStruct testresponse = new ResponseStruct(test_string, "zingerman's", "Twitter");
 	  test_api_struct.add(testresponse); 
 	  test.insertData(test_api_struct);		  
-	  System.out.println(test.select("", "zingerman's", new LinkedList<String>()).length());
+//	  System.out.println(test.select("", "zingerman's", new LinkedList<String>()).length());
 	  AccessData.close();
 	  System.out.println("Success"); 
 	  
@@ -140,8 +140,9 @@ public class AccessData implements Data {
 		}
 	}
 
+	// TODO improve search object
 	@Override
-	public String select(String search, String company_name,
+	public String select(String search, String company_name, List<String> APIs,
 			List<String> attributes) throws JSONException,
 			ClassNotFoundException, InstantiationException,
 			IllegalAccessException {
@@ -184,10 +185,11 @@ public class AccessData implements Data {
 					+ "." + api);
 			JSONObject jsonObj = ((API) (api_type.newInstance())).formatReview(
 					row, attributes);
-			
+
 //			try {
 				
-				if (containsAll(jsonObj.getString("content"), each_word)) {
+				if (containsAll(jsonObj.getString("content"), each_word) &&
+						inAPIList(APIs, jsonObj.getString("source"))) {
 
 					formatted_reviews.put(jsonObj);
 				}
@@ -203,6 +205,17 @@ public class AccessData implements Data {
 		JSONObject all_reviews = new JSONObject();
 		all_reviews.put("reviews", formatted_reviews);
 		return all_reviews.toString();
+	}
+	
+	private boolean inAPIList(List<String> APIs, String API) {
+		
+		for(String checkAPI: APIs) {
+			
+			if(checkAPI.equalsIgnoreCase(API)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

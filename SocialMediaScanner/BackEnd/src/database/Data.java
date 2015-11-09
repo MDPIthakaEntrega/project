@@ -53,7 +53,7 @@ public interface Data {
 	 *  with JSONObjects containing specified attributes
 	 *  
 	 */
-	public abstract String select(String search, String company_name, List<String> attributes) 
+	public abstract String select(String search, String company_name, List<String> APIs, List<String> attributes) 
 			throws JSONException, ClassNotFoundException, InstantiationException, IllegalAccessException;
 	
 }

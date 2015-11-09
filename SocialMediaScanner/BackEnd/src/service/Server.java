@@ -399,15 +399,14 @@ public class Server extends ServerGeneric {
 	}
 
 	@Override
-	String searchReviews(String companyName, String keyword) {
-		// TODO Auto-generated method stub....
+	String searchReviews(String companyName, String keyword, List<String> APIs) {
 
 		List<String> attributes = new LinkedList<String>();
 
 		String result = null;
 		try {
 
-			result = dbAccessor.select(keyword.toLowerCase(), companyName.toLowerCase(), attributes);
+			result = dbAccessor.select(keyword.toLowerCase(), companyName.toLowerCase(), APIs,attributes);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
