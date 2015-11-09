@@ -4,7 +4,7 @@
   "description": "package management for JavaScirpt in Baobab",
   "main": "index.js",
   "scripts": {
-    "test": "mocha src/__tests__",
+    "test": "mocha --compilers js:mocha-babel src/__tests__",
     "test-ren": "mocha --compilers js:mocha-babel --recursive src/__tests__/config-chart-test.js",
     "build": "browserify -t reactify -t es6-destructuring src/dashboard-login.js -o build/dashboard-login.js",
     "build-signup": "browserify -t reactify -t es6-destructuring src/signup-config.js -o build/signup-config.js",
