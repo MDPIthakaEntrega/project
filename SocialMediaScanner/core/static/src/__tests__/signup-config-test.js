@@ -35,18 +35,7 @@ describe("signup-config", function () {
         );
 
         var button = React.findDOMNode(signup.refs.addButton);
-        assert.notEqual(button, null);
-    });
-
-
-
-    it('test empty signup config', function () {
-        var signup = TestUtils.renderIntoDocument(
-            <SignupConfig />
-        );
-
-        var button = TestUtils.scryRenderedDOMComponentsWithTag(signup, 'Button');
-        assert.equal(button.length, 0);
+        assert.equal(button, null);
     });
 
     it('test button text', function () {
@@ -86,9 +75,4 @@ describe("signup-config", function () {
 
         addPlatformSpy.restore();
     });
-
-    it('test add platform', function() {
-
-    });
-
 });
