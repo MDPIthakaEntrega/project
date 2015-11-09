@@ -81,11 +81,12 @@ var SignupConfig = React.createClass({
     render: function () {
         var inputNewPlatform = null;
         if (this.state.has_unsaved) {
-            inputNewPlatform = <AddPlatformBlock
+            inputNewPlatform = (<AddPlatformBlock
+                ref="addBlock"
                 onCancel={this.cancelOnePlatform}
                 onSave={this.saveOnePlatform}
                 {...this.state}
-            />;
+            />);
         }
         var platforms = this.state.platforms;
         var savedPlatforms = Object.keys(platforms).map((platform, idx) => {
@@ -120,6 +121,7 @@ var SignupConfig = React.createClass({
             }
         }
         var addButton = addable ? <Button
+            ref="addButton"
             bsStyle="success"
             style={buttonStyle}
             onClick={this.addOnePlatform}
@@ -137,3 +139,4 @@ var SignupConfig = React.createClass({
 });
 
 module.exports = SignupConfig;
+

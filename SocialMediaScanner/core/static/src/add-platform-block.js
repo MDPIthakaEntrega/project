@@ -46,12 +46,14 @@ var AddPlatformBlock = React.createClass({
                             bsStyle="primary"
                             className="add-platform-button"
                             onClick={this.saveHandler}
+                            ref="saveButton"
                         >
                             Save
                         </Button>
                         <Button
                             className="add-platform-button"
                             onClick={this.cancelHandler}
+                            ref="cancelButton"
                         >
                             Cancel
                         </Button>
