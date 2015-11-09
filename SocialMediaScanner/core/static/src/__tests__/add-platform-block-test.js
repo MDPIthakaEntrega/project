@@ -5,11 +5,9 @@ var jsdom = require('jsdom');
 global.document = jsdom.jsdom("<!doctype html><html><body></body></html>");
 global.window = document.defaultView;
 global.navigator = {userAgent: 'node.js'};
-global.fetch = function () {
-};
+global.fetch = function () {};
 global.window.document = {
-    createElement: function () {
-    }
+    createElement: function () {}
 };
 
 var assert = require('assert');
@@ -31,7 +29,6 @@ describe('add-platform-block', function () {
             platforms: {'Twitter': '', 'Yelp': ''}
         };
     });
-
 
     it('should generate an add platform block', function() {
         var addBlock = TestUtils.renderIntoDocument(

@@ -1,11 +1,17 @@
-var assert = require('assert');
-var React = require('react/addons');
-var ConfigChart = require('../config-chart');
 var jsdom = require('jsdom');
-var sinon = require('sinon');
 global.document = jsdom.jsdom("<!doctype html><html><body></body></html>");
 global.window = document.defaultView;
 global.navigator = {userAgent: 'node.js'};
+global.fetch = function () {};
+global.window.document = {
+    createElement: function () {
+    }
+};
+
+var assert = require('assert');
+var React = require('react/addons');
+var ConfigChart = require('../config-chart');
+var sinon = require('sinon');
 var TestUtils = React.addons.TestUtils;
 
 describe('config-chart', function () {

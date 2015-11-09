@@ -6,12 +6,12 @@ var jsdom = require('jsdom');
 global.document = jsdom.jsdom("<!doctype html><html><body></body></html>");
 global.window = document.defaultView;
 global.navigator = {userAgent: 'node.js'};
-global.fetch = function () {
-};
+global.fetch = function () {};
 global.window.document = {
-    createElement: function () {
-    }
+    createElement: function () {}
 };
+
+for (var i in require.cache) delete require.cache[i];
 
 var assert = require('assert');
 var SignupConfig = require('../signup-config');
