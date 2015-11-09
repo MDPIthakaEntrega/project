@@ -11,20 +11,15 @@ var Col = require('react-bootstrap').Col;
 var Row = require('react-bootstrap').Row;
 var Label = require('react-bootstrap').Label;
 var Button = require('react-bootstrap').Button;
-var noty = require('noty');
-
 
 var ChartConfig = React.createClass({
-    handleClick: function () {
-        var configs = {};
-        for (var chartType in this.refs) {
-            configs[chartType] = this.refs[chartType].props.checked;
-        }
+    updateSettings: function (configs) {
         $.ajax({
             type: 'POST',
             url: '/api/settings/',
             data: {type: 'chart', configs: JSON.stringify(configs)},
             success: function (data) {
+                var noty = require('noty');
                 this.props.setChartConfigFunction(configs);
                 noty({
                     text: 'save chart config successfully',
@@ -37,6 +32,14 @@ var ChartConfig = React.createClass({
             error: function (xhr, status, err) {
             }.bind(this)
         });
+    },
+
+    handleClick: function () {
+        var configs = {};
+        for (var chartType in this.refs) {
+            configs[chartType] = this.refs[chartType].props.checked;
+        }
+        this.updateSettings(configs);
     },
     // this function will update the config value when you trying to type in
     handleChange: function (chartType) {

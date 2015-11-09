@@ -70,7 +70,7 @@ public class AccessReviewKeyspace {
 				
 		private JSONArray getReviewArray(String entire_review, String api_site) throws JSONException {
 			JSONObject response = new JSONObject(entire_review);
-			if(api_site == "citygrid") {
+			if(api_site.equals("citygrid")) {
 				JSONArray reviews;
 				reviews = response.getJSONObject("results").getJSONArray("reviews");
 				return reviews;
@@ -187,7 +187,7 @@ public class AccessReviewKeyspace {
 				}
 			}
 			//no search keywords
-			if(search == "") {
+			if(search.isEmpty()) {
 				statement = QueryBuilder.select().all().from("review_keyspace", "review_table2")
 				        .where(QueryBuilder.eq("company_name", company_name));
 				results = current_session.execute(statement);

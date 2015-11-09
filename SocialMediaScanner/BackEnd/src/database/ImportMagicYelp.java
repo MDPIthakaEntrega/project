@@ -1,51 +1,62 @@
 package database;
 
-import org.json.JSONObject;
+import java.util.List;
 
-import utility.Parser.APIParser;
+import org.json.JSONObject;
 
 import com.jayway.jsonpath.JsonPath;
 
+import utility.Parser.APIParser;
+
 public class ImportMagicYelp extends API {
 
-	@Override
-	public String getContent(JSONObject currentReview) {
-	
-		try {
-			
-			return JsonPath.read(currentReview.toString(),
-					APIParser.getAPIMap(this.getClass().getSimpleName()).get("content"));
-		}
-		catch (NullPointerException e) {
-			
-			return null;
-		}
-		catch (Exception e) {
-			
-			return null;
-		}
-	}
+    @Override
+    public String getContent(JSONObject currentReview) {
 
-	@Override
-	public String getId(JSONObject currentReview) {
-		
-		try {
-			String [] split = this.getContent(currentReview).split("\\s+");
-			
-			String id = this.getClass().getSimpleName() + "_" + split[0];
-			
-			if(split.length > 1) {
-				id += split[1];
-			}
-			if(split.length > 2) {
-				id += split[2];
-			}
-			return id;
+	try {
+	    try {
+
+		List<String> descriptions = JsonPath.read(currentReview.toString(),
+			APIParser.getAPIMap(this.getClass().getSimpleName()).get("content"));
+		String result = "";
+		for (String description : descriptions) {
+
+		    result += description;
 		}
-		catch (Exception e) {
-			
-			return null;
-		}
+
+		return result;
+
+	    } catch (Exception e) {
+		return JsonPath.read(currentReview.toString(),
+			APIParser.getAPIMap(this.getClass().getSimpleName()).get("content"));
+	    }
+	} catch (NullPointerException e) {
+
+	    return null;
+	} catch (Exception e) {
+
+	    return null;
 	}
+    }
+
+    @Override
+    public String getId(JSONObject currentReview) {
+
+	try {
+	    String[] split = this.getContent(currentReview).split("\\s+");
+
+	    String id = this.getClass().getSimpleName() + "_" + split[0];
+
+	    if (split.length > 1) {
+		id += split[1];
+	    }
+	    if (split.length > 2) {
+		id += split[2];
+	    }
+	    return id;
+	} catch (Exception e) {
+
+	    return null;
+	}
+    }
 }
-

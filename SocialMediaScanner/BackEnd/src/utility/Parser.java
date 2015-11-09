@@ -15,9 +15,6 @@ import java.util.Scanner;
 
 import org.apache.commons.io.FilenameUtils;
 
-import database.API;
-import database.AccessData;
-
 public class Parser {
 	
 	public static final String API_KEY_PATH = "testdir" + File.separator + "api_key.txt";
@@ -96,10 +93,6 @@ public class Parser {
 		
 		public static Map<String, String> getTwitter() {
 			return path_map.get("Twitter");
-		}
-		
-		private static Map<String, String> APIConfigGetterGeneric(String filePath) {
-			return null;
 		}
 		
 		public static Map<String, String> getAPIMap(String APIName) {

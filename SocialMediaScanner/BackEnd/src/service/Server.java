@@ -126,43 +126,31 @@ public class Server extends ServerGeneric {
 	 */
 	public static SentimentStruct sentimentAnalyze(String review) {
 
-		// System.out.println(review);
-
 		try {
 			AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile(utility.Parser.API_KEY_PATH);
-			// System.out.println("Calling alchemy with: " );
-			// System.out.println(review);
 			Document result = alchemyObj.TextGetTextSentiment(review);
 			SentimentStruct s = parseSentimentStruct(result);
-			// System.out.println(s);
 			return s;
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Alchemy IOException");
 		} catch (XPathExpressionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Alchemy XPathExpressionException");
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Alchemy SAXException");
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Alchemy ParserConfigurationException");
 		}
 		return null;
 	}
 
 	private static SentimentStruct parseSentimentStruct(Document xmlDoc) {
 
-		// System.out.println(xmlDoc.toString());
-		// System.out.println(getStringFromDocument(xmlDoc));
 		Element rootElement = xmlDoc.getDocumentElement();
 		String typeStr = null;
 		double score = 0;
 		NodeList typeList = rootElement.getElementsByTagName("type");
 		typeStr = typeList.item(0).getTextContent();
-		// System.out.println(typeStr);
 		if (!typeStr.equalsIgnoreCase("neutral") && !typeStr.equalsIgnoreCase("mixed")) {
 
 			score = Double.parseDouble(rootElement.getElementsByTagName("score").item(0).getTextContent());
@@ -300,6 +288,59 @@ public class Server extends ServerGeneric {
 			e.printStackTrace();
 		}
 	}
+	
+
+	@Override
+	void pullSpecificAPIforUsers(List<String> APIs,
+			List<CompanyStruct> companyNameList) {
+		// TODO Auto-generated method stub
+
+		List<DataGrabberGeneric> listNewGrabber = new LinkedList<DataGrabberGeneric>();
+
+		for(String API: APIs) {
+			
+			if(API.equals("citygrid")) {
+					
+				for (DataGrabberGeneric grabber : listGrabber) {
+					if (grabber.toString().equalsIgnoreCase("Citygrid")) {
+						listNewGrabber.add(grabber);
+					}
+				}
+				
+			}
+			else if(API.equals("yelp")) {
+
+				for (DataGrabberGeneric grabber : listGrabber) {
+					if (grabber.toString().equalsIgnoreCase("ImportMagicYelp")) {
+						listNewGrabber.add(grabber);
+					}
+				}
+			}
+			else if(API.equals("twitter")) {
+
+				for (DataGrabberGeneric grabber : listGrabber) {
+					if (grabber.toString().equalsIgnoreCase("Twitter")) {
+						listNewGrabber.add(grabber);
+					}
+				}
+			}
+			
+		}
+		List<String> locationList = new LinkedList<String>();
+		for(CompanyStruct company: companyNameList) {
+			
+			locationList.add(company.getLocation());
+		}
+		// TODO get rid of location list
+		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listNewGrabber);
+		
+		try {
+			dbAccessor.insertData(responseStructList);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
 
 	@Override
 	void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listPartGrabbers) {
@@ -358,15 +399,14 @@ public class Server extends ServerGeneric {
 	}
 
 	@Override
-	String searchReviews(String companyName, String keyword) {
-		// TODO Auto-generated method stub....
+	String searchReviews(String companyName, String keyword, List<String> APIs) {
 
 		List<String> attributes = new LinkedList<String>();
 
 		String result = null;
 		try {
 
-			result = dbAccessor.select(keyword.toLowerCase(), companyName.toLowerCase(), attributes);
+			result = dbAccessor.select(keyword.toLowerCase(), companyName.toLowerCase(), APIs,attributes);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

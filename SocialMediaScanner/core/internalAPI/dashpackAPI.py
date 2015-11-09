@@ -20,26 +20,37 @@ def data_pack(request):
             "bar_chart_ratings": "Bar Chart Ratings",
             "num_reviews_by_month": "Number of Reviews by Month"
         }
-        url = 'http://localhost:3456/search?company%20name=random%27s&keyword='
-        resp = requests.get(url=url)
-        temp = json.loads(resp.text)
-        reviews = temp['reviews']
-        if len(reviews):
-            response_data = {
-                'apis': mock_apis,
-                'charts': chart_to_name,
-                'api_config': user_profile.api_config,
-                'chart_config': user_profile.chart_config,
-                'reviews': resp.text,
-                'username': username,
-                'company': user_profile.my_company.company_name
-            }
+        url = 'http://localhost:3456/search?company%20name='+user_profile.my_company.company_name+'&keyword='
+        try:
+            resp = requests.get(url=url)
+            temp = json.loads(resp.text)
+            reviews = temp['reviews']
+            if len(reviews):
+                response_data = {
+                    'apis': mock_apis,
+                    'charts': chart_to_name,
+                    'api_config': user_profile.api_config,
+                    'chart_config': user_profile.chart_config,
+                    'reviews': resp.text,
+                    'username': username,
+                    'company': user_profile.my_company.company_name
+                }
+                return HttpResponse(
+                    json.dumps(response_data),
+                    content_type="application/json"
+                )
+            else:
+                return HttpResponse(
+                    'No review found',
+                    status=400
+                )
+        except:
             return HttpResponse(
-                json.dumps(response_data),
-                content_type="application/json"
-            )
-        else:
-            return HttpResponse(
-                'not initialized',
+                'Account not initialized, please go to the setting section and try to pull data again',
                 status=400
             )
+    else:
+        return HttpResponse(
+            'not authorized',
+            status=401
+        )

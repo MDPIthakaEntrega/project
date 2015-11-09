@@ -6,7 +6,7 @@ from django.shortcuts import render
 from multiprocessing import Process
 import time
 import json
-__author__ = 'renl'
+import requests
 """
 This file is intended for all the business logic
 
@@ -34,9 +34,16 @@ def check_status_redirect(request, render_page, redirect_path='/dashboard'):
         return render(request, render_page)
 
 
-def foo(input):
-    time.sleep(10)
-    print input
+def init_company_reviews(api_config, company_name, area):
+    payload = {
+        'citygridName': api_config.get('CityGrid', ''),
+        'twitterName': api_config.get('Twitter', ''),
+        'companyName': company_name,
+        'yelpName': api_config.get('Yelp', ''),
+        'locationName': area
+    }
+    r = requests.post("http://localhost:3456/init", data=payload)
+    return r
 
 
 def signup_logic(request):
@@ -47,7 +54,6 @@ def signup_logic(request):
         form = SignupForm(request.POST)
         data = request.POST.dict()
         api_config = {}
-        print data
         for key, val in data.items():
             if key.startswith("api-"):
                 api_config[key[4:]] = val
@@ -56,8 +62,7 @@ def signup_logic(request):
             username, email, password, company_name, area = get_form_data(form)
             setup_user_profile(username, email, password, area, company_name, json.dumps(api_config))
             signup_login_user(request, username, password)
-            p = Process(target=foo, args=('bob',))
-            p.start()
+            r = init_company_reviews(api_config, company_name, area)
             return HttpResponseRedirect('/dashboard/')
     return signup_get_helper(request, form_errors)
 
