@@ -29,7 +29,7 @@ public class Parser {
 	 * path of grabbers folder.
 	 */
 	public static final String GRABBER_PATH = Paths.get("").toAbsolutePath() + File.separator + "src" + File.separator
-			+ "main" + File.separator + "java" + File.separator + "social_median_scanner" + File.separator + "backend"
+			+ "main" + File.separator + "java" + File.separator + "social_media_scanner" + File.separator + "backend"
 			+ File.separator + "grabber" + File.separator;
 
 	private static Scanner scanner;

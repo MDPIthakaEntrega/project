@@ -198,7 +198,7 @@ public class Server extends ServerGeneric {
 		// Get all grabbers;
 		File grabberFolder = new File(Parser.GRABBER_PATH);
 		List<String> typeNameList = new LinkedList<String>();
-		String packagePath = "grabber.";
+		String packagePath = "social_media_scanner.backend.grabber.";
 		for (File file : grabberFolder.listFiles()) {
 
 			// System.out.println(file.getName());
