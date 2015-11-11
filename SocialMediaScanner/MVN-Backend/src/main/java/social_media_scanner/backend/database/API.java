@@ -22,7 +22,7 @@ public abstract class API extends AccessData {
 	public abstract String getContent(JSONObject currentReview);
 	public abstract String getId(JSONObject currentReview);
 	
-	public void insert(ResponseStruct responses) throws JSONException,
+	protected void insert(ResponseStruct responses) throws JSONException,
 	ParseException {
 		
 		JSONArray reviews = new JSONArray(JsonPath.read(
@@ -33,8 +33,8 @@ public abstract class API extends AccessData {
 		String current_review_text;
 		String current_review_id;
 		SentimentStruct current_review_sentiment;
+		
 		// insert reviews 1 by 1
-		System.out.println("Review.length: " + reviews.length());
 		for (int i = 0; i < reviews.length(); ++i) {
 			current_review = reviews.getJSONObject(i);
 			current_review_text = this.getContent(current_review);

@@ -1,4 +1,4 @@
-/*
+/**
  * 
  * Charlie Scott
  * Implementation for "Data" interface, allows insertion into database, and selection of
@@ -24,6 +24,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.policies.DefaultRetryPolicy;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.driver.core.querybuilder.Truncate;
 
 import social_media_scanner.backend.service.ResponseStruct;
 import social_media_scanner.backend.utility.Parser;
@@ -84,6 +85,24 @@ public class AccessData implements Data {
 		}
 	}
 	
+	public static void truncateTables() {
+		
+		truncateReviewTable();
+		truncateInvertedTable();
+	}
+	
+	public static void truncateReviewTable() {
+		
+		Truncate truncate = QueryBuilder.truncate(review_table);
+		current_session.execute(truncate);
+	}
+	
+	public static void truncateInvertedTable() {
+		
+		Truncate truncate = QueryBuilder.truncate(inverted_table);
+		current_session.execute(truncate);
+	}
+	
 	public static void close() {
 		
 		// TODO close prepared statement? Fxn not found
@@ -91,7 +110,7 @@ public class AccessData implements Data {
 		cluster.close();
 	}
 	
-	public static void connect() {
+	private static void connect() {
 		
 
 		cluster = Cluster
@@ -290,7 +309,6 @@ public class AccessData implements Data {
 						.formatReview(row, new LinkedList<String>()));
 			}
 		} else {
-
 			List<Row> listRow = getAllRows(company_name);
 			for (Row row : listRow) {
 
