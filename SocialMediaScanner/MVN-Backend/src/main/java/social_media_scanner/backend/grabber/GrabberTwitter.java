@@ -31,6 +31,12 @@ public class GrabberTwitter extends DataGrabberGeneric {
     private final String ACCESS_SECRET = "LV2lfjawudzSJgT0MgmTIspiP4MHlJ1QILSZ885Dp7srA";
     private final int MAX_RRP = 100;
 
+    public static void main(String args[]) {
+    	
+    	DataGrabberGeneric test = new GrabberTwitter();
+    	((GrabberTwitter) test).testTry();
+    }
+    
     @SuppressWarnings("unused")
     private void testTry() {
 	Twitter twitter = new TwitterFactory().getInstance();
@@ -42,7 +48,7 @@ public class GrabberTwitter extends DataGrabberGeneric {
 	    query.setCount(MAX_RRP);
 	    while (query != null) {
 		QueryResult result = twitter.search(query);
-		System.out.println(result.toString());
+		System.out.println("RESULT: " + result.toString());
 		System.out.println(result.getTweets().size());
 		for (Status status : result.getTweets()) {
 		    System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());

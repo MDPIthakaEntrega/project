@@ -25,7 +25,9 @@ public class CreateReviewKeyspace {
 	private String inverted_table;
 	boolean created = false;
 	
-	private static CreateReviewKeyspace singleton = new CreateReviewKeyspace();
+	private static CreateReviewKeyspace singletonDefault = new CreateReviewKeyspace();
+	private static CreateReviewKeyspace singleton = new CreateReviewKeyspace("127.0.0.1",
+			"review_keyspace", "review_table", "inverted_table");
 	
 	public static void main(String[] args) {
 		System.out.print("TEST");
@@ -35,16 +37,19 @@ public class CreateReviewKeyspace {
 
 	}
 	
+	public static CreateReviewKeyspace getDefaultInstance() {
+		return singletonDefault;
+	}
+	
 	public static CreateReviewKeyspace getInstance() {
-		
 		return singleton;
 	}
 	
 	private CreateReviewKeyspace() {
 		host = "127.0.0.1";
-		keyspace_name = "review_keyspace2";
-		review_table = "review_table2";
-		inverted_table = "inverted_table2";
+		keyspace_name = "review_keyspace_dummy";
+		review_table = "review_table";
+		inverted_table = "inverted_table";
 	}
 	
 	private CreateReviewKeyspace(String host_i, String keyspace_name_i, String review_table_i, 
@@ -93,8 +98,15 @@ public class CreateReviewKeyspace {
         	    .addContactPoint(host)
         	    .withRetryPolicy(DefaultRetryPolicy.INSTANCE)
         	    .build();
-        current_session = cluster.connect(keyspace_name);      
-        return current_session;
+        try {
+            current_session = cluster.connect(keyspace_name);      	
+            return current_session;
+        }
+        catch (Exception e) {
+        	
+        	return null;
+        }
+
 	}
 	
 	public void createReviewTable() {
@@ -109,7 +121,7 @@ public class CreateReviewKeyspace {
 	
 	public void createIndex() {
 		
-		current_session.execute("CREATE INDEX IF NOT EXISTS " + "company2" + 
+		current_session.execute("CREATE INDEX IF NOT EXISTS " + "keyspace_name" + "company2" + 
 				" ON " + keyspace_name + "." +  review_table + " (company_name);" );
 
 	}
