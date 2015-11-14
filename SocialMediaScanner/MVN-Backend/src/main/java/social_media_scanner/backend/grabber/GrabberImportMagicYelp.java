@@ -69,50 +69,53 @@ public class GrabberImportMagicYelp extends ImportIO {
 	    throws UnsupportedEncodingException {
 
         yelpCompanyName = company.getYelpName();
-
-        baseURL = "https://api.import.io/store/connector/_magic?url=";
-        try {
-            searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        String userParam = "_user=" + user;
-        String apiParam = "_apikey=" + apiKey;
-
-        String requestURL = this.formatRequestURL(userParam, apiParam, "");
-
-        String response;
-        List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
-        try {
-            System.out.println("requestUrl: " + requestURL);
-            response = sendGet(requestURL);
-            System.out.println("got back from Yelp");
-            responseStructList.add(new ResponseStruct(response, company.getCompanyName(), "Yelp"));
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-        // TODO parse and set numPages
-
-        int numRemainingPages = (totalResults - 1) / RPP;
-
-        // Call the rest of the pages
-        for (int i = 0; i < numRemainingPages; i++) {
-
-            requestURL = formatRequestURL(userParam, apiParam,
-                    yelpPageExtension + Integer.toString((i + 1) * (RPP + 1)));
+        if(yelpCompanyName.length() > 0) {
+            baseURL = "https://api.import.io/store/connector/_magic?url=";
             try {
-                response = sendGet(requestURL);
-                responseStructList.add(new ResponseStruct(response, company.getCompanyName(), "Yelp"));
-            } catch (IOException e) {
-
+                searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+
+            String userParam = "_user=" + user;
+            String apiParam = "_apikey=" + apiKey;
+
+            String requestURL = this.formatRequestURL(userParam, apiParam, "");
+
+            String response;
+            List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
+            try {
+                System.out.println("requestUrl: " + requestURL);
+                response = sendGet(requestURL);
+                System.out.println("got back from Yelp");
+                responseStructList.add(new ResponseStruct(response, company.getCompanyName(), "Yelp"));
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+            // TODO parse and set numPages
+
+            int numRemainingPages = (totalResults - 1) / RPP;
+
+            // Call the rest of the pages
+            for (int i = 0; i < numRemainingPages; i++) {
+
+                requestURL = formatRequestURL(userParam, apiParam,
+                        yelpPageExtension + Integer.toString((i + 1) * (RPP + 1)));
+                try {
+                    response = sendGet(requestURL);
+                    responseStructList.add(new ResponseStruct(response, company.getCompanyName(), "Yelp"));
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+            }
+            return responseStructList;
+
         }
-        return responseStructList;
+        return new LinkedList<>();
     }
 
     @Override

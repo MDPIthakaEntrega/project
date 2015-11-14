@@ -35,6 +35,23 @@ abstract class ServerGeneric {
         return true;
     }
 
+    private void addToMap(String[] elements, Map<String, String> keyVal) throws UnsupportedEncodingException {
+
+        for (String element : elements) {
+
+            String[] split = element.split("=");
+            String key = URLDecoder.decode(split[0], "UTF-8");
+            String val = "";
+            if(split.length > 1) {
+                val = URLDecoder.decode(split[1], "UTF-8");
+            }
+//                System.out.println("key: " + key + " val: " + val);
+            keyVal.put(key, val);
+
+        }
+
+    }
+
 
     /**
      *
@@ -67,14 +84,7 @@ abstract class ServerGeneric {
 
             Map<String, String> keyVal = new HashMap<>();
 
-            for (String element : elements) {
-
-                String key = URLDecoder.decode(element.split("=")[0], "UTF-8");
-                String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
-//                System.out.println("key: " + key + " val: " + val);
-                keyVal.put(key, val);
-
-            }
+            addToMap(elements, keyVal);
 
             if(!checkRequired(keyVal, required)) {
 
@@ -129,17 +139,9 @@ abstract class ServerGeneric {
 
             String query = uri.getQuery();
             String elements[] = query.split("&");
-            for (String element : elements) {
 
-                if (element.split("=").length == 1) {
+            addToMap(elements, keyVal);
 
-                    continue;
-                }
-
-                String key = URLDecoder.decode(element.split("=")[0], "UTF-8");
-                String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
-                keyVal.put(key, val);
-            }
             if(!checkRequired(keyVal, required)) {
 
                 //TODO send JSON response
@@ -148,8 +150,9 @@ abstract class ServerGeneric {
                 responseBody.close();
                 return;
             }
-            if(keyVal.get("twitter") != null && keyVal.get("twitter").equals("yes")) {
 
+            if(keyVal.get("twitter") != null && keyVal.get("twitter").equals("yes")) {
+                System.out.println("in tiwtter only");
                 APIs.add("twitter");
             }
             if(keyVal.get("citygrid") != null && keyVal.get("citygrid").equals("yes")) {
@@ -202,7 +205,7 @@ abstract class ServerGeneric {
                     String query = br.readLine();
 
                     parseQuery(query, parameters);
-
+                    System.out.println("HERE!");
                     OutputStream responseBody = exchange.getResponseBody();
                     if(!checkRequired(parameters, required)) {
 
@@ -280,14 +283,20 @@ abstract class ServerGeneric {
                 
                 String APIs = (String) parameters.get("apis");
                 
-                List<String> APIlist = Arrays.asList(APIs.split("\\s*,\\s*"));
+                List<String> APIlist = new LinkedList<>(Arrays.asList(APIs.split("\\s*,\\s*")));
 
-                if(locationName.length() < 1) {
-                    APIlist.remove("citygrid");
+                try {
+                    if(locationName.length() < 1) {
+                        APIlist.remove("citygrid");
+                    }
+                    if(yelpName.length() < 1) {
+                        APIlist.remove("yelp");
+                    }
                 }
-                if(yelpName.length() < 1) {
-                    APIlist.remove("yelp");
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
+
                 
                 CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName,
                         yelpName, locationName);
@@ -314,41 +323,47 @@ abstract class ServerGeneric {
     private void parseQuery(String query, Map<String, Object> parameters)
         throws UnsupportedEncodingException {
 
-        if (query != null) {
-            String pairs[] = query.split("[&]");
-            System.out.println("parssize: " + pairs.length);
-            for (String pair : pairs) {
-            	System.out.println("paircurrent: " + pair);
-                String param[] = pair.split("[=]");
+        try {
+            if (query != null) {
+                String pairs[] = query.split("[&]");
+                System.out.println("parssize: " + pairs.length);
+                for (String pair : pairs) {
+                    System.out.println("paircurrent: " + pair);
+                    String param[] = pair.split("[=]");
 
-                String key = null;
-                String value = null;
-                if (param.length > 0) {
-                    key = URLDecoder.decode(param[0],
-                        System.getProperty("file.encoding"));
-                }
-
-                if (param.length > 1) {
-                    value = URLDecoder.decode(param[1],
-                        System.getProperty("file.encoding"));
-                }
-
-                if (parameters.containsKey(key)) {
-                    Object obj = parameters.get(key);
-                    if(obj instanceof List<?>) {
-                        List<String> values = (List<String>)obj;
-                        values.add(value);
-                    } else if(obj instanceof String) {
-                        List<String> values = new ArrayList<String>();
-                        values.add((String)obj);
-                        values.add(value);
-                        parameters.put(key, values);
+                    String key = null;
+                    String value = "";
+                    if (param.length > 0) {
+                        key = URLDecoder.decode(param[0],
+                                System.getProperty("file.encoding"));
                     }
-                } else {
-                    parameters.put(key, value);
+
+                    if (param.length > 1) {
+                        value = URLDecoder.decode(param[1],
+                                System.getProperty("file.encoding"));
+                    }
+
+                    if (parameters.containsKey(key)) {
+                        Object obj = parameters.get(key);
+                        if(obj instanceof List<?>) {
+                            List<String> values = (List<String>)obj;
+                            values.add(value);
+                        } else if(obj instanceof String) {
+                            List<String> values = new ArrayList<String>();
+                            values.add((String)obj);
+                            values.add(value);
+                            parameters.put(key, values);
+                        }
+                    } else {
+                        parameters.put(key, value);
+                    }
                 }
             }
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
    }
     
     
@@ -365,7 +380,7 @@ abstract class ServerGeneric {
      */
     ServerGeneric(int port) {
 
-	this.port = port;
+	    this.port = port;
     }
 
     /**
@@ -398,19 +413,19 @@ abstract class ServerGeneric {
      */
     void serve() throws IOException {
 
-	InetSocketAddress address = new InetSocketAddress(port);
-	HttpServer server = HttpServer.create(address, 0);
+        InetSocketAddress address = new InetSocketAddress(port);
+        HttpServer server = HttpServer.create(address, 0);
 
-	// Specify the handlers to deal with different contexts.
-	server.createContext("/search", new QueryHandlerSearch());
-	server.createContext("/pull", new QueryHandlerPull());
-	
-	server.createContext("/init", new QueryHandlerInit());
-	server.createContext("/updateAPI", new QueryHandlerUpdateAPI());
-	
-	server.setExecutor(Executors.newCachedThreadPool());
-	server.start();
-	System.out.println("Server is listening on port " + port);
+        // Specify the handlers to deal with different contexts.
+        server.createContext("/search", new QueryHandlerSearch());
+        server.createContext("/pull", new QueryHandlerPull());
+
+        server.createContext("/init", new QueryHandlerInit());
+        server.createContext("/updateAPI", new QueryHandlerUpdateAPI());
+
+        server.setExecutor(Executors.newCachedThreadPool());
+        server.start();
+        System.out.println("Server is listening on port " + port);
     }
 
 }
