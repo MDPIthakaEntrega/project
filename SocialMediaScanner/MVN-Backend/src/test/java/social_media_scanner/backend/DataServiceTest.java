@@ -25,6 +25,7 @@ import social_media_scanner.backend.service.CompanyStruct;
 import social_media_scanner.backend.service.ResponseStruct;
 
 import com.datastax.driver.core.Session;
+import social_media_scanner.backend.service.SearchStruct;
 
 public class DataServiceTest {
 
@@ -82,7 +83,8 @@ public class DataServiceTest {
 		
 		List<String> APIs = new LinkedList<String>();
 		APIs.add("twitter");
-		String selection = testTwitter.select("", "zingerman's", APIs, new LinkedList<String>());
+		SearchStruct search = new SearchStruct("zingerman's", "", APIs);
+		String selection = testTwitter.select(search, new LinkedList<String>());
 		JSONObject reviews = new JSONObject(selection);
 		assertTrue(reviews.getJSONArray("reviews").length() + "reviews selected, expected 11", 
 				reviews.getJSONArray("reviews").length() == 11);	
@@ -132,7 +134,8 @@ public class DataServiceTest {
 		
 		List<String> APIs = new LinkedList<String>();
 		APIs.add("citygrid");
-		String selection = testCitygrid.select("", "zingerman's", APIs, new LinkedList<String>());
+        SearchStruct search = new SearchStruct("zingerman's", "", APIs);
+		String selection = testCitygrid.select(search, new LinkedList<String>());
 		JSONObject reviews = new JSONObject(selection);
 		assertTrue(reviews.getJSONArray("reviews").length() + "reviews selected, expected 2", 
 				reviews.getJSONArray("reviews").length() == 2);
@@ -179,7 +182,8 @@ public class DataServiceTest {
 		
 		List<String> APIs = new LinkedList<String>();
 		APIs.add("importmagicyelp");
-		String selection = testYelp.select("", "zingerman's", APIs, new LinkedList<String>());
+        SearchStruct search = new SearchStruct("zingerman's", "", APIs);
+		String selection = testYelp.select(search, new LinkedList<String>());
 		JSONObject reviews = new JSONObject(selection);
 		assertTrue(reviews.getJSONArray("reviews").length() + "reviews selected, expected 1", 
 				reviews.getJSONArray("reviews").length() == 1);

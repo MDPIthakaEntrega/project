@@ -21,102 +21,104 @@ public class GrabberImportMagicYelp extends ImportIO {
 
     public GrabberImportMagicYelp() {
 
-	yelpCompanyName = "zingermans-delicatessen-ann-arbor-2";
-	baseURL = "https://api.import.io/store/connector/_magic?url=";
-	try {
-	    searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
-	} catch (UnsupportedEncodingException e) {
-	    e.printStackTrace();
-	}
+        yelpCompanyName = "zingermans-delicatessen-ann-arbor-2";
+        baseURL = "https://api.import.io/store/connector/_magic?url=";
+        try {
+            searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public GrabberImportMagicYelp(CompanyStruct yelpCompanyName_in) {
 
-	yelpCompanyName = yelpCompanyName_in.getYelpName();
-	baseURL = "https://api.import.io/store/connector/_magic?url=";
-	try {
-	    searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
-	} catch (UnsupportedEncodingException e) {
-	    e.printStackTrace();
-	}
+        yelpCompanyName = yelpCompanyName_in.getYelpName();
+        baseURL = "https://api.import.io/store/connector/_magic?url=";
+        try {
+            searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     private String formatRequestURL(String userParam, String apiParam, String extension) {
 
-	String jsParam;
-	String infiniteScrollParam = null;
-	if (processJS) {
+        String jsParam;
+        String infiniteScrollParam = null;
+        if (processJS) {
 
-	    jsParam = "js=true";
-	    if (infiniteScrollPages != -1) {
-		infiniteScrollParam = "infiniteScrollPages=" + String.valueOf(infiniteScrollPages);
-	    }
-	} else {
-	    jsParam = "js=false";
-	}
-	String requestURL = baseURL + searchURL + extension + "&" + jsParam;
+            jsParam = "js=true";
+            if (infiniteScrollPages != -1) {
+            infiniteScrollParam = "infiniteScrollPages=" + String.valueOf(infiniteScrollPages);
+            }
+        } else {
+            jsParam = "js=false";
+        }
+        String requestURL = baseURL + searchURL + extension + "&" + jsParam;
 
-	if (infiniteScrollParam != null) {
+        if (infiniteScrollParam != null) {
 
-	    requestURL += "&" + infiniteScrollParam;
-	}
-	requestURL += "&" + userParam + "&" + apiParam;
-	return requestURL;
+            requestURL += "&" + infiniteScrollParam;
+        }
+        requestURL += "&" + userParam + "&" + apiParam;
+        return requestURL;
     }
 
     @Override
-    public List<ResponseStruct> pullData(CompanyStruct companyName, String location)
+    public List<ResponseStruct> pullData(CompanyStruct company)
 	    throws UnsupportedEncodingException {
 
-	yelpCompanyName = companyName.getYelpName();
-	baseURL = "https://api.import.io/store/connector/_magic?url=";
-	try {
-	    searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
-	} catch (UnsupportedEncodingException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+        yelpCompanyName = company.getYelpName();
 
-	String userParam = "_user=" + user;
-	String apiParam = "_apikey=" + apiKey;
+        baseURL = "https://api.import.io/store/connector/_magic?url=";
+        try {
+            searchURL = URLEncoder.encode(yelpBaseURL, "UTF-8") + URLEncoder.encode(yelpCompanyName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	String requestURL = this.formatRequestURL(userParam, apiParam, "");
+        String userParam = "_user=" + user;
+        String apiParam = "_apikey=" + apiKey;
 
-	String response;
-	List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
-	try {
-	    response = sendGet(requestURL);
-	    responseStructList.add(new ResponseStruct(response, companyName.getCompanyName(), "Yelp"));
-	} catch (IOException e1) {
-	    // TODO Auto-generated catch block
-	    e1.printStackTrace();
-	}
+        String requestURL = this.formatRequestURL(userParam, apiParam, "");
 
-	// TODO parse and set numPages
+        String response;
+        List<ResponseStruct> responseStructList = new LinkedList<ResponseStruct>();
+        try {
+            System.out.println("requestUrl: " + requestURL);
+            response = sendGet(requestURL);
+            System.out.println("got back from Yelp");
+            responseStructList.add(new ResponseStruct(response, company.getCompanyName(), "Yelp"));
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
-	int numRemainingPages = (totalResults - 1) / RPP;
+        // TODO parse and set numPages
 
-	// Call the rest of the pages
-	for (int i = 0; i < numRemainingPages; i++) {
+        int numRemainingPages = (totalResults - 1) / RPP;
 
-	    requestURL = formatRequestURL(userParam, apiParam,
-		    yelpPageExtension + Integer.toString((i + 1) * (RPP + 1)));
-	    try {
-		response = sendGet(requestURL);
-		responseStructList.add(new ResponseStruct(response, companyName.getCompanyName(), "Yelp"));
-	    } catch (IOException e) {
+        // Call the rest of the pages
+        for (int i = 0; i < numRemainingPages; i++) {
 
-		e.printStackTrace();
-	    }
-	}
+            requestURL = formatRequestURL(userParam, apiParam,
+                    yelpPageExtension + Integer.toString((i + 1) * (RPP + 1)));
+            try {
+                response = sendGet(requestURL);
+                responseStructList.add(new ResponseStruct(response, company.getCompanyName(), "Yelp"));
+            } catch (IOException e) {
 
-	return responseStructList;
+                e.printStackTrace();
+            }
+        }
+        return responseStructList;
     }
 
     @Override
     public String toString() {
 
-	return "ImportMagicYelp";
+	    return "ImportMagicYelp";
     }
 
 }

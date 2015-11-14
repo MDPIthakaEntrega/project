@@ -1,19 +1,10 @@
 package social_media_scanner.backend.service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executors;
 
 import com.sun.net.httpserver.Headers;
@@ -31,47 +22,83 @@ import social_media_scanner.backend.grabber.DataGrabberGeneric;
  */
 abstract class ServerGeneric {
 
+
+    private boolean checkRequired(Map<String, ? extends Object> input, List<String> required) {
+
+        for(String requirement : required) {
+
+            if(input.get(requirement) == null) {
+                System.out.println("requirement failed: " + requirement);
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     *
+     * /pull
+     * Pulls data for a specific company from all API's (deprecated)
+     * GET
+     * company, location, yelpName, twitterName, citygridName
+     * http://localhost:3456/pull?company=zingerman%27s&location=ann%20arbor&
+     *  yelpName=zingermans-delicatessen-ann-arbor-2
+     *
+     */
     class QueryHandlerPull implements HttpHandler {
 
-	@Override
-	public void handle(HttpExchange exchange) throws IOException {
-	    // TODO Auto-generated method stub
-	    Headers responseHeaders = exchange.getResponseHeaders();
-	    responseHeaders.set("Access-Control-Allow-Origin", "*");
-	    responseHeaders.set("Content-Type", "application/json");
-	    exchange.sendResponseHeaders(200, 0);
-	    OutputStream responseBody = exchange.getResponseBody();
-	    URI uri = exchange.getRequestURI();
-	    List<CompanyStruct> companyNameList = new LinkedList<CompanyStruct>();
-	   
-	    
-	    List<String> locationList = new LinkedList<>();
-	    String query = uri.getQuery();
-	    String[] elements = query.split("&");
-	    for (int i = 0; i < elements.length; i++) {
+        List<String> required = Arrays.asList("company", "location", "yelpName", "twitterName", "citygridName");
 
-			String element = elements[i];
-			String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
-			if (i % 2 == 0) {
-				CompanyStruct newCompany = new CompanyStruct(val, "","","", "");
-			    companyNameList.add(newCompany);
-			} else {
-	
-			    locationList.add(val);
-			}
-	    }
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
 
+            Headers responseHeaders = exchange.getResponseHeaders();
+            responseHeaders.set("Access-Control-Allow-Origin", "*");
+            responseHeaders.set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, 0);
+            OutputStream responseBody = exchange.getResponseBody();
+            URI uri = exchange.getRequestURI();
 
-	    pullAllAPIAndStoreForUsers(companyNameList, locationList);
+            List<CompanyStruct> companyNameList = new LinkedList<CompanyStruct>();
 
-	    String output = "Successfully pulled data for ";
-	    for (int i = 0; i < companyNameList.size(); i++) {
+            String query = uri.getQuery();
+            String[] elements = query.split("&");
 
-		output += companyNameList.get(i) + " ,";
-	    }
-	    responseBody.write(output.getBytes());
-	    responseBody.close();
-	}
+            Map<String, String> keyVal = new HashMap<>();
+
+            for (String element : elements) {
+
+                String key = URLDecoder.decode(element.split("=")[0], "UTF-8");
+                String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
+//                System.out.println("key: " + key + " val: " + val);
+                keyVal.put(key, val);
+
+            }
+
+            if(!checkRequired(keyVal, required)) {
+
+                // TODO send invalid response
+                String responseText = "Invalid, missing 1 or more parameter";
+                responseBody.write(responseText.getBytes());
+                responseBody.close();
+                return;
+            }
+
+            CompanyStruct newCompany = new CompanyStruct(keyVal.get("company"), keyVal.get("twitterName"),
+                    keyVal.get("citygridName"), keyVal.get("yelpName"), keyVal.get("location"));
+            companyNameList.add(newCompany);
+
+            pullAllAPIAndStoreForUsers(companyNameList);
+
+            String output = "Successfully pulled data for ";
+            for (CompanyStruct aCompanyNameList : companyNameList) {
+
+                output += aCompanyNameList + " ,";
+            }
+            responseBody.write(output.getBytes());
+            responseBody.close();
+        }
     }
 
     /**
@@ -82,80 +109,69 @@ abstract class ServerGeneric {
      */
     class QueryHandlerSearch implements HttpHandler {
 
-	@Override
-	public void handle(HttpExchange exchange) throws IOException {
-	    // TODO Auto-generated method stub
+        List<String> required = Arrays.asList("company");
 
-	    Headers responseHeaders = exchange.getResponseHeaders();
-	    responseHeaders.set("Access-Control-Allow-Origin", "*");
-	    responseHeaders.set("Content-Type", "application/json");
-	    exchange.sendResponseHeaders(200, 0);
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            // TODO Auto-generated method stub
 
-	    OutputStream responseBody = exchange.getResponseBody();
-	    URI uri = exchange.getRequestURI();
-	    String companyName = null;
-	    String keyword = null;
-	    List<String> APIs = new LinkedList<String>();
+            System.out.println("HERE1");
+            Headers responseHeaders = exchange.getResponseHeaders();
+            responseHeaders.set("Access-Control-Allow-Origin", "*");
+            responseHeaders.set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, 0);
 
-	    String query = uri.getQuery();
-	    String elements[] = query.split("&");
-	    for (String element : elements) {
-	
-				if (element.split("=").length == 1) {
-		
-				    continue;
-				}
-		
-				String name = element.split("=")[0];
-				String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
-		
-				if (name.equalsIgnoreCase("company name")) {
-		
-				    companyName = val;
-				} else if (name.equalsIgnoreCase("keyword")) {
-		
-				    keyword = val;
-				} else if (name.equalsIgnoreCase("twitter")) {
-					
-					if(val.equalsIgnoreCase("yes")) {
-						System.out.println("insidetwitter");
-						APIs.add("Twitter");
-					}
-					
-				} else if (name.equalsIgnoreCase("yelp")) {
-					
-					if(val.equalsIgnoreCase("yes")) {
-						System.out.println("insideyelp");
-						APIs.add("ImportMagicYelp");
-					}
-					
-				} else if (name.equalsIgnoreCase("citygrid")) {
-				
-					if(val.equalsIgnoreCase("yes")) {
-						System.out.println("insidecitygrid");
-						APIs.add("Citygrid");
-					}
-					
-				} else {
-		
-				    System.err.println("URI format invalid!");
-				}
-		    }
-	
-		    if (keyword == null) {
-	
-		    	keyword = "";
-		    }
-	
-		    // System.out.println(companyName + " " + keyword);
-		    
-	//	    List<String> APIlist = Arrays.asList(APIs.split("\\s*,\\s*"));
-		    
-		    String jsonResponse = searchReviews(companyName, keyword, APIs);
-		    responseBody.write(jsonResponse.getBytes());
-		    responseBody.close();
-	
-		}
+            OutputStream responseBody = exchange.getResponseBody();
+            URI uri = exchange.getRequestURI();
+            List<String> APIs = new LinkedList<String>();
+
+            Map<String, String> keyVal = new HashMap<>();
+
+            String query = uri.getQuery();
+            String elements[] = query.split("&");
+            for (String element : elements) {
+
+                if (element.split("=").length == 1) {
+
+                    continue;
+                }
+
+                String key = URLDecoder.decode(element.split("=")[0], "UTF-8");
+                String val = URLDecoder.decode(element.split("=")[1], "UTF-8");
+                keyVal.put(key, val);
+            }
+            if(!checkRequired(keyVal, required)) {
+
+                //TODO send JSON response
+                String responseText = "Invalid, missing 1 or more parameter";
+                responseBody.write(responseText.getBytes());
+                responseBody.close();
+                return;
+            }
+            if(keyVal.get("twitter") != null && keyVal.get("twitter").equals("yes")) {
+
+                APIs.add("twitter");
+            }
+            if(keyVal.get("citygrid") != null && keyVal.get("citygrid").equals("yes")) {
+
+                APIs.add("citygrid");
+            }
+            if(keyVal.get("yelp") != null && keyVal.get("yelp").equals("yes")) {
+
+                APIs.add("yelp");
+            }
+            if(APIs.isEmpty()) {
+
+                APIs.addAll(Arrays.asList("twitter", "citygrid", "yelp"));
+            }
+
+            SearchStruct search = new SearchStruct(keyVal.get("company"), keyVal.get("query") == null ?
+                    "": keyVal.get("query"), APIs);
+            String jsonResponse = searchReviews(search);
+            responseBody.write(jsonResponse.getBytes());
+            responseBody.close();
+
+        }
     }
 
     
@@ -167,55 +183,64 @@ abstract class ServerGeneric {
      */
     class QueryHandlerInit implements HttpHandler {
 
-	@Override
-	public void handle(HttpExchange exchange) throws IOException {
-		
-	    Headers responseHeaders = exchange.getResponseHeaders();
-	    responseHeaders.set("Access-Control-Allow-Origin", "*");
-	    responseHeaders.set("Content-Type", "application/json");
-	    exchange.sendResponseHeaders(200, 0);
+        List<String> required = Arrays.asList("company", "location", "yelpName", "twitterName", "citygridName");
 
-	    if ("post".equalsIgnoreCase(exchange.getRequestMethod())) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> parameters = new HashMap<String, Object>();
-                InputStreamReader isr =
-                    new InputStreamReader(exchange.getRequestBody(),"utf-8");
-                BufferedReader br = new BufferedReader(isr);
-                String query = br.readLine();
-                
-                parseQuery(query, parameters);
-                
-                String companyName = (String)parameters.get("companyName");
-                String twitterName = (String)parameters.get("twitterName");
-                String yelpName = (String)parameters.get("yelpName");
-                String citygridName = (String) parameters.get("citygridName");
-                String locationName = (String) parameters.get("locationName");
-                
-                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
-                List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
-                companies.add(company);
-                
-                List<String> locations = new LinkedList<String>();
-                locations.add(locationName);
-                
-                pullAllAPIAndStoreForUsers(companies, locations);
-                
-                
-        	    OutputStream responseBody = exchange.getResponseBody();
-        	    
-        	    String output = "Successfully pulled data for ";
-    
-        	    output += companyName + " ,";
-    
-        	    responseBody.write(output.getBytes());
-        	    responseBody.close();
-                
-                
-            }         
-		}
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+
+            Headers responseHeaders = exchange.getResponseHeaders();
+            responseHeaders.set("Access-Control-Allow-Origin", "*");
+            responseHeaders.set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, 0);
+
+            if ("post".equalsIgnoreCase(exchange.getRequestMethod())) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> parameters = new HashMap<String, Object>();
+                    InputStreamReader isr =
+                        new InputStreamReader(exchange.getRequestBody(),"utf-8");
+                    BufferedReader br = new BufferedReader(isr);
+                    String query = br.readLine();
+
+                    parseQuery(query, parameters);
+
+                    OutputStream responseBody = exchange.getResponseBody();
+                    if(!checkRequired(parameters, required)) {
+
+                        //TODO throw invalid
+                        String responseText = "Invalid, missing 1 or more parameter";
+                        responseBody.write(responseText.getBytes());
+                        responseBody.close();
+                        return;
+                    }
+
+                    String companyName = (String)parameters.get("company");
+                    String twitterName = (String)parameters.get("twitterName");
+                    String yelpName = (String)parameters.get("yelpName");
+                    String citygridName = (String) parameters.get("citygridName");
+                    String locationName = (String) parameters.get("location");
+
+                    CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName,
+                            yelpName, locationName);
+                    List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
+                    companies.add(company);
+
+                    pullAllAPIAndStoreForUsers(companies);
+
+                    String output = "Successfully pulled data for ";
+
+                    output += companyName + " ,";
+
+                    responseBody.write(output.getBytes());
+                    responseBody.close();
+
+
+                }
+            }
     }
     
     class QueryHandlerUpdateAPI implements HttpHandler {
+
+        List<String> required = Arrays.asList("company", "location", "yelpName", "twitterName", "citygridName");
 
 	@SuppressWarnings("restriction")
 	@Override
@@ -236,47 +261,40 @@ abstract class ServerGeneric {
                 String query = br.readLine();
                 
                 parseQuery(query, parameters);
-                
-                
-                
-//                List<ResponseStruct> pullAPIsForUsers(List<CompanyStruct> companyNameList, List<String> locationList,
-//            			List<DataGrabberGeneric> listGrabber)
-                String companyName = (String)parameters.get("companyName");
+
+                OutputStream responseBody = exchange.getResponseBody();
+                if(!checkRequired(parameters, required)) {
+
+                    //TODO throw JSON
+                    String responseText = "Invalid, missing 1 or more parameter";
+                    responseBody.write(responseText.getBytes());
+                    responseBody.close();
+                    return;
+                }
+
+                String companyName = (String)parameters.get("company");
                 String twitterName = (String)parameters.get("twitterName");
                 String yelpName = (String)parameters.get("yelpName");
                 String citygridName = (String) parameters.get("citygridName");
-                String locationName = (String) parameters.get("locationName");
+                String locationName = (String) parameters.get("location");
                 
                 String APIs = (String) parameters.get("apis");
-
-                System.out.println(APIs);
                 
                 List<String> APIlist = Arrays.asList(APIs.split("\\s*,\\s*"));
-                      
-//                for(String api: items) {
-//                	
-//                	System.out.println("API: " + api + " " + api.length());
-//                }
+
+                if(locationName.length() < 1) {
+                    APIlist.remove("citygrid");
+                }
+                if(yelpName.length() < 1) {
+                    APIlist.remove("yelp");
+                }
                 
-                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
+                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName,
+                        yelpName, locationName);
                 List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
                 companies.add(company);
                 pullSpecificAPIforUsers(APIlist, companies);
-                
-                
-                
-                
-//                CompanyStruct company = new CompanyStruct(companyName, twitterName, citygridName, yelpName, locationName);
-//                List<CompanyStruct> companies = new LinkedList<CompanyStruct>();
-//                companies.add(company);
-//                
-//                List<String> locations = new LinkedList<String>();
-//                locations.add(locationName);
-//                
-//                pullAllAPIAndStoreForUsers(companies, locations);
-                
-                
-        	    OutputStream responseBody = exchange.getResponseBody();
+
         	    URI uri = exchange.getRequestURI();
         	    
         	    String output = "Successfully pulled data for ";
@@ -359,9 +377,8 @@ abstract class ServerGeneric {
      * pull data for users and store into database.
      * 
      * @param companyNameList
-     * @param locationList
      */
-    abstract void pullAllAPIAndStoreForUsers(List<CompanyStruct> companyNameList, List<String> locationList);
+    abstract void pullAllAPIAndStoreForUsers(List<CompanyStruct> companyNameList);
 
     /**
      * pull data for all users.
@@ -369,11 +386,10 @@ abstract class ServerGeneric {
      * @return
      */
     abstract void pullAPIsAndStoreForAllUsers(List<DataGrabberGeneric> listGrabber);
-    
-    
+
     abstract void pullSpecificAPIforUsers(List<String> APIs, List<CompanyStruct> companyNameList);
 
-    abstract String searchReviews(String companyName, String keyword, List<String> APIs);
+    abstract String searchReviews(SearchStruct search);
 
     /**
      * Start the service.

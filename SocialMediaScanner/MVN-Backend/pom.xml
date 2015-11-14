@@ -5,7 +5,19 @@
   <groupId>social-media-scanner</groupId>
   <artifactId>backend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<packaging>jar</packaging>
 
   <name>backend</name>
   <url>http://maven.apache.org</url>
@@ -64,7 +76,7 @@
     <dependency>
     	<groupId>com.datastax.cassandra</groupId>
     	<artifactId>cassandra-driver-core</artifactId>
-    	<version>2.0.2</version>
+    	<version>2.1.8</version>
     </dependency>
     <dependency>
     	<groupId>com.datastax.cassandra</groupId>

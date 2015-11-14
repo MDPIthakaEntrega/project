@@ -27,6 +27,7 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Truncate;
 
 import social_media_scanner.backend.service.ResponseStruct;
+import social_media_scanner.backend.service.SearchStruct;
 import social_media_scanner.backend.utility.Parser;
 
 public class AccessData implements Data {
@@ -161,8 +162,7 @@ public class AccessData implements Data {
 
 	// TODO improve search object
 	@Override
-	public String select(String search, String company_name, List<String> APIs,
-			List<String> attributes) throws JSONException,
+	public String select(SearchStruct search, List<String> attributes) throws JSONException,
 			ClassNotFoundException, InstantiationException,
 			IllegalAccessException {
 
@@ -182,16 +182,17 @@ public class AccessData implements Data {
 			}
 		}
 
-		search = search.replaceAll("[^a-zA-Z\\s-.]", "");
-		search = search.replaceAll("[-|'.]", " ");
-		search = search.toLowerCase();
-		String[] each_word = search.split("[ ]+");
+        String keyword = search.getKeyword();
+		keyword = keyword.replaceAll("[^a-zA-Z\\s.-]", "");
+		keyword = keyword.replaceAll("[-|'.]", " ");
+		keyword = keyword.toLowerCase();
+		String[] each_word = keyword.split("[ ]+");
 		statement = null;
 		try {
 
 			statement = QueryBuilder.select().all()
 					.from(keyspace_name, review_table)
-					.where(QueryBuilder.eq("company_name", company_name));
+					.where(QueryBuilder.eq("company_name", search.getCompanyName()));
 			results = current_session.execute(statement);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -208,7 +209,7 @@ public class AccessData implements Data {
 //			try {
 				
 				if (containsAll(jsonObj.getString("content"), each_word) &&
-						inAPIList(APIs, jsonObj.getString("source"))) {
+						inAPIList(search.getAPIs(), jsonObj.getString("source"))) {
 
 					formatted_reviews.put(jsonObj);
 				}
@@ -286,18 +287,19 @@ public class AccessData implements Data {
 	 */
 
 	@Override
-	public String select(String search, String company_name)
+	public String select(SearchStruct search)
 			throws JSONException, ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
 
 		JSONArray formatted_reviews = new JSONArray();
 
-		search = search.replaceAll("[^a-zA-Z\\s-.]", "");
-		search = search.replaceAll("[-|'.]", " ");
-		search = search.toLowerCase();
-		String[] each_word = search.split("[ ]+");
-		if (search == "") {
-			List<Row> listRow = getAllRows(company_name);
+		String keyword = search.getKeyword();
+		keyword = keyword.replaceAll("[^a-zA-Z\\s.-]", "");
+		keyword = keyword.replaceAll("[-|'.]", " ");
+		keyword = keyword.toLowerCase();
+		String[] each_word = keyword.split("[ ]+");
+		if (keyword == "") {
+			List<Row> listRow = getAllRows(search.getCompanyName());
 			for (Row row : listRow) {
 
 				String api = row.getString("review_id");
@@ -309,7 +311,7 @@ public class AccessData implements Data {
 						.formatReview(row, new LinkedList<String>()));
 			}
 		} else {
-			List<Row> listRow = getAllRows(company_name);
+			List<Row> listRow = getAllRows(search.getCompanyName());
 			for (Row row : listRow) {
 
 				String api = row.getString("review_id");

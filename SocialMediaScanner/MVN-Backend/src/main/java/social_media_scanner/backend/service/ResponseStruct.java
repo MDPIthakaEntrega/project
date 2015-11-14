@@ -55,9 +55,9 @@ public class ResponseStruct {
      */
     public ResponseStruct(String response, String companyName, String APIName) {
 
-	this.response = response;
-	this.companyName = companyName;
-	this.APIName = APIName;
+        this.response = response;
+        this.companyName = companyName;
+        this.APIName = APIName;
 
     }
 

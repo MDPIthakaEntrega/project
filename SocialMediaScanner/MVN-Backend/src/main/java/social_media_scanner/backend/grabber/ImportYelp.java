@@ -28,7 +28,7 @@ public class ImportYelp extends ImportIO {
     }
 
     @Override
-    public List<ResponseStruct> pullData(CompanyStruct companyName, String location)
+    public List<ResponseStruct> pullData(CompanyStruct companyName)
 	    throws UnsupportedEncodingException {
 
 	String userParam = "_user=" + user;

@@ -45,41 +45,41 @@ public abstract class ImportIO extends DataGrabberGeneric {
     protected String user = "ae3388c0-633f-4035-a299-ab81e7e5f122";
 
     @Override
-    public List<ResponseStruct> pullData(CompanyStruct companyName, String location)
+    public List<ResponseStruct> pullData(CompanyStruct company)
 	    throws UnsupportedEncodingException {
 
-	String jsParam = null;
-	String infiniteScrollParam = null;
-	String userParam = "_user=" + user;
-	String apiParam = "_apikey=" + apiKey;
+		String jsParam;
+		String infiniteScrollParam = null;
+		String userParam = "_user=" + user;
+		String apiParam = "_apikey=" + apiKey;
 
-	if (processJS) {
+		if (processJS) {
 
-	    jsParam = "js=true";
-	    if (infiniteScrollPages != -1) {
-		infiniteScrollParam = "infiniteScrollPages=" + String.valueOf(infiniteScrollPages);
-	    }
-	} else {
-	    jsParam = "js=false";
-	}
+			jsParam = "js=true";
+			if (infiniteScrollPages != -1) {
+			infiniteScrollParam = "infiniteScrollPages=" + String.valueOf(infiniteScrollPages);
+			}
+		} else {
+			jsParam = "js=false";
+		}
 
-	// Build request URL
+		// Build request URL
 
-	String requestURL = baseURL + searchURL + "&" + jsParam;
+		String requestURL = baseURL + searchURL + "&" + jsParam;
 
-	if (infiniteScrollParam != null) {
+		if (infiniteScrollParam != null) {
 
-	    requestURL += "&" + infiniteScrollParam;
-	}
+			requestURL += "&" + infiniteScrollParam;
+		}
 
-	requestURL += "&" + userParam + "&" + apiParam;
-	try {
-	    sendGet(requestURL);
-	} catch (IOException e) {
+		requestURL += "&" + userParam + "&" + apiParam;
+		try {
+			sendGet(requestURL);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-	}
-
-	return null;
+		return null;
     }
 
 }
