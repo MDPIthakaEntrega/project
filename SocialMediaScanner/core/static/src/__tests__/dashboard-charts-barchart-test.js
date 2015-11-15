@@ -13,13 +13,13 @@ global.window.document = {
 };
 
 var assert = require('assert');
-var RatingBarChart = require('../dashboard-charts-barchart');
+var RatingBarChart = require('../dashboard-charts-barchart').RatingBarChart;
 var sinon = require('sinon');
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
 describe('dashboard-charts-barchart', function() {
     it('should create barchart', function() {
-        //TestUtils.renderIntoDocument( <RatingBarChart /> );
+        TestUtils.renderIntoDocument( <RatingBarChart /> );
     })
 });

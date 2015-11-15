@@ -14,6 +14,7 @@ def settings_logic(request):
             if request.POST['type'] == "account":
                 userprofile.api_config = request.POST['configs']
                 userprofile.save()
+                # TODO(renl): update info from the backend
                 return HttpResponse(
                     json.dumps({'status': 'success'}),
                     content_type="application/json"

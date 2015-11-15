@@ -24,11 +24,6 @@ def data_pack(request):
         for api in api_config:
             api_filter = \
                 api_filter+'&'+api+'='+('no' if (api not in api_config_json or api_config_json[api] == '') else 'yes')
-        print api_filter
-        pull_city_grid = 'no'
-        pull_yelp = 'yes'
-        pull_twitter = 'yes'
-
         url = 'http://localhost:3456/search?company%20name='+\
               user_profile.my_company.company_name+api_filter
         try:

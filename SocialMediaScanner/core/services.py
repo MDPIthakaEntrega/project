@@ -64,18 +64,6 @@ def get_username_from_session(request):
     return request.user.username
 
 
-def write_new_reviews_to(path, data):
-    with open(path, 'w+') as file:
-        file.write(json.dumps(data))
-    file.close()
-
-
-def read_new_reivews(path):
-    with open(path, 'r+') as file:
-        new_reviews = json.loads(file.read())
-        return new_reviews["new_reviews"]
-
-
 def has_same_password(request, raw_origin_password):
     return request.user.check_password(raw_origin_password)
 

@@ -3,8 +3,6 @@ from util.utilities import *
 from forms.FormTemplate import *
 from services import *
 from django.shortcuts import render
-from multiprocessing import Process
-import time
 import json
 import requests
 """
@@ -19,12 +17,6 @@ def log_out_user_logic(request):
         return HttpResponseRedirect('/')
     else:
         pass
-
-
-def log_in_user(request):
-    if user_is_authenticated(request):
-        return HttpResponseRedirect('/dashboard/')
-    return render(request, 'login.html')
 
 
 def check_status_redirect(request, render_page, redirect_path='/dashboard'):
@@ -62,7 +54,7 @@ def signup_logic(request):
             username, email, password, company_name, area = get_form_data(form)
             setup_user_profile(username, email, password, area, company_name, json.dumps(api_config))
             signup_login_user(request, username, password)
-            r = init_company_reviews(api_config, company_name, area)
+            init_company_reviews(api_config, company_name, area)
             return HttpResponseRedirect('/dashboard/')
     return signup_get_helper(request, form_errors)
 
