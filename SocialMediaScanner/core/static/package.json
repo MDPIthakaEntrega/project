@@ -22,6 +22,7 @@
     "browserify": "^10.2.0",
     "cssify": "^0.7.0",
     "es6-destructuring": "^0.4.0",
+    "flot": "0.8.0-alpha",
     "jasmine-ajax": "^3.2.0",
     "jest-cli": "^0.5.8",
     "jquery": "^1.9.0",

@@ -97,13 +97,3 @@ describe('add-platform-block', function () {
     });
 
 });
-
-/*
-var platfomOps = TestUtils.scryRenderedDOMComponentsWithTag(addBlock, 'option');
-        TestUtils.Simulate.click(platfomOps[0].getDOMNode());
-        var selectInputNode = React.findDOMNode(addBlock.refs.selectInput);
-        assert.notEqual(selectInputNode, null);
-        TestUtils.Simulate.change(selectInputNode, {target: {value: 'Twitter'}});
-        assert(selectInputNode.textContent, "Twitter");
-        var c1 = this.config_chart.refs.c1;
-        TestUtils.Simulate.change(c1.getInputDOMNode());*/
