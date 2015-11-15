@@ -1,4 +1,0 @@
-reviews					$.result.reviews			
-text					$.text
-id						$.author_url
-rating					$.rating

@@ -1,3 +1,0 @@
-reviews					$.tables[0].results				
-content					$.review_descriptions
-date					$.rating_value

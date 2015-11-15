@@ -1,6 +1,0 @@
-reviews					$.statuses				
-content					$.text
-id						$.id_str              
-title         			$.source
-rating					$.rating
-date					$.date

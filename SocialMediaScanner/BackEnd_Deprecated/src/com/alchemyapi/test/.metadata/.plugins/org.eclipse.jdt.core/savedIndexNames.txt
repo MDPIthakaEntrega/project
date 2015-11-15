@@ -1,0 +1,20 @@
+INDEX VERSION 1.126+/Users/Emily/alchemyapi_java/src/com/alchemyapi/test/.metadata/.plugins/org.eclipse.jdt.core
+238533535.index
+1458071361.index
+1623522135.index
+1591366544.index
+395516601.index
+1576330600.index
+684807290.index
+1267124489.index
+442455712.index
+3845008510.index
+3883769759.index
+2257769122.index
+1488345396.index
+2273965138.index
+1450664706.index
+467124143.index
+4236444402.index
+4165849690.index
+273053814.index
