@@ -6,9 +6,7 @@ global.document = jsdom.jsdom("<!doctype html><html><body></body></html>");
 global.window = document.defaultView;
 global.navigator = {userAgent: 'node.js'};
 global.fetch = function () {};
-global.window.document = {
-    createElement: function () {}
-};
+global.window.document = { createElement: function () {} };
 
 var assert = require('assert');
 var AddPlatformBlock = require('../add-platform-block');
@@ -93,8 +91,6 @@ describe('add-platform-block', function () {
                 {...info}
             />
         );
-
-        var platfomOps = TestUtils.scryRenderedDOMComponentsWithTag(addBlock, 'option');
         assert.equal(platfomOps.length, 2);
         assert.equal(platfomOps[0].getDOMNode().textContent, 'Twitter');
         assert.equal(platfomOps[1].getDOMNode().textContent, 'Yelp');

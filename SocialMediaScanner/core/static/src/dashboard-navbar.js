@@ -2,7 +2,7 @@
  * Created by renl on 9/20/15.
  */
 
-var React = require('React');
+var React = require('react');
 
 var NavBar = React.createClass({
     render: function () {
