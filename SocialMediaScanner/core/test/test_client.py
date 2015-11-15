@@ -1,5 +1,4 @@
 """
-Copyright 2015 James Westby
 credit to:
 https://jameswestby.net/weblog/tech/17-directly-logging-in-a-user-in-django-tests.html
 """

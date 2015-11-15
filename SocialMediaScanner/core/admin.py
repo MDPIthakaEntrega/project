@@ -1,8 +1,8 @@
 from django.contrib import admin
-from core.models import UserProfile, Company
+from core.models import UserProfile
 
 
-admin.site.register(UserProfile)
-admin.site.register(Company)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'my_company', 'area')
 
-
+admin.site.register(UserProfile, UserProfileAdmin)
