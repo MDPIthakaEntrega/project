@@ -17,9 +17,6 @@ var $ = require('jquery');
 
 var DashboardApp = React.createClass({
     getInitialState: function () {
-        /**
-         * searchKeyWord: the keyword that we want to filter from the review
-         */
         return {
             retry: true,
             error_message: '',

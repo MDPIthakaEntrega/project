@@ -1,10 +1,9 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from util.utilities import *
 from forms.FormTemplate import *
 from services import *
 from django.shortcuts import render
 import json
-import requests
 """
 This file is intended for all the business logic
 
@@ -24,18 +23,6 @@ def check_status_redirect(request, render_page, redirect_path='/dashboard'):
         return HttpResponseRedirect(redirect_path)
     else:
         return render(request, render_page)
-
-
-def init_company_reviews(api_config, company_name, area):
-    payload = {
-        'citygridName': api_config.get('CityGrid', ''),
-        'twitterName': api_config.get('Twitter', ''),
-        'companyName': company_name,
-        'yelpName': api_config.get('Yelp', ''),
-        'locationName': area
-    }
-    r = requests.post("http://localhost:3456/init", data=payload)
-    return r
 
 
 def signup_logic(request):
