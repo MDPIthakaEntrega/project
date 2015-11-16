@@ -2,7 +2,8 @@
  * Created by renl on 9/16/15.
  */
 
-var React = require('React');
+var React = require('react');
+var $ = require('jquery');
 
 var SideBar = React.createClass({
     getInitialState: function () {
@@ -66,7 +67,7 @@ var SideBar = React.createClass({
         var sections = Object.keys(this.state.section_to_name).map((sectionName) => {
             if (sectionName !== 'logout') {
                 return (
-                    <li onClick={this.sectionClickHandler.bind(this, sectionName)}>
+                    <li ref={sectionName} onClick={this.sectionClickHandler.bind(this, sectionName)}>
                         <a className={sectionName === this.props.sectionName ? "active-menu" : ""} href="#">
                             <div className="hoverdiv"></div>
                             <i className={this.state.section_to_icon[sectionName]}></i>
@@ -76,7 +77,7 @@ var SideBar = React.createClass({
                 );
             } else {
                 return (
-                    <li onClick={this.logoutHandler}>
+                    <li ref={sectionName} onClick={this.logoutHandler}>
                         <a className={sectionName === this.props.sectionName ? "active-menu" : ""} href="#">
                             <div className="hoverdiv"></div>
                             <i className={this.state.section_to_icon[sectionName]}></i>
@@ -95,10 +96,10 @@ var SideBar = React.createClass({
                             <div className="circleinfo">
                                 <p className="welcome">Welcome</p>
                                 <p className="Mr">
-                                    <b>{this.state.username}</b>
+                                    <b ref='username'>{this.state.username}</b>
                                 </p>
                                 <p>From:
-                                    <b>{this.state.company}</b>
+                                    <b ref='company'>{this.state.company}</b>
                                 </p>
                             </div>
                         </li>

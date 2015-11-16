@@ -11,6 +11,7 @@ var Col = require('react-bootstrap').Col;
 var Row = require('react-bootstrap').Row;
 var Label = require('react-bootstrap').Label;
 var Button = require('react-bootstrap').Button;
+var $ = require('jquery');
 
 var ChartConfig = React.createClass({
     updateSettings: function (configs) {

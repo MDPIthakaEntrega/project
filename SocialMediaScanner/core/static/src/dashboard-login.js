@@ -116,7 +116,10 @@ var DashboardApp = React.createClass({
     }
 });
 
+module.exports = DashboardApp;
+
 React.render(
     <DashboardApp />,
     document.getElementById('dashboardApp')
 );
+

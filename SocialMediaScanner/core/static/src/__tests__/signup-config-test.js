@@ -7,9 +7,7 @@ global.document = jsdom.jsdom("<!doctype html><html><body></body></html>");
 global.window = document.defaultView;
 global.navigator = {userAgent: 'node.js'};
 global.fetch = function () {};
-global.window.document = {
-    createElement: function () {}
-};
+global.window.document = { createElement: function () {} };
 
 for (var i in require.cache) delete require.cache[i];
 
@@ -67,7 +65,6 @@ describe("signup-config", function () {
 
         var btnNode = React.findDOMNode(signup.refs.addButton);
         TestUtils.Simulate.click(btnNode);
-        assert(addPlatformSpy.called, true);
         assert(addPlatformSpy.calledOnce, true);
 
         var addNode = React.findDOMNode(signup.refs.addBlock);
