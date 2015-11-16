@@ -50,13 +50,13 @@ var ChartConfig = React.createClass({
     },
 
     render: function () {
-        var chart_configs = Object.keys(this.props.charts).map((label) => {
+        var chart_configs = Object.keys(this.props.charts).map((label, idx) => {
             var is_checked = false;
             if (this.props.chart_config.hasOwnProperty(label)) {
                 is_checked = this.props.chart_config[label];
             }
             return (
-                <Col xs={4} md={2}>
+                <Col xs={4} md={2} key={idx}>
                     <Input
                         type="checkbox"
                         label={this.props.charts[label]}

@@ -1,9 +1,9 @@
-__author__ = 'renl'
 from core.services import *
 from django.http import Http404
 from core.models import UserProfile
 from core.config.api_config import api_config
 from core.config.chart_config import chart_to_name
+
 
 def settings_logic(request):
     if user_is_authenticated(request):
@@ -12,9 +12,9 @@ def settings_logic(request):
             user = User.objects.get(username=username)
             user_profile = UserProfile.objects.get(user=user)
             if request.POST['type'] == "account":
+                update_reviews(user_profile, request.POST['configs'])
                 user_profile.api_config = request.POST['configs']
                 user_profile.save()
-                # TODO(renl): update info from the backend
                 return HttpResponse(
                     json.dumps({'status': 'success'}),
                     content_type="application/json"

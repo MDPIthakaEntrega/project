@@ -19,9 +19,8 @@ var SummaryReviewPick = React.createClass({
             switch (review.source) {
                 case 'Citygrid':
                     return (
-                        <div className="item">
+                        <div className="item" key={idx}>
                             <CityGridReviewCard
-                                key={idx}
                                 title={review.title}
                                 content={review.content}
                                 date={review.date}
@@ -30,9 +29,8 @@ var SummaryReviewPick = React.createClass({
                     );
                 case 'ImportMagicYelp':
                     return (
-                        <div className="item">
+                        <div className="item" key={idx}>
                             <YelpReviewCard
-                                key={idx}
                                 title={review.title}
                                 content={review.content}
                                 date={review.date}
@@ -41,9 +39,8 @@ var SummaryReviewPick = React.createClass({
                     );
                 case 'Twitter':
                     return (
-                        <div className="item">
+                        <div className="item" key={idx}>
                             <TweetCard
-                                key={idx}
                                 title={review.title}
                                 content={review.content}
                                 date={review.date}

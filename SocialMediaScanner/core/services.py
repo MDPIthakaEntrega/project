@@ -1,6 +1,4 @@
 from django.http import HttpResponse
-
-__author__ = 'renl'
 from django.contrib import auth
 from django.contrib.auth.models import User
 from core.models import UserProfile, Company
@@ -18,7 +16,7 @@ def search_relevant_reviews(user_profile):
     for api in api_config:
         api_filter = \
             api_filter+'&'+api+'='+('no' if (api not in api_config_json or api_config_json[api] == '') else 'yes')
-    url = 'http://localhost:3456/search?company%20name='+\
+    url = 'http://localhost:3456/search?company='+\
           user_profile.my_company.company_name+api_filter
     try:
         resp = requests.get(url=url)
@@ -49,6 +47,7 @@ def search_relevant_reviews(user_profile):
             ' please go to the setting section and try to pull data again',
             status=400
         )
+
 
 def signup_login_user(request, username, password):
     user = auth.authenticate(username=username, password=password)
@@ -117,18 +116,36 @@ def set_new_password(request, new_password):
 
 
 def init_company_reviews(api_config, company_name, area):
-    twitterName = api_config.get('Twitter', '')
-    if twitterName != '':
-        twitterName = twitterName + ' ' + area
     payload = {
         'citygridName': api_config.get('CityGrid', ''),
-        'twitterName': twitterName,
-        'companyName': company_name,
+        'twitterName': api_config.get('Twitter', ''),
+        'company': company_name,
         'yelpName': api_config.get('Yelp', ''),
-        'locationName': area
+        'location': area
     }
-    r = requests.post("http://localhost:3456/init", data=payload)
-    return r
+    return requests.post("http://localhost:3456/init", data=payload)
+
+
+def update_reviews(user_profile, new_api_config):
+    old_api_config = json.loads(user_profile.api_config)
+    new_api_config = json.loads(new_api_config)
+    changed_apis = ''
+    payload = {
+        'location': user_profile.area,
+        'company': user_profile.my_company.company_name
+    }
+    for platform in new_api_config:
+        if old_api_config.get(platform, '') == '' and old_api_config.get(platform, '') != new_api_config.get(platform, ''):
+            if changed_apis != '':
+                changed_apis = changed_apis + ', ' + platform.lower()
+            else:
+                changed_apis = platform.lower()
+    payload['apis'] = changed_apis
+    for platform in new_api_config:
+        key = platform.lower() + 'Name'
+        payload[key] = new_api_config[platform]
+    return requests.post("http://localhost:3456/updateAPI", data=payload)
+
 
 
 
