@@ -1,6 +1,3 @@
-/**
- * Created by Emily on 11/8/15.
- */
 var jsdom = require('jsdom');
 global.document = jsdom.jsdom("<!doctype html><html><body></body></html>");
 global.window = document.defaultView;
@@ -91,9 +88,9 @@ describe('add-platform-block', function () {
                 {...info}
             />
         );
-        assert.equal(platfomOps.length, 2);
-        assert.equal(platfomOps[0].getDOMNode().textContent, 'Twitter');
-        assert.equal(platfomOps[1].getDOMNode().textContent, 'Yelp');
+        var platformOptions = addBlock.refs.selectInput.props.children;
+        assert.equal(platformOptions.length, 2);
+        assert.equal(platformOptions[0].props.value, 'Twitter');
+        assert.equal(platformOptions[1].props.value, 'Yelp');
     });
-
 });

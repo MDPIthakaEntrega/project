@@ -9,6 +9,7 @@ var assert = require('assert');
 var Settings = require('../dashboard-settings');
 var sinon = require('sinon');
 var React = require('react/addons');
+var ReactDOM = require('react-dom');
 var TestUtils = React.addons.TestUtils;
 
 describe('dashboard review feed', function() {
@@ -52,12 +53,11 @@ describe('dashboard review feed', function() {
         }]
     };
 
-    it('should pass', function() {
+    it('should contains account config and chart config', function() {
         var settings = TestUtils.renderIntoDocument(<Settings {...options} /> );
-
-        var configAccountNode = settings.findDOMNode(settings.refs.configaccount);
+        var configAccountNode = settings.refs.configaccount;
         assert.notEqual(configAccountNode, null);
-        var configChartNode = settings.findDOMNode(settings.refs.configchart);
+        var configChartNode = settings.refs.configchart;
         assert.notEqual(configChartNode, null);
     })
 });
