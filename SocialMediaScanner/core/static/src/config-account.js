@@ -1,9 +1,3 @@
-/**
- * Created by renl on 9/28/15.
- */
-/**
- * Created by renl on 9/23/15.
- */
 var React = require('react');
 var Input = require('react-bootstrap').Input;
 var Grid = require('react-bootstrap').Grid;
@@ -11,7 +5,7 @@ var Col = require('react-bootstrap').Col;
 var Row = require('react-bootstrap').Row;
 var Label = require('react-bootstrap').Label;
 var Button = require('react-bootstrap').Button;
-var $ = require('jquery');
+var $ = require('./safeAJAXifyJQuery');
 
 var AccountConfig = React.createClass({
     getInitialState: function () {
@@ -68,7 +62,6 @@ var AccountConfig = React.createClass({
             type: 'GET',
             url: '/api/settings/?part=account',
             success: function (data) {
-                console.log(data);
                 this.setState({
                     api_list: data.apis,
                     configs: JSON.parse(data.configs)
@@ -83,9 +76,9 @@ var AccountConfig = React.createClass({
         if (!this.state.api_list.length) {
             return <div>Loading...</div>
         } else {
-            var configs = this.state.api_list.map((apiName) => {
+            var configs = this.state.api_list.map((apiName, idx) => {
                 return (
-                    <div>
+                    <div key={idx}>
                         <Col xs={4} md={2}>
                             {apiName}
                         </Col>

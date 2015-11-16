@@ -28,16 +28,7 @@ var SideBar = React.createClass({
     },
 
     logoutHandler: function () {
-        //document.getElementById('logoutForm').submit();
-        $.ajax({
-            type: 'POST',
-            url: '/logout/',
-            success: function (data) {
-                window.location.href = "/";
-            }.bind(this),
-            error: function (xhr, status, err) {
-            }.bind(this)
-        });
+        window.location.href = "/logout/";
     },
 
     componentDidMount: function () {
@@ -64,10 +55,10 @@ var SideBar = React.createClass({
     },
 
     render: function () {
-        var sections = Object.keys(this.state.section_to_name).map((sectionName) => {
+        var sections = Object.keys(this.state.section_to_name).map((sectionName, idx) => {
             if (sectionName !== 'logout') {
                 return (
-                    <li ref={sectionName} onClick={this.sectionClickHandler.bind(this, sectionName)}>
+                    <li ref={sectionName} onClick={this.sectionClickHandler.bind(this, sectionName)} key={idx}>
                         <a className={sectionName === this.props.sectionName ? "active-menu" : ""} href="#">
                             <div className="hoverdiv"></div>
                             <i className={this.state.section_to_icon[sectionName]}></i>
@@ -77,7 +68,7 @@ var SideBar = React.createClass({
                 );
             } else {
                 return (
-                    <li ref={sectionName} onClick={this.logoutHandler}>
+                    <li ref={sectionName} onClick={this.logoutHandler} key={idx}>
                         <a className={sectionName === this.props.sectionName ? "active-menu" : ""} href="#">
                             <div className="hoverdiv"></div>
                             <i className={this.state.section_to_icon[sectionName]}></i>
