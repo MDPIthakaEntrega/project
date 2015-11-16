@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONException;
 
 import social_media_scanner.backend.service.ResponseStruct;
+import social_media_scanner.backend.service.SearchStruct;
 
 public interface Data {
 
@@ -33,7 +34,7 @@ public interface Data {
 	/*
 	 * Inserts responses from API to database for a given company
 	 */
-	public void insertData(List<ResponseStruct> responses) 
+	void insertData(List<ResponseStruct> responses)
 			throws InstantiationException, IllegalAccessException, JSONException, ClassNotFoundException;
 	
 	
@@ -43,7 +44,7 @@ public interface Data {
 	 *  with JSONObjects containing all default attributes
 	 *  
 	 */
-	public abstract String select(String search, String company_name) 
+	String select(SearchStruct search)
 			throws JSONException, ClassNotFoundException, InstantiationException, IllegalAccessException;
 	
 	
@@ -53,7 +54,7 @@ public interface Data {
 	 *  with JSONObjects containing specified attributes
 	 *  
 	 */
-	public abstract String select(String search, String company_name, List<String> APIs, List<String> attributes) 
+	String select(SearchStruct search, List<String> attributes)
 			throws JSONException, ClassNotFoundException, InstantiationException, IllegalAccessException;
 	
 }

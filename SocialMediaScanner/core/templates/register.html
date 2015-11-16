@@ -12,7 +12,13 @@
         <div class="col-lg-9">
             <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong>
             </div>
-            <form action="/signup_auth/" method="POST">
+            <form action="/signup_auth/" method="POST" onsubmit="noty({
+                    text: 'Submitted the form. Data initializing, please be patient... If something went wrong, you will see notice.',
+                    layout: 'top',
+                    type: 'information',
+                    killer: true,
+                    closeWith: ['click', 'hover']
+                });">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="InputName">Enter Name</label>
@@ -52,11 +58,12 @@
             </form>
         </div>
         <div class="col-lg-3">
-            <span>{{error_user}}</span>
-            <span>{{error_email}}</span>
-            <span>{{error_password}}</span>
+            {% for error in errors %}
+                <span>{{error}}</span>
+            {% endfor %}
         </div>
     </div>
 </div>
 <script src="{{ STATIC_URL }}build/signup-config.js"></script>
+
 {% endblock %}

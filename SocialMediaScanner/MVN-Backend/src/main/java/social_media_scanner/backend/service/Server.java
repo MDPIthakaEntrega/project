@@ -276,10 +276,10 @@ public class Server extends ServerGeneric {
 	}
 
 	@Override
-	void pullAllAPIAndStoreForUsers(List<CompanyStruct> companyNameList, List<String> locationList) {
+	void pullAllAPIAndStoreForUsers(List<CompanyStruct> companyNameList) {
 		// TODO Auto-generated method stub
 
-		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listGrabber);
+		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, listGrabber);
 
 		// store responseStructList to the database;
 		try {
@@ -333,7 +333,7 @@ public class Server extends ServerGeneric {
 			locationList.add(company.getLocation());
 		}
 		// TODO get rid of location list
-		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listNewGrabber);
+		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, listNewGrabber);
 		
 		try {
 			dbAccessor.insertData(responseStructList);
@@ -358,7 +358,7 @@ public class Server extends ServerGeneric {
 			locationList.add(pair.getLocation());
 		}
 
-		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, locationList, listPartGrabbers);
+		List<ResponseStruct> responseStructList = pullAPIsForUsers(companyNameList, listPartGrabbers);
 
 		// store responseStructList into database;
 		try {
@@ -373,18 +373,17 @@ public class Server extends ServerGeneric {
 	 * pull data and store for a list of given users on a list of given apis.
 	 * 
 	 * @param companyNameList
-	 * @param locationList
 	 * @param listGrabber
 	 * @return
 	 */
-	List<ResponseStruct> pullAPIsForUsers(List<CompanyStruct> companyNameList, List<String> locationList,
+	List<ResponseStruct> pullAPIsForUsers(List<CompanyStruct> companyNameList,
 			List<DataGrabberGeneric> listGrabber) {
 
 		List<ResponseStruct> responseStructAllList = new LinkedList<ResponseStruct>();
 		for (DataGrabberGeneric grabber : listGrabber) {
 
 			try {
-				List<ResponseStruct> responseStructList = grabber.pullDataForAll(companyNameList, locationList);
+				List<ResponseStruct> responseStructList = grabber.pullDataForAll(companyNameList);
 				for (ResponseStruct responseStruct : responseStructList) {
 
 					responseStruct.setAPIName(grabber.toString());
@@ -400,14 +399,14 @@ public class Server extends ServerGeneric {
 	}
 
 	@Override
-	String searchReviews(String companyName, String keyword, List<String> APIs) {
+	String searchReviews(SearchStruct search) {
 
 		List<String> attributes = new LinkedList<String>();
 
 		String result = null;
 		try {
 
-			result = dbAccessor.select(keyword.toLowerCase(), companyName.toLowerCase(), APIs,attributes);
+			result = dbAccessor.select(search, attributes);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

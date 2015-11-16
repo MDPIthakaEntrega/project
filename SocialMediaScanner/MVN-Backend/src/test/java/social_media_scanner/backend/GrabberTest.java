@@ -24,7 +24,7 @@ public class GrabberTest extends TestCase {
 	private void testCore(CompanyStruct companyStruct, DataGrabberGeneric grabber) {
 		List<ResponseStruct> listResponse = null;
 		try {
-			listResponse = grabber.pullData(companyStruct, companyStruct.getLocation());
+			listResponse = grabber.pullData(companyStruct);
 		} catch (Exception e) {
 			fail("Pulling data for " + companyStruct.getCompanyName() + " at " + companyStruct.getLocation() + " from "
 					+ grabber.toString() + " should not have throwed exceptions");

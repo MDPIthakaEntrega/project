@@ -25,8 +25,13 @@ var Summary = React.createClass({
 
     render: function () {
         var sentiment_result = this.calculateDivision(this.props.reviews);
+        if (this.props.error_message) {
+            return (
+                <div ref='error'>{this.props.error_message}</div>
+            );
+        }
         return (
-            <div>
+            <div ref='noerror'>
                 <ReviewDivision {...sentiment_result} />
                 <ReviewPick data={this.props.reviews} total={10} />
             </div>

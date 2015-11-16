@@ -17,19 +17,18 @@ public abstract class DataGrabberGeneric {
 	/*
 	 * Set location to null if not specified.
 	 */
-	public abstract List<ResponseStruct> pullData(CompanyStruct companyName, String location) throws UnsupportedEncodingException;
+	public abstract List<ResponseStruct> pullData(CompanyStruct company) throws UnsupportedEncodingException;
 	
 	/*
 	 * A wrapper of pullData to pull data for a list of company-location pair. 
 	 */
-	public List<ResponseStruct> pullDataForAll(List<CompanyStruct> companyNameList, List<String> locationList) throws UnsupportedEncodingException {
+	public List<ResponseStruct> pullDataForAll(List<CompanyStruct> companyList) throws UnsupportedEncodingException {
 		
 		List<ResponseStruct> responseList = new LinkedList<ResponseStruct>();
-		for (int i = 0; i < companyNameList.size(); i++) {
-			
-			CompanyStruct companyName = companyNameList.get(i);
-			String location = locationList.get(i);
-			responseList.addAll(pullData(companyName, location));
+		for (CompanyStruct companyName : companyList) {
+
+			//			String location = locationList.get(i);
+			responseList.addAll(pullData(companyName));
 		}
 		
 		return responseList;
@@ -45,8 +44,8 @@ public abstract class DataGrabberGeneric {
 		httpCon.setRequestMethod("GET");
 			
 		BufferedReader in = new BufferedReader(new InputStreamReader(httpCon.getInputStream()));
-		String inputLine = null;
-		StringBuffer response = new StringBuffer();
+		String inputLine;
+		StringBuilder response = new StringBuilder();
 		while ((inputLine = in.readLine()) != null) {
 			
 			response.append(new String(inputLine.getBytes("UTF-8"), "UTF-8"));

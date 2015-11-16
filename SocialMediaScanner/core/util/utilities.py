@@ -19,16 +19,14 @@ def get_form_data(form):
 
 
 def signup_get_helper(request, form_errors):
-    if form_errors.get('username') is None:
-        form_errors['username'] = ''
-    if form_errors.get('email') is None:
-        form_errors['email'] = ''
-    if form_errors.get('password2') is None:
-        form_errors['password2'] = ''
-    return render(request, 'register.html',
-                  {'error_user': form_errors.get('username'),
-                   'error_email': form_errors.get('email'),
-                   'error_password': form_errors.get('password2')})
+    all_errors = []
+    if form_errors.get('username') is not None:
+        all_errors.append(form_errors.get('username'))
+    if form_errors.get('email') is not None:
+        all_errors.append(form_errors.get('email'))
+    if form_errors.get('password2') is not None:
+        all_errors.append(form_errors.get('password2'))
+    return render(request, 'register.html', {'errors': all_errors})
 
 
 def get_username_password_from(request):

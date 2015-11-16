@@ -11,6 +11,7 @@ var Col = require('react-bootstrap').Col;
 var Row = require('react-bootstrap').Row;
 var Label = require('react-bootstrap').Label;
 var Button = require('react-bootstrap').Button;
+var $ = require('jquery');
 
 var AccountConfig = React.createClass({
     getInitialState: function () {
@@ -25,6 +26,7 @@ var AccountConfig = React.createClass({
     },
 
     handleClick: function () {
+        var noty = require('noty');
         var configs = {};
         for (var apiName in this.refs) {
             configs[apiName] = this.refs[apiName].getValue();
@@ -39,7 +41,7 @@ var AccountConfig = React.createClass({
             data: {type: 'account', configs: JSON.stringify(configs)},
             success: function (data) {
                 noty({
-                    text: 'save account config successfully',
+                    text: 'save account config successfully, please reload the dashboard to see changes.',
                     layout: 'topRight',
                     type: 'success',
                     killer: true,

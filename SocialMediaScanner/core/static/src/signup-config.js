@@ -5,6 +5,7 @@ var Col = require('react-bootstrap').Col;
 var Button = require('react-bootstrap').Button;
 var Input = require('react-bootstrap').Input;
 var AddPlatformBlock = require('./add-platform-block');
+var $ = require('jquery');
 
 var inputStyle = {
     display: 'block',
@@ -80,11 +81,12 @@ var SignupConfig = React.createClass({
     render: function () {
         var inputNewPlatform = null;
         if (this.state.has_unsaved) {
-            inputNewPlatform = <AddPlatformBlock
+            inputNewPlatform = (<AddPlatformBlock
+                ref="addBlock"
                 onCancel={this.cancelOnePlatform}
                 onSave={this.saveOnePlatform}
                 {...this.state}
-            />;
+            />);
         }
         var platforms = this.state.platforms;
         var savedPlatforms = Object.keys(platforms).map((platform, idx) => {
@@ -92,12 +94,14 @@ var SignupConfig = React.createClass({
                 return (
                     <div style={{margin: '10px'}}>
                         <Row>
-                            <Col xs={2}><p>{platform}</p></Col>
+                            <Col xs={2}>
+                                <p>{platform}</p>
+                            </Col>
                             <Col xs={8}>
                                 <Input
                                     className="form-control"
                                     type="text"
-                                    name={"api-"+platform}
+                                    name={"api-" + platform}
                                     value={platforms[platform]}
                                     readOnly />
                             </Col>
@@ -117,6 +121,7 @@ var SignupConfig = React.createClass({
             }
         }
         var addButton = addable ? <Button
+            ref="addButton"
             bsStyle="success"
             style={buttonStyle}
             onClick={this.addOnePlatform}
@@ -133,7 +138,5 @@ var SignupConfig = React.createClass({
     }
 });
 
-React.render(
-    <SignupConfig />,
-    document.getElementById('dynamic-api-config')
-);
+module.exports = SignupConfig;
+

@@ -114,21 +114,21 @@ var DashboardPlotApp = React.createClass({
                 case 'bar_chart_ratings':
                     return (
                         <Col xs={6} className="ChartSection">
-                            <h1>{this.props.charts[chartType]}</h1>
+                            <h1 ref="barchart">{this.props.charts[chartType]}</h1>
                             <RatingBarChart data={this.state.ratingBarChartData} init={this.state.initialized}/>
                         </Col>
                     );
                 case 'num_reviews_by_month':
                     return (
                         <Col xs={6} className="ChartSection">
-                            <h1>{this.props.charts[chartType]}</h1>
+                            <h1 ref="timechart">{this.props.charts[chartType]}</h1>
                             <TimeChart data={this.state.time_data} init={this.state.initialized}/>
                         </Col>
                     );
                 case 'sentiment_pie_chart':
                     return (
                         <Col xs={6} className="ChartSection">
-                            <h1>{this.props.charts[chartType]}</h1>
+                            <h1 ref="piechart">{this.props.charts[chartType]}</h1>
                             <SentimentPieChart data={this.state.pie_data} init={this.state.initialized}/>
                         </Col>
                     );
