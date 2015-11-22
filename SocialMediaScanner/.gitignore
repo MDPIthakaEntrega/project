@@ -11,3 +11,4 @@ BackEnd/bin
 db.sqlite3
 core/migrations/
 npm-debug.log
+venv/

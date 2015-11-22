@@ -140,3 +140,9 @@ var SignupConfig = React.createClass({
 
 module.exports = SignupConfig;
 
+React.render(
+    <SignupConfig />,
+    document.getElementById('dynamic-api-config')
+);
+
+

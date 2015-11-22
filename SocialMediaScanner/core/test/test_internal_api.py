@@ -25,7 +25,6 @@ class InternalAPITest(TestCase):
         response_json = json.loads(response.content)
         self.assertEqual(response_json['apis'], api_config)
 
-    @httpretty.activate
     def test_data_pack_api(self):
         mock_response = {"reviews": [{
                                      "content": "Ann Arbor tradition. If you are a bread snob, or have a weakness of aged, imported, slightly-smelly but oh...",
