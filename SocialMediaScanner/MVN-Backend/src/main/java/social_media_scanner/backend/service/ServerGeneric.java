@@ -159,9 +159,9 @@ abstract class ServerGeneric {
 
                 APIs.add("citygrid");
             }
-            if(keyVal.get("yelp") != null && keyVal.get("yelp").equals("yes")) {
+            if(keyVal.get("importmagicyelp") != null && keyVal.get("importmagicyelp").equals("yes")) {
 
-                APIs.add("yelp");
+                APIs.add("importmagicyelp");
             }
             if(APIs.isEmpty()) {
 
