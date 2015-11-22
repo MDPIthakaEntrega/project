@@ -11,14 +11,6 @@ python manage.py syncdb
 echo ========== MIGRATE DATABASE END ============
 
 npm install --prefix "core/static"
-# test JavaScript
-echo ========== TEST JavaScript BEGIN ===========
-npm run test --prefix "core/static"
-echo =========== TEST JavaScript END ============
-
-# test Python
-echo ============= TEST Django BEGIN ============
-python manage.py test
-echo ============== TEST Django END =============
-
+npm run build --prefix "core/static"
+npm run build-signup --prefix "core/static"
 deactivate
