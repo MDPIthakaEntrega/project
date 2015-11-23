@@ -21,9 +21,9 @@ var AddPlatformBlock = React.createClass({
 
     render: function () {
         var platforms = this.props.platforms;
-        var options = Object.keys(platforms).map(function (platform) {
+        var options = Object.keys(platforms).map(function (platform, idx) {
             if (!platforms[platform]) {
-                return <option value={platform}>{platform}</option>
+                return <option value={platform} key={idx}>{platform}</option>
             }
         });
         return (

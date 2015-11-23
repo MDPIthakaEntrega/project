@@ -66,9 +66,9 @@ var DashboardPlotApp = React.createClass({
             rating_dict[rating] += 1;
         }
         this.setState(sentiment_result);
-        var pie_data = [{label: "Positive", data: sentiment_result.positive, color: "#4572A7"},
-            {label: "Negative", data: sentiment_result.negative, color: "#AA4643"},
-            {label: "Neutral", data: sentiment_result.neutral, color: "#80699B"}];
+        var pie_data = [{label: "Positive", data: sentiment_result.positive, color: "#F4454A"},
+            {label: "Negative", data: sentiment_result.negative, color: "#876598"},
+            {label: "Neutral", data: sentiment_result.neutral, color: "#F98C27"}];
 
         var time_data = [];
         for (var key in date_dict) {
