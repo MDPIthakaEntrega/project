@@ -121,7 +121,7 @@ public class GrabberImportMagicYelp extends ImportIO {
     @Override
     public String toString() {
 
-	    return "ImportMagicYelp";
+	    return "Yelp";
     }
 
 }

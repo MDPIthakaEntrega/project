@@ -61,8 +61,6 @@ public abstract class API extends AccessData {
 				}
 				
 			}
-			
-			// TODO insert review_text into column in database or do something with SOLR
 
 			// TODO what should be case if id is null
 			if(current_review_id != null) {

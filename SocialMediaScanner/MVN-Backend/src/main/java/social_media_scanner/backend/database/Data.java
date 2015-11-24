@@ -19,36 +19,24 @@ public interface Data {
 	 * Must be called before insertData() or select()
 	 * 
 	 */
-//	public void init(String folder_location_i) throws InstantiationException, IllegalAccessException, ClassNotFoundException;
-	
-	
-	/*
-	 * 
-	 * Initialize variables needed to create database and creates database
-	 * Must be called before insertData() or select()
+//	void init(String folder_location_i) throws InstantiationException, IllegalAccessException, ClassNotFoundException;
+
+	/**
+	 *
+	 *	Select reviews for a company with a given search, returns JSONArray string
+	 *  with JSONObjects containing all default attributes
+	 *
 	 */
-//	public void initializeDatabase(String host_i, String keyspace_name_i, String
-//			review_table_i, String inverted_table_i);
-	
-	
-	/*
+	String select(SearchStruct search)
+			throws JSONException, ClassNotFoundException, InstantiationException, IllegalAccessException;
+
+	/**
 	 * Inserts responses from API to database for a given company
 	 */
 	void insertData(List<ResponseStruct> responses)
 			throws InstantiationException, IllegalAccessException, JSONException, ClassNotFoundException;
-	
-	
-	/*
-	 * 
-	 *	Select reviews for a company with a given search, returns JSONArray string
-	 *  with JSONObjects containing all default attributes
-	 *  
-	 */
-	String select(SearchStruct search)
-			throws JSONException, ClassNotFoundException, InstantiationException, IllegalAccessException;
-	
-	
-	/*
+
+	/**
 	 * 
 	 *	Select reviews for a company with a given search, returns JSONArray string
 	 *  with JSONObjects containing specified attributes
