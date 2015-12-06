@@ -76,27 +76,36 @@ public class GrabberTwitter extends DataGrabberGeneric {
 	List<ResponseStruct> listResponseStruct = new ArrayList<ResponseStruct>();
 
 	try {
-	    Query query = new Query(companyName.getCompanyName());
-	    query.setCount(MAX_RRP);
-	    while (query != null) {
-		JSONArray jsonArray = new JSONArray();
-		QueryResult result = twitter.search(query);
+		String nameToPull = companyName.getTwitterName();
+		if(nameToPull.length() > 0) {
+			Query query = new Query(nameToPull);
+			query.setCount(MAX_RRP);
+			int numReviews = 0;
+			while (query != null) {
 
-		for (Status status : result.getTweets()) {
-		    JSONObject jsonObj = new JSONObject();
-		    jsonObj.put("text", status.getText());
-		    jsonObj.put("id_str", status.getId());
-		    jsonObj.put("rating", status.getFavoriteCount());
-		    jsonObj.put("date", status.getCreatedAt());
-		    jsonArray.add(jsonObj);
+				if(numReviews > 100) {
+					break;
+				}
+				JSONArray jsonArray = new JSONArray();
+				QueryResult result = twitter.search(query);
+
+				for (Status status : result.getTweets()) {
+					numReviews++;
+					JSONObject jsonObj = new JSONObject();
+					jsonObj.put("text", status.getText());
+					jsonObj.put("id_str", status.getId());
+					jsonObj.put("rating", status.getFavoriteCount());
+					jsonObj.put("date", status.getCreatedAt());
+					jsonArray.add(jsonObj);
+				}
+				query = result.nextQuery();
+				JSONObject jsonWrapper = new JSONObject();
+				jsonWrapper.put("statuses", jsonArray);
+				listResponseStruct
+						.add(new ResponseStruct(jsonWrapper.toString(), companyName.getCompanyName(), toString()));
+			}
 		}
-		query = result.nextQuery();
-		JSONObject jsonWrapper = new JSONObject();
-		jsonWrapper.put("statuses", jsonArray);
-		listResponseStruct
-			.add(new ResponseStruct(jsonWrapper.toString(), companyName.getCompanyName(), toString()));
 
-	    }
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

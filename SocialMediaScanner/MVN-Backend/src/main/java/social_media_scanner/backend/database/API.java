@@ -35,6 +35,7 @@ public abstract class API extends AccessData {
 		SentimentStruct current_review_sentiment;
 		
 		// insert reviews 1 by 1
+		System.out.println("reviews length: " + reviews.length());
 		for (int i = 0; i < reviews.length(); ++i) {
 			current_review = reviews.getJSONObject(i);
 			current_review_text = this.getContent(current_review);
@@ -69,6 +70,7 @@ public abstract class API extends AccessData {
 			}
 			
 		}
+		System.out.println("done with 1 response struct");
 	}
 	
 	private void insertReview(String review_id, String company_name,

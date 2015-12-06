@@ -129,18 +129,20 @@ public class Server extends ServerGeneric {
 
 		try {
 			AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile(Parser.API_KEY_PATH);
+//			System.out.println("review: " + review);
 			Document result = alchemyObj.TextGetTextSentiment(review);
 			SentimentStruct s = parseSentimentStruct(result);
+//			System.out.println("sentiment: " + s.getFeeling());
 			return s;
 
 		} catch (IOException e) {
-			System.out.println("Alchemy IOException");
+//			System.out.println("Alchemy IOException");
 		} catch (XPathExpressionException e) {
-			System.out.println("Alchemy XPathExpressionException");
+//			System.out.println("Alchemy XPathExpressionException");
 		} catch (SAXException e) {
-			System.out.println("Alchemy SAXException");
+//			System.out.println("Alchemy SAXException");
 		} catch (ParserConfigurationException e) {
-			System.out.println("Alchemy ParserConfigurationException");
+//			System.out.println("Alchemy ParserConfigurationException");
 		}
 		return null;
 	}

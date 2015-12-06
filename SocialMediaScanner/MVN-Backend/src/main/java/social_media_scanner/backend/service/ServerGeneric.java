@@ -233,6 +233,8 @@ abstract class ServerGeneric {
 
                     output += companyName + " ,";
 
+                    System.out.println("Returning from init");
+
                     responseBody.write(output.getBytes());
                     responseBody.close();
 

@@ -115,8 +115,12 @@ public class AccessData implements Data {
 			throws InstantiationException, IllegalAccessException,
 			JSONException, ClassNotFoundException {
 		String api_name;
+		System.out.println("responses size: "  + responses.size());
 		for (ResponseStruct response : responses) {
 			api_name = response.getAPIName();
+			if(api_name == "Yelp") {
+				api_name = "ImportMagicYelp";
+			}
 			Class<?> api = Class.forName(this.getClass().getPackage().getName()
 					+ "." + api_name);
 			try {

@@ -44,7 +44,6 @@
     "watchify": "^3.4.0"
   },
   "dependencies": {
-    "noty": "^2.3.6",
-    "react-dom": "^0.14.0"
+    "noty": "^2.3.6"
   }
 }
