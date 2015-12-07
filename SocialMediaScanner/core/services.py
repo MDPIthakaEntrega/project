@@ -20,7 +20,7 @@ def search_relevant_reviews(user_profile):
             (api.lower() if api is not 'Yelp' else 'importmagicyelp')\
             +'='+('no' if (api not in api_config_json or api_config_json[api] == '') else 'yes')
     url = 'http://localhost:3456/search?company='+\
-          user_profile.my_company.company_name+api_filter
+          user_profile.my_company.company_name.lower()+api_filter
     try:
         resp = requests.get(url=url)
         temp = json.loads(resp.text)
